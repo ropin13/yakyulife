@@ -1,7 +1,11 @@
 /* ---------- 能力與守位資料 ---------- */
 export const ABL={sta:'體力',vel:'球速',ctl:'控球',brk:'變化球',con:'Contact',pow:'力量',spd:'速度',eye:'選球',rng:'守備範圍',fld:'接球',arm:'臂力',cat:'配球'};
-export const POS_AB={P:['sta','vel','ctl','brk'],C:['sta','con','pow','spd','eye','rng','fld','arm','cat'],IF:['sta','con','pow','spd','eye','rng','fld','arm'],OF:['sta','con','pow','spd','eye','rng','fld','arm']};
-export const POSN={P:'投手',C:'捕手',IF:'內野手',OF:'外野手'};
+/* 離線修改版量表：原作兩者皆以 80 為硬上限。分開定義，讓潛力可高於
+   當前能力上限，同時確保訓練、事件、傷病與修改器使用同一套規則。 */
+export const ABILITY_MAX=150;
+export const POTENTIAL_MAX=150;
+export const POS_AB={P:['sta','vel','ctl','brk'],C:['sta','con','pow','spd','eye','rng','fld','arm','cat'],IF:['sta','con','pow','spd','eye','rng','fld','arm'],OF:['sta','con','pow','spd','eye','rng','fld','arm'],TW:['sta','vel','ctl','brk','con','pow','spd','eye','rng','fld','arm']};
+export const POSN={P:'投手',C:'捕手',IF:'內野手',OF:'外野手',TW:'二刀流'};
 /* ---------- 守位系統 ---------- */
 export const DPN={SS:'游擊手','2B':'二壘手','3B':'三壘手','1B':'一壘手',
  CF:'中外野手',RF:'右外野手',LF:'左外野手',DH:'指定打擊',C:'捕手'};
@@ -19,7 +23,7 @@ export const DP_TH={
   '1B':{CPBL1:36,NPB1:42, MLB:48}};
 export const DP_BAR={CPBL1:45,NPB1:54,MLB:60}; /* 保留給捕手 cOk 等舊判定 */
 /* 類 WAR 守位調整（每 162 場的 runs）：薪資與生涯評價共用同一把尺。 */
-export const POS_ADJ_RUNS={C:9,SS:7.5,CF:5,'2B':3,'3B':2,RF:-5,LF:-7,'1B':-10,DH:-14};
+export const POS_ADJ_RUNS={C:9,SS:7.5,CF:5,'2B':3,'3B':2,RF:-5,LF:-7,'1B':-10,DH:-17.5};
 export const DP_RANK={SS:0,CF:0,'2B':1,'3B':2,RF:2,'1B':3,LF:3,DH:4,C:0}; /* 守位身價階層(SS>2B>3B) */
 export const GLOVE_TH={C:[4,16],SS:[5,18],'2B':[4,16],'3B':[4,16],CF:[5,18],RF:[3,15],LF:[3,14],'1B':[3,13]};
 /* 守備獎項「必得獎上限」的聯盟縮放係數 = (80 − par) / (80 − 44)，錨點是中職 1.00。
@@ -45,7 +49,7 @@ export const GLOVE_K={CPBL1:1.00,NPB1:0.75,MLB:0.583};
    這裡算的是「這個守位的評價標準」（動門檻）——真實名人堂票選本來就同時存在這兩把尺。
    以三壘 1.00 為錨點（九個守位的中位數），依 POS_ADJ_RUNS 的順序展開。
    實際套用時以 DPG（各守位出賽數）加權，中途移防會自動混算。 */
-export const POS_TIER_K={C:0.88,SS:0.90,CF:0.94,'2B':0.99,'3B':1.00,RF:1.05,LF:1.07,'1B':1.10,DH:1.13};
+export const POS_TIER_K={C:0.88,SS:0.90,CF:0.94,'2B':0.99,'3B':1.00,RF:1.05,LF:1.07,'1B':1.10,DH:1.17};
 /* 上面那組係數的「聯盟強度」：k_eff = 1 + (POS_TIER_K − 1) × POS_TIER_STR[聯盟]。
    為什麼要分聯盟：POS_TIER_K 是等比折扣，但同樣 10% 的門檻折扣換算成「能力點」在三個
    聯盟差很多——中職的分數-能力曲線平坦，10% 相當於 1.0 個能力點；大聯盟陡峭，只值 0.5 點。
@@ -62,8 +66,6 @@ export const POS_TIER_STR={CPBL:0.35,NPB:0.75,MLB:1.30};
    數值＝(POS_ADJ_RUNS − 三壘的 2) × 0.35，以三壘為基準點 0。換算後各守位的全勤門檻：
      捕手 par+4.1 / 游擊 par+4.6 / 中外野 par+5.5 / 三壘 par+6.5
      左外野 par+9.7 / 一壘 par+10.7 / 指定打擊 par+13.3   （原本一律 par+6.5）
-   v1.5.9 僅放寬指定打擊的生涯守位分與評價門檻；出賽補正刻意維持 -6.83，
-   保留「指定打擊必須靠打擊保住先發」的定位，因此 DH 不再跟著 POS_ADJ_RUNS 重算。
    只作用在出賽率，不動 st.d：打擊率、獎項判定、生涯評價用的能力值完全不受影響。
    受影響的是出賽數→打席→累積數據，以及 defRuns() 的出賽比重（守備分跟著一起多寡）——
    守備型球員原本被扣兩次（出賽少→數據少，且守備分再打折），這一層把它扳回來。 */

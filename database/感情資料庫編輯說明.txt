@@ -1,0 +1,30 @@
+YaKyoLife 感情系統資料庫（v0.30.0）
+
+主檔：感情系統資料庫.xlsx
+
+一、讀取時機
+1. 每次開始新人生時重新讀取。
+2. 每次由本機存檔或 JSON 載入時重新讀取。
+3. 修改 Excel 後請先儲存並關閉 Excel，再開始新人生或重新載入存檔。
+4. Excel 有格式錯誤時，遊戲會改用內建備援資料，不會破壞存檔。
+
+二、工作表
+・固定互動：固定六種年度互動，調整名稱、文字、好感範圍與各階段費用。
+・機率觸發：符合條件的事件先進入候選池，再依 weight 抽選。
+・必然觸發：符合條件就依 priority 由高到低處理。
+・隨機事件：可新增事件、選項、結果機率與效果。
+
+三、condition_json
+可用條件：married、min/max_datingCount、friendCount、highFriendCount、
+highExCount、exCount、marriageValue、hasDatingCrisis、hasMarriageCrisis、hasPregnancy。
+可用邏輯：all（全部成立）、any（任一成立）、not（反向）。
+
+範例：已婚或至少有一名戀人
+{"any":[{"married":true},{"min_datingCount":1}]}
+
+四、注意事項
+・enabled 填 TRUE/FALSE；id 與 action_id 不可重複。
+・固定互動請保留 free、low1、low2、mid1、mid2、high 六個 action_id。
+・JSON 欄位必須是合法 JSON，字串與欄位名稱使用半形雙引號。
+・機率／必然事件的 resolve 是既有程式處理器；新增全新劇情邏輯仍需同步擴充程式。
+・隨機事件 choices_json 是資料驅動，可直接沿用既有格式增加內容。

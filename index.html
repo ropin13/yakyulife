@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#081510">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,77 +31,82 @@
 <link rel="apple-touch-icon" href="assets/app-icon-180.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=IBM+Plex+Mono:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
-<link rel="stylesheet" href="css/style.css?v=1.5.12-ui-complete">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=IBM+Plex+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=offline-0.30.0">
 </head>
 <body>
 <div id="start">
+  <!-- 贊助入口：與 #start 同層(而非放進 .wrap)，才能固定在畫面右上角不隨內容捲動。
+       網址同時寫在 src/config.js 的 SPONSOR_URL（遊戲內選單用），兩處要一起改。 -->
+  <a id="sponsor-corner" href="https://portaly.cc/mrthemost" target="_blank" rel="noopener noreferrer"
+     title="支持 YaKyoLife：贊助伺服器與後續開發"><span class="ic" aria-hidden="true">♥</span>贊助支持</a>
   <div class="wrap">
-    <!-- 贊助入口：首頁現在屬於可捲動 main；網址同時寫在 src/config.js 的 SPONSOR_URL（遊戲內選單用），兩處要一起改。 -->
-    <a id="sponsor-corner" href="https://portaly.cc/mrthemost" target="_blank" rel="noopener noreferrer"
-       title="支持 YaKyoLife：贊助伺服器與後續開發"><i class="ph-fill ph-heart ic" aria-hidden="true"></i>贊助支持</a>
     <h1 id="logo-tap" class="lockup">
-      <img class="wm-img" src="assets/yakyolife-logo.svg" alt="YaKyoLife" decoding="async">
+      <img class="wm-img" src="assets/wordmark-cream.png" alt="YaKyoLife" decoding="async">
       <span class="lockup-sub"><i></i><em>棒球人生模擬器</em><i></i></span>
     </h1>
-    <p class="sub">高中三年養成 → 選秀・旅日・旅美 → 國際賽 → 衰退與引退。每一顆骰子都算數。</p>
-    <div class="start-form">
-      <div class="field"><label for="in-name">球員資料</label>
-        <div class="player-id-input">
-          <input id="in-name" maxlength="10" placeholder="姓名" aria-label="球員姓名" autocomplete="off">
-          <div class="jersey-input"><span aria-hidden="true">#</span><input id="in-number" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="背號" aria-label="背號" autocomplete="off"></div>
-        </div>
-      </div>
-      <div class="field"><label>守位</label>
-        <div class="seg" id="seg-pos">
-          <button data-v="P" class="on">投手</button><button data-v="C">捕手</button>
-          <button data-v="IF">內野手</button><button data-v="OF">外野手</button>
-        </div>
-      </div>
-      <div class="field seedline"><label for="seed-show">世界種子</label>
-        <div class="seed-input-row">
-          <input id="seed-show" maxlength="24">
-          <a href="#" id="seed-re"><i class="ph-bold ph-arrow-clockwise" aria-hidden="true"></i>換一個</a>
-        </div>
-        <p class="seed-hint">相同種子＋相同選擇＝相同人生（可直接輸入朋友的種子碼）</p>
+    <p class="sub">從國小、國中、高中或大學出發 → 台日升學 → 選秀・旅日・旅美 → 國際賽 → 引退。每一顆骰子都算數。</p>
+    <div class="field"><label for="in-name">球員資料</label>
+      <div class="player-id-input">
+        <input id="in-name" maxlength="10" placeholder="姓名" aria-label="球員姓名" autocomplete="off">
+        <div class="jersey-input"><span aria-hidden="true">#</span><input id="in-number" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="背號" aria-label="背號" autocomplete="off"></div>
       </div>
     </div>
-    <div id="disp-body" class="start-preferences" hidden>
-      <div class="field"><label>佈景主題</label>
-        <div class="seg two" id="seg-theme">
-          <button data-t="a" class="on">深綠記分板</button><button data-t="b">電子看板</button>
-          <button data-t="c">報紙版面</button><button data-t="d">現代儀表板</button>
-        </div></div>
-      <div class="field" id="fld-big"><label>字級</label>
-        <div class="seg two" id="seg-big">
-          <button data-b="0" class="on">標準</button><button data-b="1">大字</button>
-        </div></div>
-      <div class="field" id="fld-ui"><label>介面版型</label>
-        <div class="seg two" id="seg-ui">
-          <button data-u="0" class="on">電腦版</button><button data-u="1">手機版</button>
-        </div></div>
+    <div class="field"><label for="in-birth-year">出生年份</label>
+      <input id="in-birth-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" value="2010" aria-describedby="birth-year-hint" autocomplete="off">
+      <div id="birth-year-hint" style="margin-top:7px;color:var(--dim);font-size:12px;line-height:1.55">最低 1972 年；目前設定將從 2026 年高一開始。</div>
     </div>
-  </div>
-  <footer id="start-footer">
-    <button class="btn main" id="btn-start"><i class="ph-fill ph-play" aria-hidden="true"></i><span>開始生涯 ▸ 高一春天</span></button>
-    <div class="start-secondary">
+    <div class="field"><label for="in-potential-mult">起始潛力倍率</label>
+      <input id="in-potential-mult" type="number" min="0.10" max="3.00" step="0.05" value="1.00" aria-describedby="potential-mult-hint">
+      <div id="potential-mult-hint" style="margin-top:7px;color:var(--dim);font-size:12px;line-height:1.55">1.00 為原始潛力；只在建立球員時套用一次，各項潛力最高 150。</div>
+    </div>
+    <div class="field"><label>守位</label>
+      <div class="seg" id="seg-pos">
+        <button data-v="P" class="on">投手</button><button data-v="C">捕手</button>
+        <button data-v="IF">內野手</button><button data-v="OF">外野手</button><button data-v="TW">二刀流</button>
+      </div></div>
+    <div class="field"><label>起始階段</label><div class="seg two" id="seg-start-stage">
+      <button data-v="ES">國小</button><button data-v="MS">國中</button><button data-v="HS" class="on">高中</button><button data-v="U">大學</button>
+    </div></div>
+    <div class="field"><label>就讀地區</label><div class="seg two" id="seg-start-country">
+      <button data-v="TW" class="on">台灣</button><button data-v="JP">日本</button>
+    </div></div>
+    <div class="field"><label for="in-school">學校</label><select id="in-school"></select>
+      <input id="in-school-custom" maxlength="24" placeholder="輸入自訂校名" style="display:none;margin-top:8px"></div>
+    <button class="btn main" style="margin-top:28px" id="btn-start">開始生涯</button>
     <!-- Display preferences sit apart from the career choices above and are collapsed by
          default: none of them affect the run, and all three are also reachable from the
          in-game menu. Native <details> so keyboard and screen-reader behaviour come free. -->
-      <details id="fld-display">
-        <summary aria-controls="disp-body" aria-expanded="false"><i class="ph-fill ph-palette" aria-hidden="true"></i>顯示設定<span class="sum" id="disp-sum"></span></summary>
-      </details>
-      <div id="community"><a href="https://discord.gg/UnDYxFtz4U" target="_blank" rel="noopener noreferrer"><i class="ph-fill ph-chat-circle-dots" aria-hidden="true"></i>加入 Discord</a></div>
-    </div>
-    <div class="start-meta">Produced by <a href="https://www.threads.com/@mr.themost" target="_blank" rel="noopener">最先生 Mr.TheMost</a><span id="ver-badge">v1.5.12</span></div>
-  </footer>
+    <details id="fld-display">
+      <summary>顯示設定<span class="sum" id="disp-sum"></span></summary>
+      <div id="disp-body">
+        <div class="field"><label>佈景主題</label>
+          <div class="seg two" id="seg-theme">
+            <button data-t="a" class="on">深綠記分板</button><button data-t="b">電子看板</button>
+            <button data-t="c">報紙版面</button><button data-t="d">現代儀表板</button>
+          </div></div>
+        <div class="field" id="fld-big"><label>字級</label>
+          <div class="seg" id="seg-big">
+            <button data-b="0" class="on">標準</button><button data-b="1">大字</button>
+          </div></div>
+        <div class="field" id="fld-ui"><label>介面版型</label>
+          <div class="seg two" id="seg-ui">
+            <button data-u="0" class="on">電腦版</button><button data-u="1">手機版</button>
+          </div></div>
+      </div>
+    </details>
+    <p class="seedline">世界種子
+      <input id="seed-show" maxlength="24">
+      · <a href="#" id="seed-re">換一個</a><br>相同種子＋相同選擇＝相同人生（可直接輸入朋友的種子碼）</p>
+    <div id="community"><a href="https://discord.gg/UnDYxFtz4U" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span>加入 Discord 社群</a></div>
+    <footer style="text-align:center;margin-top:22px;color:var(--dim);font-size:12px">Produced by <a href="https://www.threads.com/@mr.themost" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">最先生 Mr.TheMost</a></footer>
+    <!-- version lives in the quiet bottom info band, mirroring the in-game sidebar's SEED+version group -->
+    <div id="ver-badge" style="text-align:center;margin-top:6px;font-size:10px;letter-spacing:1px;color:var(--dim);opacity:.55;font-family:monospace">v1.5.6</div>
+  </div>
 </div>
 <div id="app">
   <aside id="tl-side"><div id="tl-in">
-    <div class="tl-brand"><img class="wm-img" src="assets/yakyolife-logo.svg" alt="YaKyoLife"><span class="sub">棒球人生模擬器</span></div>
+    <div class="tl-brand"><img class="wm-img" src="assets/wordmark-cream.png" alt="YaKyoLife"><span class="sub">棒球人生模擬器</span></div>
     <div id="tl-list"></div>
     <div class="tl-seed">SEED <b id="tl-seed"></b><span class="tl-ver" id="tl-ver"></span></div>
   </div></aside>
@@ -111,14 +116,16 @@
         <div id="bd-num"><span>NO.</span><b id="bd-jersey">0</b></div>
         <div id="bd-id"><div id="bd-name"></div><div id="bd-role"></div></div>
         <div id="bd-team"></div><span id="bd-tj"></span>
-        <button id="btn-menu" title="選單" aria-label="選單"><i class="ph-bold ph-list" aria-hidden="true"></i></button>
+        <button id="btn-menu" title="選單" aria-label="選單"><i></i><i></i><i></i></button>
       </div>
       <div id="bd-grid">
         <div class="bd-cell"><b id="bd-age">16</b><span>年齡</span></div>
         <div class="bd-cell"><b id="bd-year">2026</b><span>年份</span></div>
         <div class="bd-cell"><b id="bd-ovr">30</b><span>綜合</span></div>
         <div class="bd-cell" id="bd-sal-cell" tabindex="0"><b id="bd-sal">0</b><span id="bd-sal-lbl">生涯薪(萬)</span><i class="bd-tip" id="bd-sal-tip"></i></div>
-        <button id="bd-more" aria-expanded="false" aria-controls="bd-detail" aria-label="詳情" title="詳情"><span class="lb">詳情</span><i class="ph-bold ph-caret-down chev"></i></button>
+        <div class="bd-cell" id="bd-cash-cell" tabindex="0"><b id="bd-cash">0</b><span id="bd-cash-lbl">錢包(元)</span><i class="bd-tip" id="bd-cash-tip"></i></div>
+        <div class="bd-cell"><b id="bd-love">—</b><span id="bd-love-lbl">尚無好感</span></div>
+        <button id="bd-more" aria-expanded="false" aria-controls="bd-detail" title="詳情"><span class="lb">詳情</span><i class="chev"></i></button>
       </div>
       <div id="bd-detail" data-tab="h"></div>
       <div id="lamps">
@@ -130,26 +137,24 @@
            of its own (the tap target is the bar; #bd-more stays for keyboard and AT).
            It sits directly under the two rows it belongs to and above the year strip, which
            is separate navigation and is deliberately outside the bar's tap area. -->
-      <div id="bd-hint" aria-hidden="true"><i class="ph-bold ph-caret-down chev"></i></div>
+      <div id="bd-hint" aria-hidden="true"><i class="chev"></i></div>
       <div id="tl-strip"></div>
     </header>
     <main id="log"></main>
+    <!-- mobile-only brand sign-off (compact container): the log's tail is the one spot the
+         auto-scroll keeps on screen, so the lockup sits there, above the action strip -->
+    <div id="log-mark" aria-hidden="true"><img class="wm-img" src="assets/wordmark-cream.png" alt="" decoding="async"><span class="sub">棒球人生模擬器</span><span class="ver" id="lm-ver"></span></div>
   </div>
   <aside id="act-side"><div id="act-in">
     <div id="trait-side"><div class="tt">特質</div><div id="trait-tags"></div></div>
-    <button id="act-toggle" style="display:none"><i class="ph-bold ph-caret-down chev" aria-hidden="true"></i></button>
+    <button id="act-toggle" style="display:none">⌄ 收合選項</button>
     <footer id="act" style="display:none"></footer>
   </div></aside>
-  <footer id="game-footer" aria-label="YaKyoLife">
-    <img class="wm-img" src="assets/yakyolife-logo.svg" alt="YaKyoLife" decoding="async">
-    <span class="sub">棒球人生模擬器</span>
-    <span class="ver" id="game-ver"></span>
-  </footer>
 </div>
 <div id="modal"><div id="modal-box"></div></div>
 <div id="alloc-full"><div id="af-inner"><div class="af-head"><span class="af-title" id="af-title"></span><button class="btn" id="af-close">收起</button></div><div id="af-body"></div></div></div>
 <!-- GitHub Pages sits behind a long-lived CDN cache. The entry point and every
      relative import carry this release token so browsers cannot mix versions. -->
-<script type="module" src="src/main.js?v=1.5.12-ui-complete"></script>
+<script type="module" src="src/main.js?v=offline-0.30.0"></script>
 </body>
 </html>

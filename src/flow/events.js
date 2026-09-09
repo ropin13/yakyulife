@@ -1,11 +1,11 @@
-import {S} from '../core/state.js?v=1.5.12';
-import {R, pick, chance, clamp} from '../core/rng.js?v=1.5.12';
-import {ABL, POS_AB} from '../data/abilities.js?v=1.5.12';
-import {LV} from '../data/teams.js?v=1.5.12';
-import {EVENTS, EVENT_CATEGORY_NAMES, EVENT_COMBINATIONS, EVENT_ROUTES, eventInjuryRisk} from '../data/events.js?v=1.5.12';
-import {card, choose, board} from '../ui/dom.js?v=1.5.12';
-import {addAb, statBonus, statBonusTxt, abGainTxt, ovr} from '../engine/ability.js?v=1.5.12';
-import {majorChampionshipCount} from '../engine/championship.js?v=1.5.12';
+import {S} from '../core/state.js?v=offline-0.30.0';
+import {R, pick, chance, clamp} from '../core/rng.js?v=offline-0.30.0';
+import {ABL, POS_AB, ABILITY_MAX, POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.30.0';
+import {LV} from '../data/teams.js?v=offline-0.30.0';
+import {EVENTS, EVENT_CATEGORY_NAMES, EVENT_COMBINATIONS, EVENT_ROUTES, eventInjuryRisk} from '../data/events.js?v=offline-0.30.0';
+import {card, choose, board} from '../ui/dom.js?v=offline-0.30.0';
+import {addAb, statBonus, statBonusTxt, abGainTxt, ovr} from '../engine/ability.js?v=offline-0.30.0';
+import {majorChampionshipCount} from '../engine/championship.js?v=offline-0.30.0';
 export function traitCard(key,name,desc,tone){ S.traits[key]=true;
   card(tone||'gold','隱藏屬性解鎖：'+name,desc); board(0); }
 export function removeTrait(key,label){ if(S.traits[key]){ S.traits[key]=false;
@@ -30,8 +30,7 @@ export function evOdds(){ /* 事件卡成功率:顯示與擲骰共用同一來�
   /* 愛將(2026-08-20 調弱)：出賽保底與守位紅利已經夠有價值，「普通」加成由 20 降為 5——
      原本天才+愛將的普通應對高達 90%。保守與全力不受影響,薪水小倫的 -10 已含在 base 裡。 */
   const normBonus=S.traits.favorite?5:0;
-  const safePenalty=S.traits.latepractice?5:0;
-  return {safe:Math.min(95,base+20-safePenalty), norm:Math.min(95,base+normBonus), bold:base-boldPen+clutchBold};
+  return {safe:Math.min(95,base+20), norm:Math.min(95,base+normBonus), bold:base-boldPen+clutchBold};
 }
 export function eventEligible(ev,state){
   const s=state||S;
@@ -111,11 +110,7 @@ function showEvent(ev,after){
     const c=ev.choices[mode];
     return {t:c.label,warn,main,center:true,s:`成功率 ${od[mode]}%｜${scale}`,f:()=>resolveEvent(ev,mode,after)};
   });
-  /* 名稱與引言拆成兩個元素：摺疊列只取 .ev-h（名稱），引言留給內文。
-     原本靠 <br> 分行，但 actToggleSync() 是用 textContent 取字，<br> 會被吃掉，
-     兩段黏成一長串再被截斷，手機上就變成一行讀不完的省略號。 */
-  choose(`<span class="ev-h">事件｜${EVENT_CATEGORY_NAMES[ev.category]}｜${ev.n}</span>`+
-         `<small>${ev.intro}</small>`,opts);
+  choose(`事件｜${EVENT_CATEGORY_NAMES[ev.category]}｜${ev.n}<br><small>${ev.intro}</small>`,opts);
 }
 export function drawEventCards(sequence,state){
   const used=new Set();
@@ -134,7 +129,7 @@ function runEventCards(cards,done,index){
 }
 export function isAmateurEventStage(state){
   const s=state||S;
-  return s.stage==='HS'||s.stage==='U'||s.stage==='AMA';
+  return ['ES','MS','HS','U','AMA'].includes(s.stage);
 }
 export function amateurEventPool(state){
   const s=state||S;
@@ -149,7 +144,7 @@ export function drawEvents(done){
      通用卡與該階段限定卡混池後，全部以訓練卡抽取；高中與業餘三張，
      大學維持兩張。 */
   if(isAmateurEventStage(S)){
-    const count=S.stage==='U'?2:3;
+    const count=S.stage==='U'?2:S.stage==='ES'?2:3;
     runEventCards(shuffled(amateurEventPool(S)).slice(0,count),done,0);
     return;
   }
@@ -170,7 +165,6 @@ export function resolveEvent(ev,mode,done){
     else S.cntBoldFail++; }
   else { good=chance(od.norm); tag=''; if(good)S.cntNormWin=(S.cntNormWin||0)+1; } /* 愛將:普通成功才算 */
   if(mode==='safe'&&good)S.cntSaveWin=(S.cntSaveWin||0)+1; /* 自律狂:保守成功才算 */
-  recordTrainingSafeFailure(ev,mode,good);
   if((ev.n==='宵夜文化'||ev.n==='場外代言邀約')&&mode!=='safe'&&!good)S.cntSnack++;
   if(mode==='bold'&&!good&&(ev.category==='encounter'||ev.category==='endorsement'))S.cntSocialBoldFail=(S.cntSocialBoldFail||0)+1;
   const plan=eventPlan(ev.category,mode,good,S.traits.clutch?(S.traits.genius?2:1):0), out=[];
@@ -179,12 +173,13 @@ export function resolveEvent(ev,mode,done){
   if(plan.ability){
     const k=eventTarget(ev),delta=addAb(k,plan.ability);
     const overflow=plan.ability>0?(S.lastOverflow||0):0;
-    /* 能力已滿 80 時全額溢出，這裡不重複報「加了幾點」，只報轉成的狀態火燙 */
+    /* 能力已達硬上限時全額溢出，這裡不重複報「加了幾點」，只報轉成的狀態火燙 */
     if(!(overflow>0&&delta===0))out.push(abGainTxt(k,plan.ability-overflow,delta));
     if(overflow>0)statBonus(overflow,out);
   }
   if(plan.stat){ S.pendStat=(S.pendStat||0)+plan.stat; out.push(statBonusTxt(plan.stat)); }
-  const injuryRisk=eventInjuryRisk(ev,mode,good,!!S.traits.clutch);
+  const youthProtected=S.stage==='ES'||S.stage==='MS';
+  const injuryRisk=youthProtected?0:eventInjuryRisk(ev,mode,good,!!S.traits.clutch);
   if(injuryRisk){ S.tmpInj=(S.tmpInj||0)+injuryRisk; out.push(`本季受傷機率 <span class="dn">+${injuryRisk}%</span>`); }
   const result=ev.choices[mode];
   const resultText=good?result.good:result.bad;
@@ -192,11 +187,6 @@ export function resolveEvent(ev,mode,done){
     `${resultText}${/[。！？!?]$/.test(resultText)?'':'。'}${mode==='bold'&&good?'<b class="hl">全力一搏成功！</b>':''}${mode==='bold'&&!good?'<b class="dn">全力一搏失敗……</b>':''}<br>${out.join('｜')||'沒有額外數值變動'}`);
   checkTraitsMid();
   done();
-}
-export function recordTrainingSafeFailure(ev,mode,good){
-  if(mode==='safe'&&!good&&ev&&ev.category==='training'){
-    S.cntTrainingSafeFail=(S.cntTrainingSafeFail||0)+1;
-  }
 }
 /* 賽季中即時可解鎖的特性 */
 export function allocDone(touched,isDice){
@@ -217,19 +207,15 @@ export function allocDone(touched,isDice){
   if(!S.traits.late&&!S.traits.genius&&ovr()<47&&S.age>=25&&S.age<32&&isDice&&gain>=16){
     S.traits.late=true;
     const exDef=S.pos==='C'?['rng','fld','arm','cat']:[];
-    /* 與天才一致：潛力 70 以上的高天賦項目不再占用重新評估名額。 */
-    const cands=POS_AB[S.pos].filter(k=>S.ab[k]<70&&(S.pot[k]||62)<70&&!exDef.includes(k));
+    const cands=POS_AB[S.pos].filter(k=>S.ab[k]<70&&!exDef.includes(k));
     for(let i=cands.length-1;i>0;i--){const j=Math.floor(R()*(i+1));const t=cands[i];cands[i]=cands[j];cands[j]=t;}
     const boost=cands.slice(0,2), bl=[];
-    boost.forEach(k=>{ const oldPot=S.pot[k]||62,newPot=Math.min(80,oldPot+10),potGain=newPot-oldPot;
-      S.pot[k]=newPot; S.ab[k]=clamp(S.ab[k]+5,1,80);
-      bl.push(`${ABL[k]} <b class="up">+5</b>（潛力上限 ${oldPot} → ${newPot}，實際 +${potGain}）`); });
+    boost.forEach(k=>{ S.pot[k]=Math.min(POTENTIAL_MAX,(S.pot[k]||62)+10); S.ab[k]=clamp(S.ab[k]+5,1,ABILITY_MAX);
+      bl.push(`${ABL[k]} <b class="up">+5</b>（潛力上限 +10 → ${S.pot[k]}）`); });
     card('gold','隱藏素質解鎖：大器晚成',`別人都以為你到頂了，你卻在這一年脫胎換骨——從今以後，每一顆訓練骰<b class="hl">永久固定 3 點以上</b>，事件卡好結果機率提升至 <b class="hl">70%</b>。`+(bl.length?`潛能重新被評估：${bl.join('、')}。`:'')+'你的故事，才正要展開。');
     board(1); }
 }
 export function checkTraitsMid(){
-  if(!S.traits.latepractice&&(S.cntTrainingSafeFail||0)>=20){
-    traitCard('latepractice','練球遲到','你總把保守當成安全牌，卻連最基本的集合時間都抓不準。二十次訓練失敗後，教練不再相信你的「慢慢來」——<b class="dn">往後「保守應對」成功率永久 −5 個百分點</b>。','bad'); }
   if(!S.traits.adking&&(S.cntEndorseBoldWin||0)>=5){
     traitCard('adking','業配王','你在廣告上的時間，比明星還多，從此代言取得金額多10%'); }
   /* 自律狂:25 歲前累積保守「成功」15 次 + 從未外遇被抓 + 宵夜 <5 次 */

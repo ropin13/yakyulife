@@ -578,7 +578,7 @@ export const EVENTS=[
     "scope": "*",
     "role": "*",
     "category": "encounter",
-    "intro": "大學長因傷下放二軍，他看著你訓練的背影，露出意味深長的表情",
+    "intro": "(35歲前才觸發)大學長因傷下放二軍，他看著你訓練的背影，露出意味深長的表情",
     "target": "sta",
     "maxAge": 34,
     "choices": {
@@ -1060,7 +1060,7 @@ export const EVENTS=[
     "scope": "*",
     "role": "*",
     "category": "training",
-    "intro": "老將在休息室看出你一直沒察覺的小習慣。",
+    "intro": "(35歲之前)老將在休息室看出你一直沒察覺的小習慣。",
     "target": "rand",
     "maxAge": 34,
     "choices": {

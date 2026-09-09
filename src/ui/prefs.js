@@ -1,5 +1,5 @@
-import {$, modalOpen, menuModal} from './dom.js?v=1.5.12';
-import {allocPlace} from './alloc.js?v=1.5.12';
+import {$, modalOpen, menuModal} from './dom.js?v=offline-0.30.0';
+import {allocPlace} from './alloc.js?v=offline-0.30.0';
 
 /* ================= 主題系統(純呈現層) ================= */
 export const THEME_KEY='yakyu-theme';
@@ -8,8 +8,8 @@ export function applyTheme(t){
   document.body.dataset.theme=t;
   try{localStorage.setItem(THEME_KEY,t);}catch(e){}
   document.querySelectorAll('#seg-theme button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  /* Owner-provided final logo is a single stable asset shared by every theme. */
-  const wm='assets/yakyolife-logo.svg';
+  /* logo wordmark tracks the theme: cream on dark themes (a/b), dark ink on light (c/d) */
+  const wm=(t==='c'||t==='d')?'assets/wordmark-dark.png':'assets/wordmark-cream.png';
   document.querySelectorAll('.wm-img').forEach(el=>{ if(el.getAttribute('src')!==wm)el.setAttribute('src',wm); });
   updDispSum();
   const m=document.querySelector('meta[name="theme-color"]');

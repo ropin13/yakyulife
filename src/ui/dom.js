@@ -1,20 +1,22 @@
-import {S} from '../core/state.js?v=1.5.12';
-import {APP_VER, SPONSOR_URL} from '../config.js?v=1.5.12';
-import {renderTraits, traitNames} from './traits.js?v=1.5.12';
-import {clearAlloc, allocFullClose} from './alloc.js?v=1.5.12';
-import {themeModal, applyBigText, applyMobileUI} from './prefs.js?v=1.5.12';
-import {DPN, POSN} from '../data/abilities.js?v=1.5.12';
-import {TEAM_COLOR, LV} from '../data/teams.js?v=1.5.12';
-import {TRAIT_KEYS, TRAIT_FX} from '../data/traits.js?v=1.5.12';
-import {playerName, stageLabel} from '../core/state.js?v=1.5.12';
-import {salParts, fmtMoney} from '../engine/contract.js?v=1.5.12';
-import {roleN, fmtIP, slgOf, baseballERA} from '../engine/season.js?v=1.5.12';
-import {honorGroups, yearRanges} from '../engine/career.js?v=1.5.12';
-import {isChampionshipYear} from '../engine/championship.js?v=1.5.12';
-import {playerType, ovr} from '../engine/ability.js?v=1.5.12';
+import {S} from '../core/state.js?v=offline-0.30.0';
+import {APP_VER, SPONSOR_URL} from '../config.js?v=offline-0.30.0';
+import {renderTraits, traitName} from './traits.js?v=offline-0.30.0';
+import {clearAlloc, allocFullClose} from './alloc.js?v=offline-0.30.0';
+import {themeModal, applyBigText, applyMobileUI} from './prefs.js?v=offline-0.30.0';
+import {DPN, POSN} from '../data/abilities.js?v=offline-0.30.0';
+import {TEAM_COLOR, LV} from '../data/teams.js?v=offline-0.30.0';
+import {TRAIT_KEYS, TRAIT_FX} from '../data/traits.js?v=offline-0.30.0';
+import {playerName, stageLabel} from '../core/state.js?v=offline-0.30.0';
+import {salParts, fmtMoney} from '../engine/contract.js?v=offline-0.30.0';
+import {roleN, fmtIP, slgOf, baseballERA, baseballWHIP, statLine} from '../engine/season.js?v=offline-0.30.0';
+import {honorGroups, yearRanges} from '../engine/career.js?v=offline-0.30.0';
+import {playerType, ovr} from '../engine/ability.js?v=offline-0.30.0';
+import {recordChoice,replayChoice,finishReplayIfIdle} from '../core/session.js?v=offline-0.30.0';
+import {awardStatHighlighted} from './award-highlights.js?v=offline-0.30.0';
 
 export const $=id=>document.getElementById(id);
 export let _curYearBody=null; /* 當前年度的內容容器 */
+export function restoreLogTarget(){const ys=$('log')?.querySelectorAll('.yr-body');_curYearBody=ys&&ys.length?ys[ys.length-1]:$('log');}
 export function logTarget(){ return _curYearBody || $('log'); }
 export function scrollBottom(){ /* iOS Safari 於 iframe 內平滑滾動易觸發白畫面,改用同步滾動+rAF */
   try{ requestAnimationFrame(function(){ window.scrollTo(0, document.body.scrollHeight); }); }
@@ -35,15 +37,13 @@ export function teamChip(hex){
   return {bg:hex,fg:dark?'#000000':'#ffffff',bd:dark?'rgba(0,0,0,.4)':'rgba(255,255,255,.45)'};
 }
 /* ---------- 主題化對話框(純呈現層) ---------- */
-/* cls is an optional modifier for the box (e.g. a wider sheet). It is assigned rather
-   than added so one modal's variant can never leak into the next one opened. */
-export function modalOpen(html,cls){ const m=$('modal'); if(!m)return; const b=$('modal-box');
-  b.className=cls||''; b.innerHTML=html; m.classList.add('show'); }
+export function modalOpen(html){ const m=$('modal'); if(!m)return; $('modal-box').innerHTML=html; m.classList.add('show'); }
 export function modalClose(){ const m=$('modal'); if(m)m.classList.remove('show'); }
-/* Keep dynamically-rendered brand rows on the same stable owner-provided logo as the shell. */
+/* the wordmark tracks the theme (applyTheme rewrites every .wm-img src), so read the source
+   off one that is already in the document rather than hardcoding a file here */
 export function brandHTML(){
   const wm=document.querySelector('.wm-img');
-  const src=wm?wm.getAttribute('src'):'assets/yakyolife-logo.svg';
+  const src=wm?wm.getAttribute('src'):'assets/wordmark-cream.png';
   return `<img class="wm-img" src="${src}" alt="YaKyoLife"><span class="sub">棒球人生模擬器</span>`+
     `<span class="ver">${APP_VER}</span>`;
 }
@@ -57,32 +57,12 @@ export function menuModal(){
     ${wide?`<button class="btn" id="md-ui" style="text-align:center">${mob?'切回電腦版介面':'改用手機版介面'}</button>`:''}
     <a class="btn" id="md-sponsor" href="${SPONSOR_URL}" target="_blank" rel="noopener noreferrer" style="text-align:center;margin-top:14px"><span aria-hidden="true">♥</span> 贊助支持<small>贊助伺服器與後續開發</small></a>
     <button class="btn warn" id="md-restart0" style="text-align:center;margin-top:14px">重新開始</button>
-    <button class="btn" id="md-credits" style="text-align:center;margin-top:14px">特別感謝</button>
     <button class="btn" id="md-close" style="text-align:center;margin-top:14px">關閉</button>`);
   $('md-theme').onclick=themeModal;
   $('md-big').onclick=()=>{ applyBigText(!big); menuModal(); };
   const mu=$('md-ui'); if(mu)mu.onclick=()=>{ applyMobileUI(!mob); menuModal(); };
   $('md-restart0').onclick=restartModal;
-  $('md-credits').onclick=creditsModal;
   $('md-close').onclick=modalClose;
-}
-/* 特別感謝：資料寫在這裡而不是 HTML，之後要加人只改這一份陣列。 */
-export const CREDITS=[
-  {who:'Howar31', what:'給予的技術支持'},
-  {who:'ktlin850722', what:'UI／UX 支援'},
-  {who:'米蟲小組', roster:'安安、阿軒、阿傑、阿豪、阿榮、阿吉、胡立歐、達鬨、KT',
-   what:'在遊戲開發給予的建議與測試'},
-];
-export function creditsModal(){
-  const rows=CREDITS.map(c=>
-    `<li><b>${c.who}</b>${c.roster?`<span class="cr-roster">${c.roster}</span>`:''}`+
-    `<span class="cr-what">${c.what}</span></li>`).join('');
-  modalOpen(`<div class="md-brand">${brandHTML()}</div>
-    <h3 class="cr-h">特別感謝</h3>
-    <ul class="cr-list">${rows}</ul>
-    <p class="cr-you">還有每個認真體驗這款遊戲的你們</p>
-    <button class="btn" id="cr-close" style="text-align:center;margin-top:14px">關閉</button>`,'md-thanks');
-  $('cr-close').onclick=modalClose;
 }
 export function restartModal(){
   modalOpen(`<h3>重新開始</h3><p>確定要放棄這段人生，從頭開始嗎？</p>
@@ -98,15 +78,8 @@ window.addEventListener('beforeunload',function(ev){
   if(!S||S.done||_allowLeave)return;
   ev.preventDefault(); ev.returnValue='';
 });
-function cardTitleHTML(title){
-  const safe=esc(title);
-  const m=String(title).match(/^事件卡｜(.+?)(?:（(.+)）)?$/);
-  if(!m)return `<h4><span class="card-title-main">${safe}</span></h4>`;
-  const name=esc('事件卡｜'+m[1]), meta=m[2]?`<span class="card-title-meta">${esc(m[2])}</span>`:'';
-  return `<h4><span class="card-title-main">${name}</span>${meta}</h4>`;
-}
 export function card(cls,title,html){ const d=document.createElement('div'); d.className='card '+cls;
-  d.innerHTML=(title?cardTitleHTML(title):'')+html; logTarget().appendChild(d);
+  d.innerHTML=(title?`<h4>${title}</h4>`:'')+html; logTarget().appendChild(d);
   renderTraits(); /* settlement-time trait unlocks emit a card without a board() refresh */
   scrollBottom(); }
 export function divider(t){ /* 每個 divider 開啟新的年度摺疊區塊 */ const log=$('log'); const blocks=log.querySelectorAll('.yr-block'); /* 替剛結束的「上一年」加上下拉箭頭標記，但保留展開（不加上 collapsed） */ const prev = blocks[blocks.length - 1]; if(prev){ const h = prev.querySelector('.yr-head'); if(h && prev.querySelector('.yr-body').children.length) h.classList.add('has-body'); } /* 找到「前年」（倒數第二個區塊）並將其摺疊起來 */ const prevPrev = blocks[blocks.length - 2]; if(prevPrev){ prevPrev.classList.add('collapsed'); } /* 建新區塊 */ const block=document.createElement('div'); block.className='yr-block'; const head=document.createElement('div'); head.className='yr-head'; head.textContent=t; const body=document.createElement('div'); body.className='yr-body'; head.onclick=()=>block.classList.toggle('collapsed'); block.appendChild(head); block.appendChild(body); log.appendChild(block); _curYearBody=body;
@@ -138,19 +111,8 @@ export function actToggleSync(){
   /* same chevron as the top bar's hint; it points up while the options are folded away,
      which is the direction they come back from at the bottom of the screen */
   const collapsed=a.classList.contains('collapsed');
-  if(!t.querySelector('.act-title'))t.innerHTML='<span class="act-title"></span><i class="ph-bold ph-caret-down chev" aria-hidden="true"></i>';
-  const title=a.querySelector(':scope > .title');
-  const first=a.querySelector('button,.btn');
-  /* 事件標題含引言時只取名稱那一段（.ev-h）；textContent 會把兩段黏在一起。 */
-  const head=title&&title.querySelector('.ev-h');
-  const txt=(head&&head.textContent.trim())||(title&&title.textContent.trim())||(first&&first.textContent.trim().replace(/\s+/g,' '))||'目前行動';
-  t.querySelector('.act-title').textContent=txt;
-  /* 手機版的摺疊列已經印過大標了，內文只需要留小標。沒有小標的面板（分配訓練成果、
-     球季表現這種）整塊標成 .solo，交給 CSS 在手機版收起來，不要同一句話印兩次。 */
-  if(title)title.classList.toggle('solo',!title.querySelector('small'));
-  const ic=t.querySelector('.chev');
-  ic.classList.toggle('ph-caret-up',collapsed);
-  ic.classList.toggle('ph-caret-down',!collapsed);
+  if(!t.querySelector('.chev'))t.innerHTML='<i class="chev"></i>';
+  t.querySelector('.chev').classList.toggle('up',collapsed);
   t.setAttribute('aria-expanded',String(!collapsed));
   const lbl=collapsed?'展開選項':'收合選項';
   t.setAttribute('aria-label',lbl); t.title=lbl;
@@ -159,11 +121,14 @@ export function choose(title,opts){
   actClear(); const a=$('act');
   a.classList.remove('collapsed'); /* 新選項出現時自動展開 */
   if(title)a.innerHTML=`<div class="title">${title}</div>`;
-  opts.forEach(o=>{ const b=document.createElement('button');
-    b.className='btn'+(o.main?' main':'')+(o.warn?' warn':'')+(o.center?' center':'');
+  const replayIndex=replayChoice(opts);
+  opts.forEach((o,index)=>{ const b=document.createElement('button');
+    b.className='btn'+(o.main?' main':'')+(o.warn?' warn':'')+(o.center?' center':'')+(o.compact?' compact':'');
     b.innerHTML=o.t+(o.s?`<small>${o.s}</small>`:'');
-    b.onclick=()=>{ actClear(); o.f(); }; a.appendChild(b); });
+    b.onclick=()=>{ recordChoice(index,title,o.t);actClear(); o.f(); }; a.appendChild(b); });
   actToggleSync(); scrollBottom();
+  if(replayIndex>=0)queueMicrotask(()=>a.querySelectorAll('button')[replayIndex]?.click());
+  else finishReplayIfIdle();
 }
 /* 所屬區塊(1A 定稿)。小標依階段在「所屬學校／所屬球隊」間切換(手機只留「所屬」，見 CSS)；
    隊名在職業階段沿用原本的隊色圓點＋白底標籤，非職業維持琥珀色文字；層級徽章文案就是
@@ -171,7 +136,7 @@ export function choose(title,opts){
    還沒上去的(業餘、二軍、小聯盟)只描邊。 */
 const LV_SHORT={CPBL2:'二軍',NPB2:'二軍',R:'新人'}; /* 手機版:聯盟由隊名交代,徽章只留層級 */
 function affiliationHTML(){
-  const student=(S.stage==='HS'||S.stage==='U');
+  const student=['ES','MS','HS','U'].includes(S.stage);
   const proTeam=(S.stage==='PRO'&&S.orgTeam)?S.orgTeam:'';
   const lvOk=S.stage!=='PRO'||!!(S.lv&&LV[S.lv]);
   const badge=lvOk?stageLabel():'';
@@ -196,7 +161,8 @@ function affiliationHTML(){
 }
 /* 守位晶片(實底)＋稱號晶片(金描邊) */
 function chipsHTML(){
-  const pos=(S.dpos?DPN[S.dpos]:POSN[S.pos])+(S.role?'・'+roleN(S.role):'');
+  const base=S.pos==='TW'?`二刀流${S.dpos?'・'+DPN[S.dpos]:''}`:(S.dpos?DPN[S.dpos]:POSN[S.pos]);
+  const pos=base+(S.role?'・'+roleN(S.role):'');
   const typ=playerType()+(S.traits.genius?' ★':'');
   return `<span class="bd-chip pos">${pos}</span><span class="bd-chip typ">${typ}</span>`;
 }
@@ -209,11 +175,26 @@ export function board(phase){
     /* the compact bar drops the pill around a pro club: its white label is its own frame */
     t.classList.toggle('pro',!!(S.stage==='PRO'&&S.orgTeam&&TEAM_COLOR[S.orgTeam])); }
   $('bd-age').textContent=S.age; $('bd-year').textContent=S.year;
-  $('bd-ovr').textContent=ovr(); if(S.pos==='P'){const el=$('bd-tj'); if(el)el.textContent='';}
+  $('bd-ovr').textContent=ovr(); if(S.pos==='P'||S.pos==='TW'){const el=$('bd-tj'); if(el)el.textContent='';}
   { const sal=Math.round(S.salary),sp=salParts(sal),salEl=$('bd-sal'); salEl.textContent=sp.v;
     salEl.style.fontSize='';
     const lb=$('bd-sal-lbl'); if(lb)lb.textContent=`生涯薪(${sp.u})`;
     const tip=$('bd-sal-tip'); if(tip)tip.textContent=fmtMoney(sal)+' 台幣'; }
+  { const cash=Math.max(0,Math.round(S.cash||0)),cashEl=$('bd-cash');
+    let v=String(cash),u='元';
+    if(cash>=100000000){v=(cash/100000000).toFixed(cash>=1000000000?1:2).replace(/\.0+$/,'');u='億';}
+    else if(cash>=10000){v=(cash/10000).toFixed(cash>=100000?1:2).replace(/\.0+$/,'');u='萬';}
+    if(cashEl)cashEl.textContent=v;
+    const lb=$('bd-cash-lbl');if(lb)lb.textContent=`錢包(${u})`;
+    const tip=$('bd-cash-tip');if(tip)tip.textContent=cash.toLocaleString('zh-TW')+' 元'; }
+  { const val=c=>Number(c&&(c.value??c.aff))||0,all=((S.love&&S.love.contacts)||[]).filter(c=>val(c)>0),loveEl=$('bd-love'),lb=$('bd-love-lbl');
+    /* 儀表板不把所有關係混在一起比大小：配偶永遠優先，其次戀人，最後才是朋友。 */
+    const married=all.filter(c=>c.status==='married'),dating=all.filter(c=>c.status==='dating');
+    const list=married.length?married:(dating.length?dating:all),kind=married.length?'婚姻':dating.length?'戀愛':'好感';
+    if(list.length){const hi=Math.max(...list.map(val)),ties=list.filter(c=>val(c)===hi);let c=ties.find(x=>x.id===S.love.highlightId);
+      if(!c){c=ties[0];S.love.highlightId=c.id;}
+      loveEl.textContent=hi;lb.textContent=`${c.name} ${kind}`;
+    }else{loveEl.textContent='—';lb.textContent='尚無好感';} }
   [0,1,2].forEach(i=>$('lp'+i).classList.toggle('on',i===phase));
   detailSync();
 }
@@ -246,7 +227,7 @@ function secSalary(){
   /* annualSchedule[0] is the year actually being paid when a contract has a step schedule */
   const annual=ct?((ct.annualSchedule&&ct.annualSchedule.length)?ct.annualSchedule[0]:ct.annual):null;
   const contract=(ct&&Number.isFinite(annual))
-    ?`${fmtMoney(Math.round(annual))} × 剩 ${Math.max(0,ct.yrs||0)} 年`:'—';
+    ?`${fmtMoney(Math.round(annual))} × 剩 ${Math.max(0,ct.yrs||0)} 年${S.org==='MiLB'?`｜組織控制剩 ${Math.max(0,S.orgControlRemaining||0)} 年`:''}`:'—';
   const tenure=(S.stage==='PRO'&&S.orgTeam)?`${S.teamYears||0} 年（${S.orgTeam}）`:'—';
   const outside=Math.round(S.outsideIncome||0), yearOutside=Math.round(S.yearOutsideIncome||0);
   const outsideRow=outside?salRow('業外收入',`${fmtMoney(outside)}${yearOutside?`（本年 +${fmtMoney(yearOutside)}）`:''}`):'';
@@ -261,44 +242,51 @@ function secTraits(){
      (see the .bd-tc .f rule) and surfaces the effect on hover, the way #trait-side already does */
   [...TRAIT_KEYS.pos,...TRAIT_KEYS.neg].forEach(k=>{ if(!S.traits||!S.traits[k])return;
     const fx=TRAIT_FX[k]||'';
-    traitNames(k).forEach(name=>out.push(`<div class="bd-tc${TRAIT_KEYS.neg.includes(k)?' neg':''}" title="${esc(fx)}">`+
-      `<span class="n">${name}</span><span class="f">${fx}</span></div>`)); });
+    out.push(`<div class="bd-tc${TRAIT_KEYS.neg.includes(k)?' neg':''}" title="${esc(fx)}">`+
+      `<span class="n">${traitName(k)}</span><span class="f">${fx}</span></div>`); });
   (S.removed||[]).forEach(l=>out.push(
     `<div class="bd-tc off" title="已解除"><span class="n">${l}</span><span class="f">已解除</span></div>`));
   return `<div class="bd-sec sec-t"><div class="bd-sh">隱藏屬性</div>`+
     (out.length?`<div class="bd-tw">${out.join('')}</div>`
                :'<div class="bd-none">還沒有覺醒任何隱藏屬性。</div>')+`</div>`;
 }
+function secRelations(){
+  const L=S.love||{},status={known:'認識',single:'朋友',dating:'交往中',public:'公開交往',engaged:'已訂婚',married:'已婚',divorced:'離婚'};
+  const val=c=>Number(c&&(c.value??c.aff))||0;
+  const list=(L.contacts||[]).filter(c=>c&&val(c)>1).sort((a,b)=>val(b)-val(a)||String(a.name).localeCompare(String(b.name),'zh-Hant'));
+  const body=list.length?list.map(c=>{const official=c.name===L.partner&&(L.st==='dating'||L.st==='married'||L.engaged),since=c.status==='married'&&c.marriedSince?`｜結婚 ${Math.max(1,S.year-c.marriedSince+1)} 年`:c.status==='dating'&&c.datingSince?`｜交往 ${Math.max(1,S.year-c.datingSince+1)} 年`:'';return `<div class="bd-rel"><div><b>${esc(c.name)}</b>${official?'<em>主要伴侶</em>':''}<span>${esc(c.identity||'人物')}｜${c.metYear||'—'} 年相識｜${status[c.status]||status[L.st]||'認識'}${since}</span></div><strong>${Math.round(val(c))}</strong></div>`;}).join(''):'<div class="bd-none">尚無好感度超過 1 的互動人物。</div>';
+  return `<div class="bd-sec sec-r"><div class="bd-sh">人際狀況</div>${body}</div>`;
+}
+function careerTable(logs,mode,label){
+  const isP=mode==='P',hd=isP?['年','齡','球隊','層級','G','IP','W','L','SV','HLD','SO','BB','ERA','WHIP']
+    :['年','齡','球隊','層級','G','PA','AVG','OBP','SLG','OPS','H','HR','RBI','SB','DEF'];
+  const keys=isP?['YEAR','AGE','TEAM','LEVEL','G','IP','W','L','SV','HLD','SO','BB','ERA','WHIP']
+    :['YEAR','AGE','TEAM','LEVEL','G','PA','AVG','OBP','SLG','OPS','H','HR','RBI','SB','DEF'];
+  const rows=logs.map(r=>{
+    const s=mode==='P'?(r.st?.twPitch||(S.pos!=='TW'||r.st?.twoWayUsage==='P'?r.st:null))
+      :mode==='H'?(r.st?.twBat||(S.pos!=='TW'||r.st?.twoWayUsage==='H'?r.st:null)):r.st;
+    if(!s)return '';
+    let vals;
+    if(isP)vals=[r.y,r.age,r.tm,LV[r.lv]?.n||'',s.G||0,fmtIP(s.IP||0),s.W||0,s.L||0,s.SV||0,s.HLD||0,s.SO||0,s.BB||0,F2(baseballERA(s)),F2(baseballWHIP(s))];
+    else {const obp=s.PA>0?(s.H+(s.BB||0))/s.PA:null,slg=s.AB>0?slgOf(s):null;
+      vals=[r.y,r.age,r.tm,LV[r.lv]?.n||'',s.G||0,s.PA||0,F3(s.AB>0?s.H/s.AB:null),F3(obp),F3(slg),F3(obp!=null&&slg!=null?obp+slg:null),s.H||0,s.HR||0,s.RBI||0,s.SB||0,(s.DEF>0?'+':'')+(s.DEF||0)];}
+    return `<tr class="${r.inj?'inj':''}" title="${esc(r.line||'')}">${vals.map((v,i)=>`<td class="${i===2?'team-cell ':''}${awardStatHighlighted(S.honors,r.y,isP,keys[i])?'award-stat':''}">${esc(String(v??'-'))}${i===2&&r.teamSeason?`<small>${esc(r.teamSeason)}</small>`:''}</td>`).join('')}</tr>`;
+  }).join('');
+  if(!rows)return '';
+  return `<div class="bd-yg">${label}</div><div class="stat-table-wrap career-table-wrap"><table class="fin career-stat-table ${isP?'pitcher':'batter'}"><thead><tr>${hd.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
 function secLog(){
-  const L=S.log||[], isP=S.pos==='P';
-  const yearHTML=y=>{ const crown=isChampionshipYear(S.honors,y)
-    ?'<span class="champ-crown" title="該年度奪冠" role="img" aria-label="冠軍"></span>':'';
-    return `<span class="champ-slot">${crown}</span>${y}`; };
-  /* 業餘年份沒有 st(逐項數據)，只有文字事蹟——這就是兩張表的分界 */
-  const ama=L.filter(r=>!r.st), pro=L.filter(r=>r.st);
-  const hd=isP?['G','IP','W-L','SV','SO','ERA']:['G','PA','AVG','HR','RBI','OPS'];
-  const drop=isP?[1,0,0,1,1,0]:[1,1,0,0,1,0]; /* 手機留 3 欄:投手 IP/W-L/ERA、野手 AVG/HR/OPS */
-  const cells=v=>v.map((t,i)=>`<span class="n${drop[i]?' opt':''}">${t}</span>`).join('');
-  let h=`<div class="bd-sec sec-y"><div class="bd-sh">生涯逐年成績</div>`;
+  const L=S.log||[],ama=L.filter(r=>!r.st),pro=L.filter(r=>r.st);
+  let h=`<div class="bd-sec sec-y"><div class="bd-sh">生涯逐年成績${S.pos==='TW'?'（二刀流）':''}</div>`;
   if(!L.length)h+='<div class="bd-none">還沒有完整打過一個球季。</div>';
-  if(ama.length){ h+='<div class="bd-yg">業餘</div>';
-    ama.forEach(r=>{ h+=`<div class="bd-yr${r.inj?' inj':''}"><span class="y">${yearHTML(r.y)}</span>`+
-      `<span class="a opt">${r.age}</span><span class="tm">${esc(r.tm)}</span>`+
-      `<span class="ln">${esc(r.line)}</span></div>`; }); }
-  if(pro.length){ h+='<div class="bd-yg">職業</div>'+
-      `<div class="bd-yr hd"><span class="y">年</span><span class="a opt">齡</span>`+
-      `<span class="tm">球隊</span>${cells(hd)}</div>`;
-    pro.forEach(r=>{ const s=r.st; let v;
-      if(isP){ const era=baseballERA(s);
-        v=[s.G,fmtIP(s.IP),`${s.W}-${s.L}`,s.SV||0,s.SO,F2(era)];
-      } else { const obp=s.PA>0?(s.H+s.BB)/s.PA:null, slg=s.AB>0?slgOf(s):null;
-        v=[s.G,s.PA,F3(s.AB>0?s.H/s.AB:null),s.HR,s.RBI,F3((obp!=null&&slg!=null)?obp+slg:null)]; }
-      /* the compact row drops BB/WHIP/SB/DEF; the full season line stays on hover */
-      h+=`<div class="bd-yr${r.inj?' inj':''}" title="${esc(r.line)}"><span class="y">${yearHTML(r.y)}</span>`+
-        `<span class="a opt">${r.age}</span><span class="tm">${esc(r.tm)}</span>${cells(v)}</div>`; }); }
+  if(ama.length){h+='<div class="bd-yg">業餘</div>';ama.forEach(r=>{h+=`<div class="bd-yr${r.inj?' inj':''}"><span class="y">${r.y}</span><span class="a opt">${r.age}</span><span class="tm">${esc(r.tm)}</span><span class="ln">${esc(r.line)}</span></div>`;});}
+  if(pro.length){
+    if(S.pos==='TW')h+=careerTable(pro,'P','職業｜投手成績')+careerTable(pro,'H','職業｜打者成績');
+    else h+=careerTable(pro,S.pos==='P'?'P':'H','職業');
+  }
   return h+'</div>';
 }
-const DTABS=[['h','成就'],['s','薪資'],['t','屬性'],['y','逐年']];
+const DTABS=[['h','成就'],['s','薪資'],['r','人際'],['t','屬性'],['y','逐年']];
 export function detailSync(){
   const bd=$('board'),d=$('bd-detail');
   if(!S||!bd||!d||!bd.classList.contains('detail-open'))return;
@@ -313,19 +301,13 @@ export function detailSync(){
     : '';
   d.innerHTML=idrow+'<div class="bd-tabs">'+DTABS.map(([k,n])=>
       `<button type="button" class="bd-tab${k===cur?' on':''}" data-t="${k}">${n}</button>`).join('')+'</div>'+
-    secHonors()+secSalary()+secTraits()+secLog()+
+    secHonors()+secSalary()+secRelations()+secTraits()+secLog()+
     (isCompact()?`<div class="bd-mark">${brandHTML()}</div>`:'');
   /* stopPropagation, not just the #bd-detail guard on the board listener: this handler
      replaces the panel's innerHTML, so by the time the click bubbles up the button is
      detached and closest() can no longer tell the board the click came from inside */
-  const activateTab=(b,e)=>{
-    const k=b.dataset.t; e.stopPropagation(); d.dataset.tab=k; detailSync();
-    const nb=d.querySelector(`.bd-tab[data-t="${k}"]`); if(nb)nb.focus();
-  };
-  d.querySelectorAll('.bd-tab').forEach(b=>b.onclick=e=>activateTab(b,e));
-  d.querySelectorAll('.bd-tab').forEach(b=>b.onkeydown=e=>{
-    if(e.key!=='Enter'&&e.key!==' ')return;
-    e.preventDefault(); activateTab(b,e); });
+  d.querySelectorAll('.bd-tab').forEach(b=>b.onclick=e=>{
+    e.stopPropagation(); d.dataset.tab=b.dataset.t; detailSync(); });
   d.scrollTop=sc;
   /* a board() refresh must not yank the 逐年 list back to the player's rookie year */
   const y=d.querySelector('.sec-y'); if(y&&yTop!=null)y.scrollTop=yTop;
@@ -354,7 +336,7 @@ if(typeof document!=='undefined'){
     if(t.isConnected===false)return;
     /* 生涯薪 cell has its own tap (reveal the exact amount), the hamburger opens the menu,
        the panel and the year strip are live controls: none of them are a tap on the bar */
-    if(t.closest&&t.closest('#btn-menu,#bd-detail,#tl-strip,#bd-sal-cell'))return;
+    if(t.closest&&t.closest('#btn-menu,#bd-detail,#tl-strip,#bd-sal-cell,#bd-cash-cell'))return;
     detailToggle();
   });
 }

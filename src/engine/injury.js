@@ -1,38 +1,36 @@
-import {S} from '../core/state.js?v=1.5.12';
-import {R, ri, pick, chance, clamp} from '../core/rng.js?v=1.5.12';
-import {ABL, POS_AB} from '../data/abilities.js?v=1.5.12';
-import {LV} from '../data/teams.js?v=1.5.12';
-import {card, choose, board} from '../ui/dom.js?v=1.5.12';
-import {addAb} from './ability.js?v=1.5.12';
-import {isSP} from './season.js?v=1.5.12';
-import {removeTrait} from '../flow/events.js?v=1.5.12';
+import {S} from '../core/state.js?v=offline-0.30.0';
+import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.30.0';
+import {ABL, POS_AB, ABILITY_MAX} from '../data/abilities.js?v=offline-0.30.0';
+import {LV} from '../data/teams.js?v=offline-0.30.0';
+import {card, choose, board} from '../ui/dom.js?v=offline-0.30.0';
+import {addAb} from './ability.js?v=offline-0.30.0';
+import {isSP} from './season.js?v=offline-0.30.0';
+import {removeTrait} from '../flow/events.js?v=offline-0.30.0';
 export function tjAccrue(st,lv){ /* 球威風險 × 投法 × 角色標準化工作量；體力不參與。 */
-  if(S.pos!=='P'||S.seasonFactor<=0||!st||!(st.G>0))return;
+  if(S.stage==='ES'||S.stage==='MS'){S.tj=0;return;}
+  if(S.tjLockZero){S.tj=0;return;}
+  if(!['P','TW'].includes(S.pos)||S.seasonFactor<=0||!st||!(st.G>0))return;
   const L=LV[lv||S.lv],effort={'全力投':1.30,'普通投':1.0,'養生球':0.80}[S.effort]||1.0;
   /* 先發以該層級球季場數作標準局數；後援以約 45% 賽程、最高 60 場作標準登板。 */
   const roleTarget=isSP()?(L.g||1):Math.min(60,Math.max(1,Math.round((L.g||1)*0.45)));
-  const actual=isSP()?(st.IP||0):(st.G||0);
+  const actual=isSP()?(st.IP||0):(st.pitchG||st.G||0);
   const normalized=actual/roleTarget;
   const workload=clamp(0.4+0.6*normalized,0.4,1.2);
   /* 第一次術後 ×1.15；第二次後再把既有損耗速度乘 1.20（合計 ×1.38），提高第三次危機機率。 */
   const scarMult=S.tjCount>=2?1.15*1.20:S.tjCount>=1?1.15:1;
   const base=(S.ab.vel+S.ab.brk)/19*effort*workload*scarMult;
-  S.tj+=base;
-  /* v1.5.7 移除「二次重建後第 3 年必定拉警報」的硬性期限。
-     原設計用 tjSecondYear 在固定年限把量表強制補滿，等於把第三次 TJ 寫成劇本而非模擬結果——
-     玩家不論怎麼調整投球數、投法、工作量都改變不了，決策失去意義。
-     現在第三次危機一律由 scarMult(×1.38) 與殘留量表自然推動：仍然明顯比第一次快，但可被操作。 */
+  const twLoad=S.pos==='TW'?clamp(Number(S.twoWayWorkloadMult??.6),0,3):1;
+  S.tj+=base*clamp(Number(S.healthCareMult??1),0,1)*twLoad;
+  /* 二次重建有硬性壽命：只要仍有登板，第二次 TJ 後第 3 年最遲必定再次拉警報；高負荷可自然提早至第 2 年。 */
+  if(S.tjCount===2&&Number.isFinite(S.tjSecondYear)&&S.year-S.tjSecondYear>=3)S.tj=Math.max(S.tj,tjCap());
 }
-/* v1.5.7 量表上限 50→60（橡皮人維持 2 倍＝120）。
-   原因不是名人堂難度，是傷病頻率本身失真：實測大聯盟先發 100% 會碰到手肘危機、平均動刀 2.2 次，
-   現實中約三分之一的投手一輩子動過一次、動三次幾乎等於退休。
-   實測改為 60 之後（大聯盟先發 N=250）：平均動刀 2.2→1.4 次、首次危機 28.5→29.5 歲、
-   生涯 13.0→14.1 季；名人堂% 只動 +4～9pp（峰值 72：44%→48%），所以這是擬真調整不是難度調整。
-   殘留量表刻意維持 ri(38,44) 不同比例放大：在 60 的尺上是 63～73%，
-   二次重建後第三次危機仍然機率很高、但不再是必然——這正是移除硬性期限想要的結果。 */
-export function tjCap(){ return S.traits.rubber?120:60; }
+export function tjCap(){ return S.traits.rubber?100:50; }
 export function tjGamble(cont){ /* 量表達上限:先扣 -5,再對賭 */
-  if(S.pos!=='P'||S.tj<tjCap()){ cont(); return; }
+  if(S.tjLockZero)S.tj=0;
+  if(!['P','TW'].includes(S.pos)||S.tj<tjCap()){ cont(); return; }
+  /* 二次重建的「2～3 年內再度危機」是一次性期限：第一次真的拉警報後即已兌現，
+     不可讓 tjSecondYear 在往後每年持續把量表強制補滿。 */
+  if(S.tjCount===2&&Number.isFinite(S.tjSecondYear)&&S.year>S.tjSecondYear)S.tjSecondYear=null;
   S.tjCrises=(S.tjCrises||0)+1;
   const crisisBefore={vel:S.ab.vel,brk:S.ab.brk};
   addAb('vel',-5); addAb('brk',-5); board(1);
@@ -44,7 +42,7 @@ export function tjGamble(cont){ /* 量表達上限:先扣 -5,再對賭 */
       const first=S.tjCount===1,lo=first?3:2,hi=first?10:7;
       const gv=ri(lo,hi),gb=ri(lo,hi);
       /* 能力算式固定為「危機前能力 −5 + 手術回升」；直接加在能力值，不經訓練點成本。第一次僅免除重複動刀的額外永久懲罰。 */
-      S.ab.vel=clamp(S.ab.vel+gv,1,80); S.ab.brk=clamp(S.ab.brk+gb,1,80);
+      S.ab.vel=clamp(S.ab.vel+gv,1,ABILITY_MAX); S.ab.brk=clamp(S.ab.brk+gb,1,ABILITY_MAX);
       board(1);
       const veq=`${crisisBefore.vel} − 5 + ${gv} ＝ <b class="hl">${S.ab.vel}</b>`;
       const beq=`${crisisBefore.brk} − 5 + ${gb} ＝ <b class="hl">${S.ab.brk}</b>`;
@@ -52,7 +50,7 @@ export function tjGamble(cont){ /* 量表達上限:先扣 -5,再對賭 */
       tjRepeatDamage();
       afterGamble('surgery',cont); }},
     {t:'打針硬撐，不進手術室',warn:true,s:`成功率 ${succP}%｜失敗＝TJ 大傷（下一季報銷、能力再崩）`,f:()=>{
-      if(chance(succP)){ S.tj=Math.max(0,S.tj-20); S.ab.vel=clamp(S.ab.vel+5,1,80); S.ab.brk=clamp(S.ab.brk+5,1,80); board(1);
+      if(chance(succP)){ S.tj=Math.max(0,S.tj-20); S.ab.vel=clamp(S.ab.vel+5,1,ABILITY_MAX); S.ab.brk=clamp(S.ab.brk+5,1,ABILITY_MAX); board(1);
         card('good','險過一關',`封閉針暫時壓住了疼痛——量表 <b class="hl">−20</b>，球速、變化球各回升 <b class="up">+5</b>，抵銷這次警報造成的下滑。但這是在跟時間借命。`);
         afterGamble('inject',cont); }
       else { tjBigInjury(cont); } }}]);
@@ -61,14 +59,13 @@ export function tjDeltaText(v){ return v>0?`<b class="up">+${v}</b>`:v<0?`<b cla
 export function tjRepeatDamage(){
   if(S.tjCount===2){
     const dv=ri(6,10),db=ri(6,10);
-    S.ab.vel=clamp(S.ab.vel-dv,1,80); S.ab.brk=clamp(S.ab.brk-db,1,80);
-    /* 二次重建後不再回到健康的零點：殘留 38～44／60。第三次危機由殘留＋scarMult 自然推動，
-       不再有固定年限（v1.5.7 移除 tjSecondYear）——減量、養生球、轉後援都能實際延後它。 */
-    const residue=ri(38,44); S.tj=Math.max(S.tj,residue);
-    card('bad','兩度動刀的代價',`第二次進手術室，重建過的韌帶與代償已經留下永久痕跡——球速 <b class="dn">−${dv}</b>、變化球 <b class="dn">−${db}</b>。更糟的是，手肘已經不可能真正歸零——量表不會再回到零點，第三次危機隨時可能追上你。<b class="hl">從現在起，投多少、怎麼投，都會直接決定它什麼時候來。</b>`);
+    S.ab.vel=clamp(S.ab.vel-dv,1,ABILITY_MAX); S.ab.brk=clamp(S.ab.brk-db,1,ABILITY_MAX);
+    /* 二次重建後不再回到健康的零點：殘留 38～44／50；隔年復健後，第三次危機固定落在第 2～3 年。 */
+    const residue=ri(38,44); S.tj=Math.max(S.tj,residue); S.tjSecondYear=S.year;
+    card('bad','兩度動刀的代價',`第二次進手術室，重建過的韌帶與代償已經留下永久痕跡——球速 <b class="dn">−${dv}</b>、變化球 <b class="dn">−${db}</b>。更糟的是，手肘已經不可能真正歸零；即使下一季完成復健，第三次危機也會在不遠的將來追上你。`);
   }else if(S.tjCount>=3){
-    S.ab.vel=clamp(Math.round(S.ab.vel/2),1,80);
-    S.ab.brk=clamp(Math.round(S.ab.brk/2),1,80);
+    S.ab.vel=clamp(Math.round(S.ab.vel/2),1,ABILITY_MAX);
+    S.ab.brk=clamp(Math.round(S.ab.brk/2),1,ABILITY_MAX);
     card('bad','三度動刀的代價','第三次走進手術室，手臂終於越過了無法回頭的界線——球速與變化球<b class="dn">直接砍半</b>，投手生涯已經走到懸崖邊。');
   }
   board(1);
@@ -84,9 +81,9 @@ export function tjBigInjury(cont){
   const gv=ri(3,10), gb=ri(3,10);
   const netV = gv - 5;
   const netB = gb - 5;
-  /* 直接改絕對值,避免蓄力 Bug;鎖 1~80 */
-  S.ab.vel = clamp(S.ab.vel + netV, 1, 80);
-  S.ab.brk = clamp(S.ab.brk + netB, 1, 80);
+  /* 直接改絕對值，避免蓄力 Bug；使用離線版統一能力上限。 */
+  S.ab.vel = clamp(S.ab.vel + netV, 1, ABILITY_MAX);
+  S.ab.brk = clamp(S.ab.brk + netB, 1, ABILITY_MAX);
 
   board(1);
 
@@ -105,6 +102,10 @@ export function afterGamble(kind,cont){
   cont();
 }
 export function injuryProb(){ /* 基礎風險從 24 降為 15，減少動不動就受傷的頻率 */
+  /* 國小、國中屬成長保護期：不受修改器最低值或原版 3% 下限影響。 */
+  if(S.stage==='ES'||S.stage==='MS')return 0;
+  /* 修改器覆寫必須放在真正的判定函式；自訂 0% 不受原版最低 3% 限制。 */
+  if(S.injuryRateMode==='custom')return clamp(Number(S.injuryRateCustom)||0,0,95);
   let p=15+S.injNext;
   if(S.age>=35)p+=12; else if(S.age>=32)p+=6;
   if(S.traits.academy&&S.age<25)p-=5; /* 學院派:25歲前科學化管理 */
@@ -113,7 +114,26 @@ export function injuryProb(){ /* 基礎風險從 24 降為 15，減少動不動�
   else if(S.traits.glass)p=Math.max(p,40);
   /* 事件卡等自找的額外風險(tmpInj)疊加在基礎之上,不受鐵人上限保護 */
   p+=(S.tmpInj||0);
-  return clamp(p,3,95);
+  const tw=S.pos==='TW'?clamp(Number(S.twoWayInjuryMult??1),0,10):1;
+  return clamp(p*clamp(Number(S.healthCareMult??1),0,1)*tw,0,95);
+}
+export function healthCheck(done){
+  S.healthCareMult=1;S.healthCarePlan='normal';
+  if(S.stage==='ES'||S.stage==='MS'){done();return;}
+  const annual=Math.max(0,Number(S.ct?.annual)||Number(S.contractAnnual)||0)*10000;
+  const costs=S.stage==='HS'?[10000,25000]:S.stage==='U'?[25000,60000]:S.stage==='AMA'?[50000,120000]:[Math.max(50000,Math.round(annual*.015)),Math.max(150000,Math.round(annual*.04))];
+  const reduction=k=>clamp(Number(S[k])||0,0,100),pickPlan=(name,red,cost)=>{if((S.cash||0)<cost){card('bad','現金不足',`${name}需要 ${cost.toLocaleString()} 元，可改選免費健康檢查。`);healthCheck(done);return;}S.cash-=cost;S.yearWorkExpense=(S.yearWorkExpense||0)+cost;S.healthCarePlan=name;S.healthCareMult=1-red/100;card('good',name,`已支付 ${cost.toLocaleString()} 元；本季一般受傷率與新增手肘負荷降低 ${red}%。`);done();};
+  const normalRed=reduction('medicalNormalReductionPct'),proRed=reduction('medicalProReductionPct'),fullRed=reduction('medicalFullReductionPct');
+  const opts=[
+    {t:'一般健康檢查',main:true,s:`免費｜風險與新增負荷 -${normalRed}%`,f:()=>{S.healthCareMult=1-normalRed/100;done();}},
+    {t:'預防性保養',s:`${costs[0].toLocaleString()} 元｜風險與新增負荷 -${proRed}%`,f:()=>pickPlan('預防性保養',proRed,costs[0])},
+    {t:'完整醫療計畫',s:`${costs[1].toLocaleString()} 元｜風險與新增負荷 -${fullRed}%`,f:()=>pickPlan('完整醫療計畫',fullRed,costs[1])}
+  ];
+  if(S.pos==='TW'){
+    const cost=Math.max(costs[1]*2,Math.round(annual*.07)),red=reduction('medicalTwoWayReductionPct');
+    opts.push({t:'二刀流專用醫療計畫',main:true,s:`${cost.toLocaleString()} 元｜投打整合檢查｜風險、疲勞與手肘新增負荷 -${red}%`,f:()=>pickPlan('二刀流專用醫療計畫',red,cost)});
+  }
+  choose('季中健康檢查｜請選擇本季醫療計畫',opts);
 }
 export function injuryMarketStatus(){
   if(S.marketInjury&&S.marketInjury!=='healthy')return S.marketInjury;
@@ -125,6 +145,7 @@ export function injuryMarketStatus(){
 /* 市場不再只追逐合約年的單季高點：最近三季加權；大傷年更重視傷前履歷。 */
 export function rollInjury(){
   const p=injuryProb();
+  if(p<=0){ S.injNext=0; S.tmpInj=0; S.marketInjury='healthy'; return; }
   if(!chance(p)){ card('info','健康回報',`本季平安出賽。（受傷機率 ${p}%）`); S.injNext=0; return; }
   S.injNext=0;
   if(chance(64)){ // 64% 的機率是小傷
@@ -141,7 +162,7 @@ export function rollInjury(){
       /* 玻璃人與鐵人互為對立體質，不可並存：本來是鐵人的話直接被玻璃人覆蓋過去。 */
       const wasIron=!!S.traits.iron;
       if(wasIron)removeTrait('iron','鐵人');
-      S.traits.glass=true; S.glassYear=S.year;
+      S.traits.glass=true;
       S.removed=(S.removed||[]).filter(x=>x!=='玻璃人'); /* 曾被鐵人蓋掉又碎回來:清掉刪除線紀錄 */
       if(wasIron)
         card('bad','隱藏素質覆蓋：鐵人 → 玻璃人','大量的出賽，開始讓你原本如機器人般的身體出現變化，身體逐漸脆弱，最後變為易碎品。<br><b class="dn">鐵人解除</b>，未來每季受傷機率<b class="dn">不低於 40%</b>。');
@@ -154,13 +175,13 @@ export function rollInjury(){
 }
 export function injStatLoss(big){
   if(big){ /* 每一次大傷:全能力 −5,身體被實質性摧毀 */
-    POS_AB[S.pos].forEach(k=>{ S.ab[k]=clamp(S.ab[k]-5,1,80); }); board(1);
+    POS_AB[S.pos].forEach(k=>{ S.ab[k]=clamp(S.ab[k]-5,1,ABILITY_MAX); }); board(1);
     return `重大傷勢重創身體素質：<b class="dn">全能力 −5</b>。`;
   }
   if(!chance(40))return '';
   const keys=POS_AB[S.pos];
   let k=pick(keys); if(!(k in S.ab))k=pick(keys);
   const amt=ri(1,2);
-  S.ab[k]=clamp(S.ab[k]-amt,1,80); board(1);
+  S.ab[k]=clamp(S.ab[k]-amt,1,ABILITY_MAX); board(1);
   return `傷勢留下後遺症：<b class="dn">${ABL[k]} −${amt}</b>。`;
 }

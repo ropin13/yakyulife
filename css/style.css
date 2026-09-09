@@ -1,59 +1,33 @@
-/* Theme tokens: semantic layer first, legacy aliases second.
-   Legacy selectors keep using --bg/--panel/etc.; new UI migration tasks should use
-   the semantic tokens directly. */
+/* Theme tokens: one set per body[data-theme]; default = a (深綠記分板).
+   Values mirror the design prototype (yakyulife-app.dc.html helmet style). */
 body{
-  --space-0:0px;--space-2:2px;--space-4:4px;--space-8:8px;--space-12:12px;--space-16:16px;
-  --space-20:20px;--space-24:24px;--space-32:32px;--space-40:40px;--space-48:48px;--space-64:64px;
-  --font-sans:'Noto Sans TC',-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;
-  --font-data:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-  --bg-canvas:#081A12;--surface-default:#112F23;--surface-raised:#1C4231;--surface-interactive:#204A37;
-  --text-primary:#F2EBDD;--text-secondary:#A9B7AE;--text-muted:#8EA295;--text-on-accent:#0B1F17;
-  --border-default:#38654F;--border-strong:#6E987C;--accent-primary:#F4C552;
-  --status-success:#70C88A;--status-danger:#E88B84;--status-info:#6BACD8;--focus-ring:#F4C552;
-  --radius-component:6px;--radius-badge:4px;--radius-pill:999px;--radius-preview:8px;
-  --radius-selection-card:10px;--radius-progress:4px;--progress-track:#081510;
-  --shadow-hud:0 6px 9px rgba(0,0,0,.35);--shadow-action:0 -8px 24px rgba(0,0,0,.35);
-  --game-footer-h:32px;--game-footer-total:calc(var(--game-footer-h) + env(safe-area-inset-bottom,0px));
-  --bg:var(--bg-canvas);--panel:var(--surface-default);--panel2:var(--surface-raised);--edge:var(--border-default);
-  --text:var(--text-primary);--dim:var(--text-muted);--accent:var(--accent-primary);--good:var(--status-success);
-  --bad:var(--status-danger);--info:var(--status-info);--gold:var(--accent-primary);--row:var(--progress-track);--r:var(--radius-component);
-  --sans:var(--font-sans);
+  --bg:#081510;--panel:#132920;--panel2:#1a382a;--edge:#2b4d3a;--text:#ece7d6;--dim:#93ab9c;
+  --accent:#ffc95c;--good:#8fd08f;--bad:#e2695c;--info:#7fb3d5;--gold:#ffc95c;--row:#0d2115;--r:10px;
+  --sans:'Noto Sans TC',-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;
   --head:'Noto Sans TC',sans-serif;
-  --mono:var(--font-data);
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
   --disp:'IBM Plex Mono',monospace;
-  --glow:0 0 8px rgba(244,197,82,.35);
-  --btnbg:var(--surface-interactive);--btnedge:var(--border-strong);--btntx:var(--text-primary);
+  --glow:0 0 8px rgba(255,201,92,.35);
+  --btnbg:linear-gradient(#2a5038,#1f3f2c);--btnedge:#3c6a4c;--btntx:#ece7d6;
   --bgfx:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(29,70,48,.5) 0%,transparent 60%);
   --shadow:rgba(0,0,0,.35);
+  /* one chevron for every expand/collapse affordance; drawn as a mask so each context
+     colours it with currentColor and rotates it with the same rule */
+  --chev:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='7'><path d='M1 1l6 5 6-5' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/></svg>");
   /* legacy aliases: older inline templates still reference these */
   --chalk:var(--text);--amber:var(--accent);--blue:var(--info);--clay:var(--accent);
 }
-body[data-theme='b']{--bg-canvas:#0B0F12;--surface-default:#10161B;--surface-raised:#1D2B35;--surface-interactive:#22333E;
-  --text-primary:#EDF1EE;--text-secondary:#A4AFB5;--text-muted:#7A8792;--text-on-accent:#0B0F12;
-  --border-default:#334651;--border-strong:#657D8B;--accent-primary:#F0B33E;
-  --status-success:#5FCF8B;--status-danger:#EB665F;--status-info:#4DA3E6;--focus-ring:#F0B33E;--radius-component:4px;
-  --bg:var(--bg-canvas);--panel:var(--surface-default);--panel2:var(--surface-raised);--edge:var(--border-default);
-  --text:var(--text-primary);--dim:var(--text-muted);--accent:var(--accent-primary);--good:var(--status-success);
-  --bad:var(--status-danger);--info:var(--status-info);--gold:var(--accent-primary);--row:var(--bg-canvas);--r:var(--radius-component);
+body[data-theme='b']{--bg:#07090c;--panel:#0c1014;--panel2:#10161c;--edge:#232c36;--text:#d8dde2;--dim:#5c6873;
+  --accent:#ffb32e;--good:#49b675;--bad:#e2695c;--info:#3a7bd5;--gold:#ffb32e;--row:#0b0f14;--r:4px;
   --head:'DotGothic16',monospace;--disp:'DotGothic16',monospace;
-  --glow:0 0 10px rgba(240,179,62,.6);--btnbg:var(--surface-interactive);--btnedge:var(--border-strong);--btntx:var(--text-primary);--bgfx:none;--shadow:rgba(0,0,0,.5)}
-body[data-theme='c']{--bg-canvas:#F3EDDE;--surface-default:#FBF7EC;--surface-raised:#E4D9C1;--surface-interactive:#F0E6D2;
-  --text-primary:#26231F;--text-secondary:#655E54;--text-muted:#716A60;--text-on-accent:#FBF7EC;
-  --border-default:#9A8D77;--border-strong:#756956;--accent-primary:#974834;
-  --status-success:#2E6B48;--status-danger:#B4232F;--status-info:#315C79;--focus-ring:#9C4A36;--radius-component:0px;
-  --bg:var(--bg-canvas);--panel:var(--surface-default);--panel2:var(--surface-raised);--edge:var(--border-default);
-  --text:var(--text-primary);--dim:var(--text-muted);--accent:var(--accent-primary);--good:var(--status-success);
-  --bad:var(--status-danger);--info:var(--status-info);--gold:var(--accent-primary);--row:var(--surface-interactive);--r:var(--radius-component);
+  --glow:0 0 10px rgba(255,179,46,.6);--btnbg:#132018;--btnedge:#49b675;--btntx:#d8dde2;--bgfx:none;--shadow:rgba(0,0,0,.5)}
+body[data-theme='c']{--bg:#f4efe1;--panel:#faf6ea;--panel2:#ece5d2;--edge:#1e1c18;--text:#1e1c18;--dim:#6f6857;
+  --accent:#b3402f;--good:#2f6b3a;--bad:#b3402f;--info:#35506b;--gold:#b3402f;--row:#ede6d4;--r:0px;
   --head:'Noto Serif TC',serif;--disp:'Noto Serif TC',serif;
-  --glow:none;--btnbg:var(--text-primary);--btnedge:var(--border-strong);--btntx:var(--text-on-accent);--bgfx:none;--shadow:rgba(30,28,24,.12)}
-body[data-theme='d']{--bg-canvas:#F7F9F7;--surface-default:#FFFFFF;--surface-raised:#E4EBE6;--surface-interactive:#DDE9E1;
-  --text-primary:#202722;--text-secondary:#5C6A61;--text-muted:#667269;--text-on-accent:#FFFFFF;
-  --border-default:#BBC8BF;--border-strong:#76887C;--accent-primary:#0B784A;
-  --status-success:#22765D;--status-danger:#B5433B;--status-info:#366CA2;--focus-ring:#0B7A4C;--radius-component:12px;
-  --bg:var(--bg-canvas);--panel:var(--surface-default);--panel2:var(--surface-raised);--edge:var(--border-default);
-  --text:var(--text-primary);--dim:var(--text-muted);--accent:var(--accent-primary);--good:var(--status-success);
-  --bad:var(--status-danger);--info:var(--status-info);--gold:var(--accent-primary);--row:var(--surface-interactive);--r:var(--radius-component);
-  --glow:none;--btnbg:var(--accent-primary);--btnedge:var(--accent-primary);--btntx:var(--text-on-accent);--bgfx:none;--shadow:rgba(26,32,28,.1)}
+  --glow:none;--btnbg:#1e1c18;--btnedge:#1e1c18;--btntx:#f4efe1;--bgfx:none;--shadow:rgba(30,28,24,.12)}
+body[data-theme='d']{--bg:#f6f7f6;--panel:#ffffff;--panel2:#f2f4f2;--edge:#e2e6e3;--text:#1a201c;--dim:#7a857e;
+  --accent:#0f7b4d;--good:#0f7b4d;--bad:#c0392b;--info:#4a76a8;--gold:#b8862d;--row:#eef1ef;--r:12px;
+  --glow:none;--btnbg:#0f7b4d;--btnedge:#0f7b4d;--btntx:#ffffff;--bgfx:none;--shadow:rgba(26,32,28,.1)}
 /* touch-action:manipulation keeps pan + pinch but kills double-tap zoom (tap-heavy game) */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{height:100%;overscroll-behavior-y:none}
@@ -62,36 +36,35 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
    body background-image would tile once per viewport and show a seam on scroll */
 body::before{content:'';position:fixed;inset:0;z-index:-1;background:var(--bgfx);pointer-events:none}
 a{color:var(--info)}
-.ph,.ph-bold,.ph-fill{line-height:1}
-.chev{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;
-  font-size:24px;color:currentColor;transition:transform .18s}
+.chev{display:block;width:14px;height:7px;flex:none;background:currentColor;transition:transform .18s;
+  -webkit-mask:var(--chev) no-repeat center/14px 7px;mask:var(--chev) no-repeat center/14px 7px}
 .chev.up{transform:rotate(180deg)}
 /* ---------- 版型骨架:手機單欄(預設) / 桌面三欄(>920px) ---------- */
 #app{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 #mid{flex:1;display:flex;flex-direction:column;min-width:0}
 #tl-side{display:none;background:var(--panel);border-right:1px solid var(--edge)}
 /* ---------- 記分板 ---------- */
-#board{position:sticky;top:0;z-index:20;background:var(--surface-default);
-  border-bottom:1px solid var(--border-default);padding:var(--space-12) var(--space-16);
-  box-shadow:var(--shadow-hud);padding-top:calc(var(--space-12) + env(safe-area-inset-top,0px))}
+#board{position:sticky;top:0;z-index:20;background:var(--panel);
+  border-bottom:2px solid var(--edge);padding:10px 14px 8px;box-shadow:0 6px 18px var(--shadow);
+  padding-top:calc(10px + env(safe-area-inset-top,0px))}
 /* Identity row: number plate + name/chips + affiliation + hamburger, one row in both layouts
    (author's call 2026-08-15: the phone should read like the desktop). Only #bd-id can shrink,
    so a long name ellipsizes before the team name does. */
-#bd-top{display:flex;align-items:center;gap:var(--space-8)}
-#bd-num{flex:none;width:var(--space-48);height:var(--space-48);background:var(--progress-track);
-  border-radius:var(--radius-component);border:2px solid var(--accent-primary);
-  display:flex;align-items:center;justify-content:center}
-#bd-num span{display:none}
-#bd-num b{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent);line-height:28px;text-shadow:var(--glow)}
-#bd-id{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:var(--space-4)}
-#bd-name{min-width:0;font-family:var(--head);font-weight:900;font-size:18px;line-height:26px;
-  letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#bd-role{min-width:0;display:flex;gap:var(--space-4)}
-.bd-chip{font-family:var(--mono);font-size:14px;line-height:20px;font-weight:600;padding:0 var(--space-8);
-  border-radius:var(--radius-badge);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bd-chip.pos{background:var(--surface-raised);border:1px solid transparent;color:var(--text-secondary)}
-.bd-chip.typ{background:transparent;border:1px solid var(--accent-primary);color:var(--accent-primary)}
-#bd-team{flex:0 1 auto;min-width:0;margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+#bd-top{display:flex;align-items:center;gap:11px}
+#bd-num{flex:none;width:42px;height:42px;background:var(--row);border-radius:min(var(--r),8px);
+  border:1.5px solid color-mix(in srgb,var(--accent) 47%,transparent);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+#bd-num span{font-size:7px;color:var(--dim);letter-spacing:.22em;line-height:1}
+#bd-num b{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--accent);line-height:1;text-shadow:var(--glow)}
+#bd-id{flex:0 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px}
+#bd-name{min-width:0;font-family:var(--head);font-weight:900;font-size:18px;line-height:1;
+  letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bd-role{min-width:0;display:flex;gap:5px}
+.bd-chip{font-size:10.5px;line-height:1.55;padding:1px 7px;border-radius:min(var(--r),5px);
+  min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bd-chip.pos{background:var(--panel2);border:1px solid var(--edge);color:var(--text)}
+.bd-chip.typ{border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent)}
+#bd-team{flex:none;min-width:0;margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .bt-lbl{flex:none;white-space:nowrap;font-size:9px;color:var(--dim);letter-spacing:.3em}
 .bt-lbl i,.bt-lbl em{font-style:normal}
 .bt-row{flex:none;min-width:0;display:flex;align-items:center;gap:8px}
@@ -100,26 +73,24 @@ a{color:var(--info)}
 .bt-name.plain{color:var(--accent);font-size:14px;font-weight:700;letter-spacing:.05em}
 /* pro clubs keep the existing white-label treatment: the team colour is the jersey
    primary and only reads at full saturation against white (see teamChip() rationale) */
-.bt-name.chip{background:#ffffff;padding:0 var(--space-8);border-radius:var(--radius-badge);
-  box-shadow:0 2px 4px rgba(0,0,0,.4);font-family:var(--mono);font-size:14px;line-height:20px;font-weight:600}
-.bt-badge{flex:none;font-family:var(--mono);font-size:14px;line-height:20px;font-weight:600;padding:0 var(--space-8);
-  border-radius:var(--radius-badge);white-space:nowrap}
-.bt-badge.top{background:var(--accent-primary);color:var(--text-on-accent)} /* 一軍／大聯盟／學生年級:實心 */
-.bt-badge.sub{background:transparent;border:1px solid var(--accent-primary);color:var(--accent-primary)} /* 還沒上去:描邊 */
+.bt-name.chip{background:#ffffff;padding:1px 7px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.4);font-size:12.5px}
+.bt-badge{flex:none;font-size:10.5px;font-weight:700;padding:1px 8px;
+  border-radius:min(var(--r),4px);white-space:nowrap}
+.bt-badge.top{background:var(--accent);color:var(--bg)} /* 一軍／大聯盟／學生年級:實心 */
+.bt-badge.sub{border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent)} /* 還沒上去:描邊 */
 #bd-tj{display:none}
 #btn-menu{flex:none;align-self:center}
-#bd-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) var(--space-48);gap:var(--space-8);margin-top:var(--space-8)}
-.bd-cell{position:relative;background:var(--surface-raised);border:1px solid var(--border-default);
-  border-radius:var(--radius-component);padding:2px;text-align:center;min-width:0}
-.bd-cell b{display:block;font-family:var(--disp);font-size:16px;font-weight:700;color:var(--accent);
-  text-shadow:var(--glow);line-height:22px}
-.bd-cell span{display:block;font-size:13px;line-height:20px;color:var(--text-secondary);letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:9px}
+.bd-cell{position:relative;background:var(--panel2);border:1px solid var(--edge);border-radius:var(--r);padding:4px 6px 3px;text-align:center}
+.bd-cell b{display:block;font-family:var(--disp);font-size:17px;font-weight:700;color:var(--accent);
+  text-shadow:var(--glow);line-height:1.2}
+.bd-cell span{font-size:10px;color:var(--dim);letter-spacing:.15em}
 .bt-badge i{font-style:normal}
 .bt-badge .lc{display:none} /* the phone's shorter level wording; .lw is the full stageLabel() */
 #bd-hint{display:none} /* phone bar only */
 /* 記分板維持緊湊的萬／億縮寫；完整精確金額顯示在點擊提示與引退結算。 */
-#bd-sal,#bd-sal-lbl{white-space:nowrap}
-#bd-sal-cell{cursor:pointer;outline:none}
+#bd-sal,#bd-sal-lbl,#bd-cash,#bd-cash-lbl{white-space:nowrap}
+#bd-sal-cell,#bd-cash-cell{cursor:pointer;outline:none}
 .bd-tip{position:absolute;top:calc(100% + 6px);right:0;z-index:3;white-space:nowrap;
   font-style:normal;font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:0;
   color:var(--text);background:var(--panel2);border:1px solid var(--edge);
@@ -128,34 +99,32 @@ a{color:var(--info)}
 /* gate hover so a touch tap does not latch :hover and leave the tip stuck open */
 @media (hover:hover){ #bd-sal-cell:hover .bd-tip{opacity:1} }
 #bd-sal-cell.show .bd-tip,#bd-sal-cell:focus-visible .bd-tip{opacity:1}
+@media (hover:hover){ #bd-cash-cell:hover .bd-tip{opacity:1} }
+#bd-cash-cell.show .bd-tip,#bd-cash-cell:focus-visible .bd-tip{opacity:1}
 /* ---------- 詳情:第 5 格切換鈕＋展開面板 ---------- */
-#bd-more{width:var(--space-48);height:var(--space-48);justify-self:center;align-self:center;
-  background:transparent;border:1px solid var(--border-strong);border-radius:var(--radius-component);
-  display:flex;align-items:center;justify-content:center;
+#bd-more{background:var(--row);border:1px dashed var(--btnedge);border-radius:var(--r);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
   font-family:inherit;padding:0;cursor:pointer}
-#bd-more .lb{display:none}
+#bd-more .lb{font-size:8.5px;color:var(--dim);letter-spacing:.08em}
 #bd-more .chev{color:var(--accent)}
-#bd-more:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
-@media(hover:hover){#bd-more:hover{border-color:var(--accent)}}
+#bd-more:hover{border-color:var(--accent)}
 #bd-more[aria-expanded='true']{border-style:solid;border-color:var(--accent)}
 #bd-more[aria-expanded='true'] .lb{color:var(--accent)}
 #bd-more[aria-expanded='true'] .chev{transform:rotate(180deg)}
 /* The board is position:sticky, so an unbounded panel would push the log off-screen on a
    long career (33 seasons of 逐年). Cap it and scroll inside instead. */
 #bd-detail{display:none;margin-top:8px;background:var(--row);border:1px solid var(--edge);
-  border-radius:min(var(--r),8px);padding:var(--space-12) var(--space-16);max-height:44vh;overflow-y:auto;
+  border-radius:min(var(--r),8px);padding:11px 12px;max-height:44vh;overflow-y:auto;
   -webkit-overflow-scrolling:touch}
 #board.detail-open #bd-detail{display:block}
-.bd-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:var(--space-12);
-  border-bottom:1px solid var(--border-default)}
-.bd-tab{height:44px;background:transparent;border:0;border-bottom:1px solid transparent;border-radius:0;color:var(--text-secondary);
-  font-family:var(--sans);font-size:16px;line-height:26px;font-weight:500;padding:8px var(--space-12);white-space:nowrap;cursor:pointer}
-@media(hover:hover){.bd-tab:hover{color:var(--accent-primary);background:var(--surface-interactive)}}
-.bd-tab:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px}
-.bd-tab.on{background:transparent;border-bottom-color:var(--accent-primary);color:var(--accent-primary);font-weight:700}
+.bd-tabs{display:flex;gap:6px;margin-bottom:10px}
+.bd-tab{flex:none;background:none;border:1px solid var(--edge);border-radius:999px;color:var(--dim);
+  font-family:inherit;font-size:11px;padding:3px 11px;white-space:nowrap;cursor:pointer}
+.bd-tab:hover{color:var(--accent);border-color:var(--accent)}
+.bd-tab.on{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
 .bd-sec{display:none;min-width:0}
 #bd-detail[data-tab='h'] .sec-h,#bd-detail[data-tab='s'] .sec-s,
-#bd-detail[data-tab='t'] .sec-t,#bd-detail[data-tab='y'] .sec-y{display:block}
+#bd-detail[data-tab='r'] .sec-r,#bd-detail[data-tab='t'] .sec-t,#bd-detail[data-tab='y'] .sec-y{display:block}
 .bd-sh{display:none;align-items:center;gap:7px;font-size:11px;letter-spacing:.25em;
   color:var(--dim);font-weight:700;margin-bottom:7px} /* tabs replace the headings on mobile */
 .bd-sh::before{content:'■';font-size:8px;line-height:1;color:var(--accent)}
@@ -170,6 +139,11 @@ a{color:var(--info)}
 .bd-sr .v{font-family:var(--mono);text-align:right;min-width:0;overflow-wrap:anywhere}
 .bd-sr.tot{align-items:baseline;border-top:1px dashed var(--edge);margin-top:4px;padding-top:5px}
 .bd-sr.tot .v{font-size:16px;font-weight:700;color:var(--accent);text-shadow:var(--glow)}
+/* 人際狀況 */
+.bd-rel{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px solid color-mix(in srgb,var(--edge) 55%,transparent)}
+.bd-rel>div{min-width:0}.bd-rel b{font-size:13px}.bd-rel em{font-style:normal;font-size:9px;color:var(--bg);background:var(--accent);border-radius:999px;padding:1px 6px;margin-left:7px}
+.bd-rel span{display:block;font-size:10.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bd-rel strong{font-family:var(--disp);font-size:18px;color:var(--accent);text-shadow:var(--glow)}
 /* 隱藏屬性 */
 .bd-tw{display:flex;flex-wrap:wrap;gap:7px}
 .bd-tc{display:flex;align-items:baseline;gap:8px;min-width:0;background:var(--panel2);
@@ -191,23 +165,24 @@ a{color:var(--info)}
 .bd-yr .a{flex:none;width:30px;color:var(--dim)}
 .bd-yr.inj .a{color:inherit}
 .bd-yr .tm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bd-yr .tm small{display:block;color:var(--dim);font-family:var(--sans);font-size:9px;overflow:hidden;text-overflow:ellipsis}
 .bd-yr .ln{flex:2;min-width:0;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bd-yr.inj .ln{color:inherit}
 .bd-yr .n{flex:none;width:44px;text-align:right}
 .bd-yr .opt{display:none} /* 齡 and the wider stat columns return on desktop */
+.bd-tw-season{padding:7px 0;border-bottom:1px solid var(--edge);font-size:11px;line-height:1.55}
+.bd-tw-season>b{display:block;color:var(--gold)}.bd-tw-season>small{display:block;color:var(--dim)}
+.bd-tw-season.inj{color:var(--bad)}
 #lamps{display:flex;gap:14px;justify-content:center;margin-top:7px}
-.lamp{display:flex;align-items:center;gap:var(--space-8);font-size:13px;line-height:20px;color:var(--text-muted);letter-spacing:0}
-.lamp i{width:8px;height:8px;border-radius:50%;background:var(--surface-raised);border:1px solid var(--border-default);display:inline-block}
-.lamp.on{color:var(--text-primary);font-weight:700} .lamp.on i{background:var(--accent-primary);box-shadow:var(--glow);border-color:var(--accent-primary)}
+.lamp{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--dim);letter-spacing:.12em}
+.lamp i{width:9px;height:9px;border-radius:50%;background:var(--panel2);border:1px solid var(--edge);display:inline-block}
+.lamp.on{color:var(--text);font-weight:700} .lamp.on i{background:var(--accent);box-shadow:var(--glow);border-color:var(--accent)}
 /* ---------- 生涯時間軸:手機橫向膠囊列 ---------- */
-#tl-strip{display:flex;gap:var(--space-8);overflow-x:auto;margin-top:10px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+#tl-strip{display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 #tl-strip:empty{display:none}
-.tl-chip{height:30px;display:inline-flex;align-items:center;gap:var(--space-4);font-family:var(--mono);
-  font-size:14px;line-height:20px;font-weight:600;color:var(--text-muted);border:1px solid var(--border-default);
-  border-radius:var(--radius-pill);padding:4px var(--space-12);white-space:nowrap;flex:none;cursor:pointer}
-@media(hover:hover){.tl-chip:hover{color:var(--accent-primary);border-color:var(--accent-primary)}}
-.tl-chip:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
-.tl-chip.now{color:var(--accent-primary);border-color:var(--accent-primary)}
+.tl-chip{font-family:var(--mono);font-size:11px;color:var(--dim);border:1px solid var(--edge);border-radius:999px;
+  padding:3px 10px;white-space:nowrap;flex:none;cursor:pointer}
+.tl-chip.now{color:var(--accent);border-color:var(--accent);font-weight:700}
 /* ---------- 生涯時間軸:桌面側欄 ---------- */
 #tl-in{display:flex;flex-direction:column;gap:18px;padding:22px 16px 22px 22px}
 /* Sidebar brand: full-width mini lockup (owner request 2026-08-14, supersedes the 3b
@@ -229,7 +204,6 @@ a{color:var(--info)}
 .tlg{margin-bottom:16px}
 .tlg-h{font-family:var(--head);font-size:10px;letter-spacing:.3em;color:var(--dim);font-weight:700;margin-bottom:9px;padding-left:8px}
 .tl-item{display:flex;align-items:center;gap:10px;margin-bottom:9px;cursor:pointer}
-.tl-item:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:var(--radius-component)}
 .tl-item .dot{width:10px;height:10px;border-radius:50%;background:var(--panel2);border:2px solid var(--edge);flex:none;margin-left:-13px}
 .tl-item.now .dot{width:16px;height:16px;background:var(--accent);border:3px solid var(--panel);box-shadow:0 0 12px var(--accent);margin-left:-16px}
 .tl-item .t{font-family:var(--mono);font-size:12px;color:var(--dim);line-height:1.45}
@@ -240,135 +214,91 @@ a{color:var(--info)}
 .tl-seed b{color:var(--accent)}
 .tl-ver{display:block;font-size:10px;opacity:.7;letter-spacing:.05em;margin-top:2px}
 /* ---------- 主紀錄 ---------- */
-#log{flex:1;padding:var(--space-16) var(--space-16) var(--space-20);display:flex;flex-direction:column;gap:var(--space-12)}
-.yr-block{display:flex;flex-direction:column;gap:var(--space-12)}
-.yr-body{display:flex;flex-direction:column;gap:var(--space-12)}
-.card{background:var(--surface-raised);border:1px solid var(--border-default);border-radius:var(--radius-component);
-  padding:var(--space-12) var(--space-16);color:var(--text-secondary);font-size:16px;line-height:26px;
+#log{flex:1;padding:14px 14px 20px;display:flex;flex-direction:column;gap:10px}
+/* mobile-only brand sign-off at the end of the log (compact container rules below);
+   the desktop layout already names the product in the timeline column */
+#log-mark{display:none}
+.yr-block{display:flex;flex-direction:column;gap:10px}
+.yr-body{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);padding:12px 14px;
   animation:pop .25s ease;overflow-wrap:anywhere;overflow-x:auto}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.card h4{font-family:var(--head);font-size:16px;line-height:24px;letter-spacing:.08em;color:var(--text-primary);
-  font-weight:700;margin-bottom:var(--space-4);padding-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-8)}
-.card h4::before{content:'■';font-family:var(--mono);font-size:12px;line-height:18px;color:var(--text-muted);flex:none}
-.card-title-main{min-width:0}
-.card-title-meta{margin-left:auto;font-family:var(--sans);font-size:13px;line-height:20px;font-weight:400;letter-spacing:0;
-  color:var(--text-secondary);white-space:nowrap}
-.card.gold{border:2px solid var(--accent-primary)}
-.card.gold h4,.card.gold h4::before{color:var(--accent-primary);text-shadow:var(--glow)}
-.card.bad h4,.card.bad h4::before{color:var(--status-danger)}
-.card.good h4,.card.good h4::before{color:var(--status-success)}
-.card.info h4,.card.info h4::before{color:var(--status-info)}
-.card p{font-size:16px;line-height:26px} .card p+p{margin-top:var(--space-8)}
-.tag{display:inline-block;font-family:var(--mono);font-size:14px;line-height:20px;font-weight:600;
-  padding:0 var(--space-8);border-radius:var(--radius-badge);
-  background:transparent;border:1px solid var(--accent-primary);color:var(--accent-primary);margin:0 2px}
-.share-career{padding:var(--space-12) var(--space-16)}
-.share-career-title{font-family:var(--head);font-size:16px;line-height:26px;font-weight:700;color:var(--text-primary);margin-bottom:var(--space-8)}
-.share-career-actions{display:flex;gap:var(--space-8);flex-wrap:wrap}
-.share-career-actions .btn{flex:1 1 150px;margin-top:0}
-.up{color:var(--status-success);font-weight:700}.dn{color:var(--status-danger);font-weight:700}.hl{color:var(--accent-primary);font-weight:700}
-.statline{font-family:var(--mono);font-size:14px;line-height:22px;color:var(--text-secondary);background:var(--surface-default);
-  border:1px dashed var(--border-default);border-radius:min(var(--radius-component),6px);
-  padding:var(--space-8) var(--space-12);margin-top:var(--space-8)}
-table.fin,table.st{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;margin-top:var(--space-8)}
-table.fin th,table.fin td,table.st th,table.st td{border-bottom:1px solid var(--border-default);padding:4px 4px;text-align:right;white-space:nowrap}
-table.fin th,table.st th{color:var(--text-muted);font-weight:500;letter-spacing:.05em}
+.card h4{font-family:var(--head);font-size:12px;letter-spacing:.2em;color:var(--dim);font-weight:700;margin-bottom:6px;
+  display:flex;align-items:center;gap:7px}
+.card h4::before{content:'■';font-size:9px;line-height:1;flex:none}
+.card.gold{border:1.5px solid var(--gold)}
+.card.gold h4{color:var(--gold);text-shadow:var(--glow)}
+.award-stat{color:#ffd34d!important;font-weight:800!important;text-shadow:0 0 10px rgba(255,211,77,.16)}
+.card.bad h4{color:var(--bad)} .card.good h4{color:var(--good)} .card.info h4{color:var(--info)}
+.card p{font-size:14px} .card p+p{margin-top:4px}
+.tag{display:inline-block;font-family:var(--mono);font-size:12px;padding:0 6px;border-radius:min(var(--r),4px);
+  background:var(--panel2);border:1px solid var(--edge);color:var(--accent);margin:0 2px}
+.up{color:var(--good);font-weight:700}.dn{color:var(--bad);font-weight:700}.hl{color:var(--accent);font-weight:700}
+.statline{font-family:var(--mono);font-size:12.5px;color:var(--text);background:var(--panel2);border:1px dashed var(--edge);
+  border-radius:min(var(--r),6px);padding:6px 10px;margin-top:6px;line-height:1.7}
+table.fin,table.st{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;margin-top:6px}
+table.fin th,table.fin td,table.st th,table.st td{border-bottom:1px solid var(--edge);padding:4px 4px;text-align:right;white-space:nowrap}
+table.fin th,table.st th{color:var(--dim);font-weight:500;letter-spacing:.05em}
 table.fin td:first-child,table.fin th:first-child,table.st td:first-child,table.st th:first-child{text-align:left}
-.champ-slot{display:inline-flex;width:10px;height:6px;align-items:center;justify-content:flex-start;vertical-align:1px}
-.champ-crown{display:inline-block;width:8px;height:6px;background:#ffc95c;
-  clip-path:polygon(0 18%,25% 58%,50% 0,75% 58%,100% 18%,90% 100%,10% 100%);
-  filter:drop-shadow(0 0 2px rgba(255,201,92,.4))}
+/* 真正的逐欄統計表：表頭在上、數值在下。依容器自動壓縮欄寬與字級，
+   中央訊息欄、詳情與引退頁皆不產生水平捲軸。 */
+.stat-table-wrap{display:block;width:100%;max-width:100%;overflow:hidden;padding-bottom:2px}
+.stat-table-title{margin:10px 0 3px;color:var(--dim);font-size:12px;font-weight:800;letter-spacing:.12em}
+table.season-stat-table,table.career-stat-table,table.career-cum-table,table.intl-stat-table,table.intl-compact-table{width:100%;min-width:0;table-layout:fixed}
+table.season-stat-table th,table.season-stat-table td,
+table.career-stat-table th,table.career-stat-table td,
+table.career-cum-table th,table.career-cum-table td,
+table.intl-stat-table th,table.intl-stat-table td,
+table.intl-compact-table th,table.intl-compact-table td{white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:clip;min-width:0;padding:4px 2px;line-height:1.2;font-size:clamp(8.5px,.62vw,11px);letter-spacing:0}
+table.intl-compact-table th,table.intl-compact-table td{font-size:clamp(10px,.78vw,12px);padding:5px 3px}
+.annual-stat-wrap table.season-stat-table th,.annual-stat-wrap table.season-stat-table td,
+.annual-stat-wrap table.intl-compact-table th,.annual-stat-wrap table.intl-compact-table td{
+  font-size:var(--annual-stat-font-size,13px);line-height:1.35;padding:clamp(4px,.38em,7px) 1px;
+  white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:clip
+}
+table.career-stat-table .team-cell,table.intl-stat-table .event-cell{min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis}
+table.career-stat-table .team-cell small{display:block;color:var(--dim);font-family:var(--sans);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.career-stat-table th:nth-child(1),table.career-stat-table td:nth-child(1){width:6.5%}
+table.career-stat-table th:nth-child(2),table.career-stat-table td:nth-child(2){width:5%}
+table.career-stat-table th:nth-child(3),table.career-stat-table td:nth-child(3){width:15%}
+table.intl-stat-table th:nth-child(1),table.intl-stat-table td:nth-child(1){width:7%}
+table.intl-stat-table th:nth-child(2),table.intl-stat-table td:nth-child(2){width:18%}
+table.intl-stat-table th:nth-child(3),table.intl-stat-table td:nth-child(3){width:10%}
+table.intl-stat-table .total-row{background:var(--panel2);font-weight:800}
+.award-stat{color:#ffd34d!important;font-weight:800!important}
 .divider{text-align:center;color:var(--dim);font-size:11px;letter-spacing:.4em;padding:6px 0 0}
 .divider::before,.divider::after{content:'———'}
-.yr-head{display:flex;align-items:center;justify-content:center;gap:var(--space-4);text-align:center;color:var(--dim);
-  font-size:14px;line-height:22px;letter-spacing:0;padding:8px 0 0;cursor:pointer;user-select:none}
+.yr-head{text-align:center;color:var(--dim);font-size:11px;letter-spacing:.3em;padding:8px 0 0;cursor:pointer;user-select:none}
 .yr-head:hover{color:var(--accent)}
 .yr-block.collapsed .yr-body{display:none}
-.yr-block.collapsed .yr-head::after{content:'▸'}
-.yr-block:not(.collapsed) .yr-head.has-body::after{content:'▾'}
-.yr-head::after{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;
-  font-size:20px;line-height:20px}
+.yr-block.collapsed .yr-head::after{content:' ▸'}
+.yr-block:not(.collapsed) .yr-head.has-body::after{content:' ▾'}
 /* ---------- 操作區 ---------- */
-#act-side{position:sticky;bottom:var(--game-footer-total);z-index:21;background:var(--surface-default);
-  border-top:1px solid var(--border-default);box-shadow:var(--shadow-action);
-  max-height:min(56.3dvh,calc(100vh - var(--game-footer-total) - var(--space-48)));
-  overflow-y:auto;-webkit-overflow-scrolling:touch}
+#act-side{position:sticky;bottom:0;z-index:20;background:var(--panel);border-top:2px solid var(--edge);
+  box-shadow:0 -8px 24px var(--shadow);max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 /* point-allocation UI: expand to show every ability row; tiny screens still scroll */
-#act-side.alloc{max-height:calc(100vh - var(--game-footer-h) - 48px);max-height:calc(100dvh - var(--game-footer-total) - 48px)}
+#act-side.alloc{max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px)}
 #act-in{display:flex;flex-direction:column}
 /* same affordance as the top bar's hint, so both ends of the screen read alike; and the same
    tap target too — the whole strip toggles, not just the chevron under the finger */
-#act-toggle{display:none;width:100%;min-height:var(--space-48);background:none;border:0;
-  color:var(--text-secondary);cursor:pointer;flex:none;align-items:center;justify-content:center;
-  gap:var(--space-4);padding:var(--space-12) var(--space-16)}
-/* 事件名稱可以很長（「休賽季自主訓練」這類還會帶分類前綴），一行截斷會讀不到
-   重點。改成允許換行，最多兩行，第三行才用省略號收尾。 */
-#act-toggle .act-title{min-width:0;overflow:hidden;white-space:normal;text-align:center;
-  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere;
-  font-family:var(--sans);font-size:16px;line-height:24px;font-weight:700;color:var(--text-primary)}
+#act-toggle{display:none;width:100%;min-height:40px;background:none;border:0;
+  color:var(--dim);opacity:.55;cursor:pointer;flex:none;align-items:center;justify-content:center}
 #act-toggle:hover{color:var(--accent);opacity:1}
-#act{padding:0 var(--space-16) var(--space-12)}
+#act{padding:10px 14px calc(12px + env(safe-area-inset-bottom))}
 #act .title{font-family:var(--head);font-size:12px;letter-spacing:.2em;color:var(--dim);margin-bottom:8px;font-weight:700}
-#act>.title{display:none}
-/* 手機版摺疊列只放事件名稱，引言仍要看得到，否則玩家讀不到事件在講什麼。
-   名稱在摺疊列已經有了，這裡就不重複。 */
-/* 置中：SCREEN_10 量測的引言文字左右留白為 44 / 49px（面板寬 423），
-   中心偏離畫面中線僅 3px，是置中而非靠左。摺疊列標題與所有選項也都置中，
-   只有這一行靠左會很突兀。桌機版的 .title 同時含名稱與引言，維持原本的靠左。 */
-#act>.title .ev-h{display:block}
-#act>.title small{display:block;font-family:var(--sans);font-size:13px;line-height:20px;
-  letter-spacing:0;color:var(--text-secondary);font-weight:400;margin-top:var(--space-4)}
-/* 只有大標、沒有小標的面板（分配訓練成果、球季表現…）在摺疊列上已經印過一次，
-   內文再印一次就是重複——收起來。.solo 由 actToggleSync() 依有沒有 <small> 標記。
-   兩種情形都算手機排版（都會出現摺疊列）：視窗窄於 921px，或使用者手動切到手機版，
-   所以下面兩組規則內容一樣，只是選擇器不同——只寫 body.mobile-ui 的話，
-   真的用手機開的玩家反而看不到引言。順序必須排在上面兩條之後：媒體查詢不加權重，
-   同分時看誰寫在後面。 */
-@media(max-width:920px){
-  #act>.title{display:block;margin-bottom:var(--space-12);text-align:center}
-  #act>.title .ev-h{display:none}
-  #act>.title.solo{display:none}
-  #act>.title small{margin-top:0}
-}
-body.mobile-ui #act>.title{display:block;margin-bottom:var(--space-12);text-align:center}
-body.mobile-ui #act>.title .ev-h{display:none}
-body.mobile-ui #act>.title.solo{display:none}
-body.mobile-ui #act>.title small{margin-top:0}
-#act>.btn:first-child,#act>.title:first-child+.btn{margin-top:0}
 #act.collapsed{display:none!important}
-.btn{display:block;width:100%;box-sizing:border-box;background:transparent;border:1px solid var(--border-strong);color:var(--text-primary);
-  font-family:var(--sans);font-size:16px;line-height:24px;font-weight:700;border-radius:var(--r);padding:12px 8px;margin-top:var(--space-8);
-  cursor:pointer;text-align:center;transition:background-color .15s,border-color .15s,color .15s,transform .15s,box-shadow .15s}
-.btn:active{background:var(--surface-raised);transform:scale(.98)}
-@media(hover:hover){.btn:hover{background:var(--surface-interactive);border-color:var(--border-strong)}}
-.btn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;box-shadow:0 0 0 1px var(--bg)}
-.btn>.ph,.btn>.ph-bold,.btn>.ph-fill{display:inline-flex;align-items:center;justify-content:center;
-  width:16px;height:16px;font-size:16px;margin-right:var(--space-4);vertical-align:-.13em}
-.btn small{display:block;font-weight:400;font-size:13px;line-height:20px;color:var(--text-secondary);margin-top:var(--space-4);text-align:center}
-.btn.main,.btn.filled{background:var(--surface-interactive);border-color:var(--border-strong);color:var(--text-primary)}
-.btn.main:active,.btn.filled:active{background:var(--surface-raised)}
-.btn.main small,.btn.filled small{color:var(--text-secondary);opacity:1}
-.btn.ghost{background:transparent;border-color:transparent}
-@media(hover:hover){.btn.ghost:hover{background:var(--surface-raised);border-color:transparent}}
-.btn.ghost:active{background:var(--surface-interactive);border-color:transparent}
-.btn.on,.btn[aria-pressed='true'],.btn[aria-selected='true']{background:var(--surface-interactive);border:2px solid var(--accent-primary);padding:11px 7px;color:var(--text-primary)}
-.btn.ghost.on,.btn.ghost[aria-pressed='true'],.btn.ghost[aria-selected='true']{background:var(--surface-interactive);border-color:var(--accent-primary)}
-.btn:disabled,.btn[aria-disabled='true']{background:transparent;border-color:var(--border-default);color:var(--text-muted);cursor:default;transform:none;box-shadow:none}
-.btn.main:disabled,.btn.filled:disabled{background:var(--surface-default);border-color:var(--border-default)}
-.btn.ghost:disabled,.btn.ghost[aria-disabled='true']{background:transparent;border-color:transparent}
-.btn:disabled small,.btn[aria-disabled='true'] small{color:var(--text-muted)}
-.btn.warn{border-color:color-mix(in srgb,var(--bad) 45%,var(--border-strong))}
+.btn{display:block;width:100%;background:var(--panel2);border:1px solid var(--edge);color:var(--text);
+  font-family:var(--sans);font-size:15px;font-weight:700;border-radius:var(--r);padding:11px 14px;margin-top:8px;
+  cursor:pointer;text-align:left;transition:.15s}
+.btn:active{transform:scale(.98)} .btn:hover{border-color:var(--accent)}
+.btn small{display:block;font-weight:400;font-size:12px;color:var(--dim);margin-top:2px}
+.btn.main{background:var(--btnbg);border-color:var(--btnedge);color:var(--btntx);text-align:center}
+.btn.main small{color:inherit;opacity:.8}
+.btn.warn{border-color:color-mix(in srgb,var(--bad) 40%,transparent)}
+.btn.compact{padding:7px 12px;margin-top:5px;min-height:0}
+.btn.compact small{font-size:11px;line-height:1.12;margin-top:1px}
 .btn.center{text-align:center}
 #act .row2{display:flex;gap:8px}#act .row2 .btn{flex:1;text-align:center}
-#game-footer{position:sticky;bottom:0;z-index:20;min-height:var(--game-footer-total);
-  display:flex;align-items:center;justify-content:center;gap:var(--space-8);
-  padding:0 14px env(safe-area-inset-bottom,0px);
-  background:var(--surface-default);border-top:1px solid var(--border-default);color:var(--text-muted)}
-#game-footer .wm-img{width:78px;height:26px;object-fit:contain;flex:none}
-#game-footer .sub,#game-footer .ver{color:var(--text-muted);font-size:12px;line-height:18px;font-weight:500;
-  letter-spacing:.02em;white-space:nowrap}
-#game-footer .sub{border-left:1px solid var(--border-default);padding-left:var(--space-8)}
-#game-footer .ver{font-family:var(--mono)}
 /* trait side panel: desktop top-right list of unlocked hidden traits (hidden on mobile; settlement unchanged) */
 #trait-side{display:none}
 #trait-side.empty{display:none!important}
@@ -379,7 +309,7 @@ body.mobile-ui #act>.title small{margin-top:0}
 #trait-tags .trow .td{flex:1;min-width:0;font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* 骰子與加點 */
 /* single row always: dice shrink evenly (44px cap) when the container is narrow */
-#dice{display:flex;align-items:flex-start;gap:var(--space-8);flex-wrap:nowrap;margin-bottom:var(--space-8)}
+#dice{display:flex;align-items:flex-start;gap:8px;flex-wrap:nowrap;margin-bottom:10px}
 /* dice as baseballs: light ball face + dashed stitch ring (per-theme tint), depth per theme */
 .die{flex:1 1 0;max-width:44px;min-width:0;aspect-ratio:1;height:auto;border-radius:var(--r);background:#ece7d6;border:2px solid rgba(0,0,0,.16);
   color:#13291c;font-family:var(--disp);font-size:22px;font-weight:700;line-height:1; /* inherited 1.6 would floor the auto height above the aspect-ratio square */
@@ -408,10 +338,9 @@ body[data-theme='d'] .die.active{border-color:var(--accent);box-shadow:0 3px 10p
 .die.rolling{animation:diceroll .14s linear infinite}
 @keyframes sixflash{0%,100%{box-shadow:none}45%{box-shadow:0 0 16px var(--bad),0 0 4px var(--bad)}}
 .die.flash6{animation:sixflash .6s ease}
-#al-rows{display:flex;flex-direction:column;gap:var(--space-8)}
-.pool{font-family:var(--mono);font-size:14px;color:var(--accent);font-weight:700;text-shadow:var(--glow);margin-bottom:var(--space-8)}
+.pool{font-family:var(--mono);font-size:14px;color:var(--accent);font-weight:700;text-shadow:var(--glow);margin-bottom:10px}
 .abrow{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--edge);
-  border-radius:var(--radius-selection-card);padding:8px 10px;margin-top:0;cursor:pointer;user-select:none}
+  border-radius:var(--r);padding:8px 10px;margin-top:6px;cursor:pointer;user-select:none}
 .abrow:active{border-color:var(--accent)}
 .abrow .nm{width:74px;font-size:13.5px;font-weight:700;flex:none}
 .abrow .bar{flex:1;height:8px;background:var(--bg);border-radius:4px}
@@ -422,123 +351,96 @@ body[data-theme='d'] .die.active{border-color:var(--accent);box-shadow:0 3px 10p
 .bar{position:relative}
 .bar em{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--accent);opacity:.5;border-radius:1px}
 /* ---------- 開場 ---------- */
-#start{position:fixed;inset:0;z-index:50;background:var(--bg);background-image:var(--bgfx);
-  display:flex;flex-direction:column;overflow:hidden}
-#start .wrap{flex:1;min-height:0;width:100%;max-width:560px;margin:0 auto;overflow-y:auto;
-  display:flex;flex-direction:column;align-items:stretch;
-  padding:16px var(--space-16) var(--space-24);padding-top:calc(16px + env(safe-area-inset-top,0px))}
-/* Start brand: the bitmap is wider than the reference frame, so object-fit keeps it crisp
-   inside the required display area without stretching the logo artwork. */
-#start h1.lockup{display:flex;flex-direction:column;align-items:center;gap:var(--space-12);margin-top:var(--space-24)}
-.lockup .wm-img{width:270px;max-width:100%;height:90px;object-fit:contain}
+#start{position:fixed;inset:0;z-index:50;background:var(--bg);background-image:var(--bgfx);overflow-y:auto}
+#start .wrap{max-width:560px;margin:0 auto;padding:44px 22px 60px;
+  padding-top:calc(44px + env(safe-area-inset-top,0px))}
+/* 3a main lockup (handoff spec, S=52px reference): wordmark product image + sub line.
+   The v2 wordmark canvas is 268px @4x (67px @1x) with full y-descender space baked in,
+   so 67px here renders the S=52 design 1:1; the sub gap accounts for that baked-in
+   below-baseline space. All colors ride the theme tokens; theme a matches spec exactly. */
+/* gap 3px, not the spec's 14px: the v2 image carries ~16px of below-baseline space, and
+   16+3+sub leading lands the measured baseline-to-sub distance on the 3a screenshot ratio */
+#start h1.lockup{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:18px}
+.lockup .wm-img{height:67px;max-width:100%}
 .lockup-sub{display:flex;align-items:center;gap:12px;width:100%;max-width:320px}
 .lockup-sub i{flex:1;height:1px;background:var(--edge)}
 .lockup-sub em{font-style:normal;color:var(--accent);font-weight:700;font-size:15px;
   letter-spacing:.42em;text-indent:.42em;white-space:nowrap;
   text-shadow:0 0 10px color-mix(in srgb,var(--accent) 45%,transparent)}
 body[data-theme='c'] .lockup-sub em,body[data-theme='d'] .lockup-sub em{text-shadow:none}
-#start .sub{color:var(--text-secondary);margin:var(--space-24) 0 0;font-size:14px;line-height:22px;
-  letter-spacing:0;text-align:center}
-.start-form{display:flex;flex-direction:column;gap:var(--space-12);margin-top:var(--space-24)}
+#start .sub{color:var(--dim);margin:10px 0 8px;font-size:13.5px;letter-spacing:.08em}
 .field{margin-top:18px}
-.start-form .field{margin-top:0}
 .field label{display:block;font-size:12px;letter-spacing:.25em;color:var(--dim);font-weight:700;margin-bottom:8px}
-.start-form .field label{margin-bottom:var(--space-4)}
 .field input{width:100%;background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);color:var(--text);
   font-family:var(--sans);font-size:16px;padding:11px 14px;outline:none}
 .field input:focus{border-color:var(--accent)}
 .player-id-input{display:grid;grid-template-columns:minmax(0,1fr) clamp(100px,25%,120px);align-items:stretch;
-  min-height:44px;background:var(--surface-default);border:1px solid var(--border-default);
-  border-radius:var(--radius-component);overflow:hidden;transition:border-color .15s}
+  background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
 .player-id-input:focus-within{border-color:var(--accent)}
 .player-id-input input{min-width:0;background:transparent;border:0;border-radius:0}
 .player-id-input input:focus{border-color:transparent}
-.player-id-input input{padding:8px var(--space-16)}
-.jersey-input{display:flex;align-items:center;justify-content:center;gap:4px;border-left:1px solid var(--border-default)}
+.jersey-input{display:flex;align-items:center;justify-content:center;gap:4px;border-left:1px solid var(--edge)}
 .jersey-input span{color:var(--accent);font-family:var(--mono);font-size:15px;font-weight:700}
-.player-id-input .jersey-input input{width:5ch;padding:8px 0;text-align:left;font-family:var(--mono)}
+.player-id-input .jersey-input input{width:5ch;padding:11px 0;text-align:left;font-family:var(--mono)}
 .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .seg.two{grid-template-columns:repeat(2,1fr)}
-.seg button{box-sizing:border-box;background:transparent;border:1px solid var(--border-strong);border-radius:var(--r);color:var(--text-primary);
-  font-family:var(--sans);font-size:16px;line-height:24px;font-weight:700;padding:12px 8px;cursor:pointer;
-  transition:background-color .15s,border-color .15s,color .15s,transform .15s,box-shadow .15s}
-@media(hover:hover){.seg button:hover{background:var(--surface-interactive)}}
-.seg button:active{background:var(--surface-raised);transform:scale(.98)}
-.seg button:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;box-shadow:0 0 0 1px var(--bg)}
-.seg button.on{background:var(--surface-interactive);color:var(--text-primary);border:2px solid var(--accent-primary);padding:11px 7px}
-.seg button:disabled{background:transparent;border-color:var(--border-default);color:var(--text-muted);cursor:default;transform:none;box-shadow:none}
+.seg button{background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);color:var(--dim);
+  font-family:var(--sans);font-size:14.5px;font-weight:700;padding:11px 4px;cursor:pointer}
+.seg button.on{background:var(--panel2);color:var(--accent);border-color:var(--accent)}
 #fld-ui{display:none} /* desktop-width only; shown via the media query below */
 /* display settings: a quiet text line at the seed line's visual weight, not a panel */
-#start-footer{flex:none;width:100%;max-width:560px;margin:0 auto;padding:var(--space-12) var(--space-16) calc(var(--space-12) + env(safe-area-inset-bottom,0px));
-  background:var(--bg);border-top:1px solid color-mix(in srgb,var(--edge) 55%,transparent)}
-#start-footer #btn-start{margin-top:0}
-.start-secondary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8);align-items:start;margin-top:var(--space-8)}
-#fld-display{margin-top:0;min-width:0}
-#fld-display>summary{list-style:none;cursor:pointer;min-height:50px;display:flex;align-items:center;justify-content:center;gap:var(--space-8);
-  background:transparent;border:1px solid var(--border-strong);border-radius:var(--r);
-  font-family:var(--sans);font-size:16px;line-height:24px;font-weight:700;letter-spacing:0;color:var(--text-primary);padding:12px 8px}
+#fld-display{margin-top:20px}
+#fld-display>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:7px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim);padding:2px 0}
 #fld-display>summary::-webkit-details-marker{display:none}
-#fld-display>summary .ph,#fld-display>summary .ph-bold,#fld-display>summary .ph-fill{width:16px;height:16px;font-size:16px;line-height:1}
-#fld-display>summary:hover{background:var(--surface-interactive);border-color:var(--border-strong)}
-#fld-display>summary:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;box-shadow:0 0 0 1px var(--bg)}
-#fld-display[open]>summary{border:2px solid var(--accent-primary);padding:11px 7px;background:var(--surface-interactive)}
-#fld-display>summary .sum{display:none}
-.start-preferences{display:flex;flex-direction:column;gap:var(--space-12);margin-top:var(--space-24)}
-.start-preferences[hidden]{display:none}
-.start-preferences .field{margin-top:0}
-.start-preferences .field label{margin-bottom:var(--space-8)}
-.seedline{font-family:var(--sans);font-size:12px;color:var(--dim);margin-top:0}
+#fld-display>summary::before{content:'▸';font-size:10px;display:inline-block;transition:transform .15s;flex:none}
+#fld-display[open]>summary::before{transform:rotate(90deg)}
+#fld-display>summary:hover{color:var(--accent)}
+#fld-display>summary .sum{opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#disp-body{padding-top:2px}
+
+#disp-body .field:first-child{margin-top:10px}
+.seedline{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:22px}
 /* community link: a pill in the quiet bottom band, deliberately lighter than 開始生涯 so it
    does not compete with the primary action, but with a real outline so it reads as tappable */
-#community{min-width:0;text-align:center;margin-top:0}
-#community a{min-height:50px;display:flex;align-items:center;justify-content:center;gap:var(--space-8);
-  border:1px solid var(--border-strong);border-radius:var(--r);padding:12px 8px;
-  color:var(--text-primary);text-decoration:none;font-size:16px;line-height:24px;font-weight:700;letter-spacing:0;transition:.15s}
-#community a .ph,#community a .ph-bold,#community a .ph-fill{width:16px;height:16px;font-size:16px}
-#community a:hover{background:var(--surface-interactive);border-color:var(--border-strong)}
-#community a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;box-shadow:0 0 0 1px var(--bg)}
-.start-meta{display:flex;align-items:center;justify-content:center;gap:var(--space-12);margin-top:var(--space-12);
-  color:var(--text-muted);font-size:13px;line-height:20px;font-weight:500;letter-spacing:0}
-.start-meta a{color:var(--accent-primary);text-decoration:none}
-.start-meta a:hover,.start-meta a:focus-visible{text-decoration:underline}
-#ver-badge{font-family:var(--mono);color:var(--text-muted);letter-spacing:.02em}
+#community{text-align:center;margin-top:20px}
+#community a{display:inline-flex;align-items:center;gap:7px;
+  border:1px solid var(--edge);border-radius:999px;padding:8px 16px;
+  color:var(--text);text-decoration:none;font-size:12.5px;letter-spacing:.06em;transition:.15s}
+#community a:hover,#community a:focus-visible{color:var(--accent);border-color:var(--accent)}
 /* ---------- 贊助入口 ----------
-   首頁膠囊屬於可捲動 main + 遊戲內選單的連結按鈕，兩處導向同一個贊助頁。 */
-#sponsor-corner{align-self:flex-end;height:30px;display:inline-flex;align-items:center;gap:var(--space-4);
-  border:1px solid var(--accent-primary);border-radius:var(--radius-pill);
-  background:color-mix(in srgb,var(--accent-primary) 10%,var(--surface-default));
-  padding:4px var(--space-12);color:var(--accent-primary);text-decoration:none;
-  font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:0;line-height:20px;transition:.15s}
-#sponsor-corner .ic{width:16px;height:16px;font-size:16px;line-height:1}
+   首頁右上角常駐膠囊 + 遊戲內選單的連結按鈕，兩處導向同一個贊助頁。
+   顏色一律走主題變數，四種佈景(深綠記分板/電子看板/報紙版面/現代儀表板)都能正確換色；
+   圖示用文字符號 ♥ 而不是彩色 emoji，才會跟著 currentColor 一起變，在淺色主題下不會突兀。 */
+#sponsor-corner{position:absolute;z-index:3;
+  top:calc(12px + env(safe-area-inset-top,0px));right:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid color-mix(in srgb,var(--accent) 55%,var(--edge));border-radius:999px;
+  background:color-mix(in srgb,var(--accent) 10%,var(--panel));
+  padding:7px 14px;color:var(--accent);text-decoration:none;
+  font-size:12.5px;font-weight:700;letter-spacing:.08em;line-height:1;transition:.15s}
+#sponsor-corner .ic{font-size:13px;line-height:1}
 #sponsor-corner:hover,#sponsor-corner:focus-visible{border-color:var(--accent);
   background:color-mix(in srgb,var(--accent) 20%,var(--panel));box-shadow:var(--glow)}
+/* 窄螢幕縮一點,避免跟置中的 logo 擠在一起 */
+@media (max-width:400px){#sponsor-corner{top:calc(10px + env(safe-area-inset-top,0px));right:10px;padding:6px 11px;font-size:11.5px}}
 /* 選單內的贊助按鈕沿用 .btn 外觀,但因為是 <a> 必須蓋掉底線與 a 的預設連結色 */
 a.btn{text-decoration:none;color:var(--text)}
 a.btn#md-sponsor{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--edge))}
 a.btn#md-sponsor:hover,a.btn#md-sponsor:focus-visible{border-color:var(--accent)}
 a.btn#md-sponsor small{color:var(--dim)}
 .seedline b{color:var(--accent)}
-.seed-input-row{display:grid;grid-template-columns:minmax(0,1fr) 100px;min-height:44px;
-  background:var(--surface-default);border:1px solid var(--border-default);border-radius:var(--radius-component);
-  overflow:hidden;transition:border-color .15s}
-.seed-input-row:focus-within{border-color:var(--accent-primary)}
-#seed-show{min-width:0;width:100%;background:transparent;color:var(--text-primary);border:0;border-radius:0;
-  padding:8px var(--space-16);font-family:var(--mono);font-size:16px;line-height:24px;text-align:left}
-#seed-re{display:flex;align-items:center;justify-content:center;gap:var(--space-8);border-left:1px solid var(--border-default);
-  color:var(--text-primary);text-decoration:none;font-size:16px;line-height:24px;font-weight:700}
-#seed-re .ph,#seed-re .ph-bold,#seed-re .ph-fill{width:16px;height:16px;font-size:16px}
-#seed-re:hover,#seed-re:focus-visible{color:var(--accent-primary);background:var(--surface-interactive)}
-#seed-re:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px}
-.seed-hint{margin-top:var(--space-4);color:var(--text-muted);font-size:13px;line-height:20px}
+#seed-show{width:120px;background:var(--panel);color:var(--accent);border:1px solid var(--edge);
+  border-radius:min(var(--r),6px);padding:2px 6px;font-family:inherit;font-size:12px;text-align:center}
 /* logo wordmark image (handoff assets): height is set per context; applyTheme swaps cream/dark src */
 .wm-img{width:auto;display:block}
-/* Phosphor icon button for the HUD menu control. */
-#btn-menu{width:var(--space-48);height:var(--space-48);flex:none;background:none;border:1px solid var(--border-strong);
- border-radius:var(--radius-component);padding:0;cursor:pointer;
- display:flex;align-items:center;justify-content:center;color:var(--dim)}
-#btn-menu .ph-bold{font-size:24px}
-#btn-menu:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
-@media(hover:hover){#btn-menu:hover{border-color:var(--accent);color:var(--accent)}}
+/* three-line icon button (1A handoff), replacing the 「選單」 text button */
+#btn-menu{width:36px;height:36px;flex:none;background:none;border:1px solid var(--edge);
+ border-radius:min(var(--r),8px);padding:0;cursor:pointer;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+#btn-menu i{width:14px;height:2px;border-radius:1px;background:var(--dim);transition:background .15s}
+#btn-menu:hover{border-color:var(--accent)}
+#btn-menu:hover i{background:var(--accent)}
 /* ---------- 主題化對話框(取代原生 confirm) ---------- */
 #modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:22px}
 #modal.show{display:flex}
@@ -552,75 +454,6 @@ a.btn#md-sponsor small{color:var(--dim)}
   border-left:1px solid var(--edge);padding-left:8px;white-space:nowrap}
 .md-brand .ver{font-family:var(--mono);font-size:10px;color:var(--dim);opacity:.7;letter-spacing:.05em}
 #modal-box p{font-size:14px;margin:6px 0 4px}
-/* Tall modals (settlement options, anything in big-text mode) must stay reachable on a
-   short phone: #modal centres its box, so without this the confirm button is simply
-   scrolled off both ends of the screen. dvh overrides vh where supported. */
-#modal-box{max-height:calc(100vh - 44px);max-height:calc(100dvh - 44px);overflow-y:auto}
-/* ---- 結算圖面板 ---- */
-/* A flex column: only .sh-body scrolls. Two scrollers stacked inside each other (an image
-   box inside a scrolling modal) is the thing this layout exists to avoid. */
-#modal-box.sh-sheet{max-width:420px;padding:0;overflow:hidden;display:flex;flex-direction:column}
-/* Phones get the whole screen rather than a centred card: #modal's own padding plus the
-   card inset cost ~44px of height, which is the scarcest thing on a small handset.
-   position:fixed breaks out of that padded flex parent without touching #modal itself. */
-/* 只有「窄」螢幕才整頁接管。原本 (max-height:720px) 是單獨的條件，於是任何
-   矮但寬的桌機視窗也會被判定成手機，結算圖就攤成整個螢幕寬。矮桌機視窗改由
-   #modal-box 既有的 max-height + 內部捲動處理即可。 */
-@media (max-width:560px),(max-width:820px) and (max-height:720px){
-  #modal-box.sh-sheet{position:fixed;inset:0;width:auto;max-width:none;height:auto;max-height:none;
-    border-radius:0;border-width:0}
-}
-.sh-head{flex:none;min-height:50px;display:flex;align-items:center;gap:var(--space-8);padding:var(--space-12) var(--space-16)}
-.sh-head h3{flex:1;margin:0}
-.sh-x{flex:none;width:32px;height:32px;background:none;border:0;color:var(--dim);font-size:20px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center}
-.sh-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 var(--space-16) var(--space-12)}
-.sh-foot{flex:none;padding:var(--space-12) var(--space-16);border-top:1px solid var(--edge);background:var(--panel)}
-/* buttons do not inherit body's line-height (the UA sheet sets it), so the emoji in the
-   primary label grew its line box and made that button 4px taller than the pair below.
-   Pinning one line-height for the footer keeps all three the same height. */
-.sh-foot .btn{line-height:1.5}
-/* direct child only: as a descendant selector this also caught .sh-row's first button,
-   zeroing its top margin while its sibling kept one — the row then stretched them to
-   different heights with mismatched top edges */
-.sh-foot > .btn:first-child{margin-top:0}
-.sh-lab{font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--dim);margin:var(--space-12) 0 var(--space-8)}
-/* The settlement sheet is ~1:1.6 and would still be ~570px tall at phone width, so it is shown
-   clipped to its top (the part that identifies the player) and expands to full height on tap —
-   the panel's own scroll carries it, and the footer stays pinned. */
-.sh-frame{position:relative;border:1px solid var(--edge);border-radius:8px;background:var(--row);
-  overflow:hidden;cursor:pointer}
-.sh-frame.clip{max-height:36vh;max-height:min(36dvh,300px)}
-.sh-frame img{display:block;width:100%}
-.sh-frame img:not([src]){display:none} /* first paint has no source yet: no broken-image icon */
-.sh-frame.busy img{opacity:.3}
-.sh-frame.busy .sh-more{display:none}
-.sh-wait{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--dim)}
-.sh-frame.busy .sh-wait{display:flex}
-.sh-more{position:absolute;left:0;right:0;bottom:0;padding:26px 0 7px;text-align:center;
-  font-size:11px;letter-spacing:.16em;color:var(--dim);pointer-events:none;
-  background:linear-gradient(transparent,var(--panel) 78%)}
-.sh-frame:not(.clip) .sh-more{position:static;background:var(--panel);padding:7px 0}
-.sh-seg button{display:flex;align-items:center;gap:8px;text-align:left;font-size:13px;padding:12px 10px;line-height:1.25}
-.sh-seg .sh-sw{width:4px;height:20px;border-radius:2px;flex:none}
-.sh-mode{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.sh-mode .btn{min-width:0;margin-top:0;padding:11px 5px;text-align:center;font-size:12px;line-height:1.35}
-.btn.sh-chk{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:var(--space-8);
-  padding:var(--space-16);border-radius:var(--radius-selection-card);text-align:left}
-.btn.sh-chk small{grid-column:2;justify-self:start;margin-top:0;text-align:left}
-.sh-box{width:20px;height:20px;border:1px solid var(--border-strong);border-radius:var(--space-4);
-  display:inline-flex;align-items:center;justify-content:center}
-.btn.sh-chk.on{border-color:var(--accent)}
-.btn.sh-chk.on .sh-box{border-color:var(--accent);background:var(--surface-interactive)}
-.btn.sh-chk.on .sh-box::after{content:'✓';color:var(--accent);font-family:var(--mono);font-size:14px;line-height:1}
-/* the card version of this note is a .statline panel; inside the sheet that reads as a
-   third, dead button under the two real ones, so it is a plain caption here */
-.sh-hint{font-size:11.5px;color:var(--dim);text-align:center;margin-top:9px;line-height:1.5}
-.sh-row{display:flex;gap:8px;margin-top:8px}
-.sh-row .btn{flex:1;text-align:center;margin-top:0}
-body.big-text .sh-seg button{font-size:17.4px}
-body.big-text .sh-mode .btn{font-size:15px}
 /* ================= 大字模式（設定：字級） =================
    Additive only: none of the base declarations above are edited, so syncing with
    upstream stays conflict-free. Card body text comes from body{font-size:15px} by
@@ -674,11 +507,10 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
 @media(min-width:921px){
   /* body.mobile-ui opts out of the desktop layout (user toggle in the menu) */
   /* right column widens on large screens so 7 dice (max roll) fit at full size */
-  body:not(.mobile-ui) #app{display:grid;grid-template-columns:250px minmax(0,1fr) clamp(340px,31vw,400px);
-    grid-template-rows:minmax(0,1fr) var(--game-footer-total);align-items:stretch;
+  body:not(.mobile-ui) #app{display:grid;grid-template-columns:250px minmax(0,1fr) clamp(340px,31vw,400px);align-items:stretch;
     max-width:1360px;margin:0 auto;border-left:1px solid var(--edge);border-right:1px solid var(--edge)}
   body:not(.mobile-ui) #tl-side{display:block}
-  body:not(.mobile-ui) #tl-in{position:sticky;top:0;height:calc(100vh - var(--game-footer-h));height:calc(100dvh - var(--game-footer-total));overflow:hidden}
+  body:not(.mobile-ui) #tl-in{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden}
   body:not(.mobile-ui) #tl-strip{display:none}
   body:not(.mobile-ui) #board{padding:14px 26px 12px;padding-top:calc(14px + env(safe-area-inset-top,0px))}
   body:not(.mobile-ui) #log{padding:18px 26px 26px}
@@ -688,18 +520,30 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
      scrolls away with the body */
   body:not(.mobile-ui) #act-side{position:static;max-height:none;overflow:visible;border-top:none;border-left:1px solid var(--edge);box-shadow:none}
   body:not(.mobile-ui) #trait-side{display:block;padding:14px 14px 10px;max-height:42vh;overflow-y:auto;flex:0 3 auto;min-height:0}
-  body:not(.mobile-ui) #act-in{position:sticky;top:0;height:calc(100vh - var(--game-footer-h));height:calc(100dvh - var(--game-footer-total));overflow:hidden;padding:12px 6px 16px}
+  body:not(.mobile-ui) #act-in{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;padding:12px 6px 16px}
   body:not(.mobile-ui) #act-toggle{display:none!important}
   body:not(.mobile-ui) #act.collapsed{display:block!important}
   body:not(.mobile-ui) #act{padding:8px 14px 16px;margin-top:auto;overflow-y:auto;min-height:0}
-  body:not(.mobile-ui) #act>.title{display:block}
+  /* 感情四階段（固定互動、機率、必然、隨機）共用全高右欄；選項超出時
+     從最貼近底部的位置開始呈現，使用右欄捲軸向上查看。 */
+  body:not(.mobile-ui).love-rounds #trait-side{display:none}
+  body:not(.mobile-ui).focus-actions #trait-side{display:none}
+  /* 全頁選單一律貼齊視窗底邊，內容增加時向上延伸；選項過多才由右欄捲動。 */
+  body:not(.mobile-ui).focus-actions #act{margin-top:auto;overflow-y:auto}
+  body:not(.mobile-ui).love-rounds #act{margin-top:auto;padding:8px 12px 10px;overflow-y:auto}
+  body:not(.mobile-ui).love-rounds #act .title{font-size:12px;margin-bottom:6px;letter-spacing:.12em}
+  /* 1080p 全螢幕以十一列為基準：十列時只留約一列空間，十二列以上才需要捲動。 */
+  body:not(.mobile-ui).love-rounds #act .btn{font-size:16px;line-height:1.18;padding:10px 12px;margin-top:5px;min-height:clamp(68px,calc((100dvh - 136px)/11),88px)}
+  body:not(.mobile-ui).love-rounds #act .btn.compact{font-size:14px;line-height:1.1;padding:5px 10px;margin-top:3px;min-height:42px}
+  body:not(.mobile-ui).love-rounds #act .btn.compact small{font-size:11px;line-height:1.1;margin-top:1px}
+  body:not(.mobile-ui).love-rounds #act .btn small{font-size:12px;line-height:1.2;margin-top:3px}
   body:not(.mobile-ui) #start .wrap{padding-top:64px}
   body.mobile-ui #app{max-width:560px;margin:0 auto}
   /* keep the allocation panel on the same column as #app above; these two must match */
   body.mobile-ui #af-inner{max-width:560px}
-  body:not(.mobile-ui) #game-footer{grid-column:1/-1;grid-row:2}
   #fld-ui{display:block} /* unguarded: visible in both layouts so it can switch back */
 }
+.field select{width:100%;box-sizing:border-box;background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);color:var(--text);padding:11px 12px;font:inherit}
 /* ---------- 頂部欄的桌面版型(1A):容器 >=600px ----------
    Same container as the compact bar above, so the two states are mutually exclusive by
    construction and no third, undesigned layout can appear between them. The threshold is a
@@ -719,9 +563,13 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
   body:not(.mobile-ui) #bd-id{gap:5px}
   body:not(.mobile-ui) #bd-name{font-size:21px}
   body:not(.mobile-ui) #bd-role{gap:6px}
+  body:not(.mobile-ui) .bd-chip{font-size:11px;padding:1px 8px}
   body:not(.mobile-ui) .bt-name.plain{font-size:15px;letter-spacing:.06em}
-  body:not(.mobile-ui) #btn-menu{margin-left:6px}
-  body:not(.mobile-ui) #bd-grid{grid-template-columns:repeat(4,1fr) 62px;gap:6px;margin-top:12px}
+  body:not(.mobile-ui) .bt-name.chip{font-size:14px;padding:2px 8px}
+  body:not(.mobile-ui) .bt-badge{font-size:11px}
+  body:not(.mobile-ui) #btn-menu{width:38px;height:38px;gap:3.5px;margin-left:6px}
+  body:not(.mobile-ui) #btn-menu i{width:15px}
+  body:not(.mobile-ui) #bd-grid{grid-template-columns:repeat(6,1fr) 62px;gap:6px;margin-top:12px}
   body:not(.mobile-ui) #bd-more .lb{font-size:10px;letter-spacing:.15em}
   body:not(.mobile-ui) .bd-cell b{font-size:19px}
   /* all four blocks are on screen at once, so the tab strip is a compact-layout affordance */
@@ -734,9 +582,9 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
      (30 seasons, 20 honours) crowd the other three blocks out; 薪資 is always 3 rows, and
      逐年 gets the most room because it is the block with the most to say */
   body:not(.mobile-ui) .bd-sec{display:block;overflow-y:auto}
-  body:not(.mobile-ui) .sec-h,body:not(.mobile-ui) .sec-t{max-height:14vh}
+  body:not(.mobile-ui) .sec-h,body:not(.mobile-ui) .sec-r,body:not(.mobile-ui) .sec-t{max-height:14vh}
   body:not(.mobile-ui) .sec-y{max-height:22vh}
-  body:not(.mobile-ui) .sec-t,body:not(.mobile-ui) .sec-y{grid-column:1/-1}
+  body:not(.mobile-ui) .sec-r,body:not(.mobile-ui) .sec-t,body:not(.mobile-ui) .sec-y{grid-column:1/-1}
   /* padding, not margin, so the sticky heading's background covers the row scrolling under it */
   body:not(.mobile-ui) .bd-sh{display:flex;position:sticky;top:0;z-index:1;
     background:var(--row);margin-bottom:0;padding-bottom:7px}
@@ -765,8 +613,10 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
 #mid{container-type:inline-size}
 @container (max-width:599px){
   #board{cursor:pointer}
-  /* TASK-10: compact uses the real 48px detail button; the old full-bar hint no longer
-     participates in HUD height. */
+  /* the whole bar is the toggle, so the 詳情 cell is not drawn. It stays in the tab order for
+     keyboard and AT and shows itself when focused. */
+  #bd-more{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%)}
+  #bd-more:focus-visible{position:static;width:auto;height:auto;padding:2px 8px;clip-path:none}
   /* A phone cannot hold the desktop row whole: 390px leaves the identity block 112px and the
      two chips want 159. The 稱號 chip is the one the author never asked to see there, so it
      moves to the panel's first line and 守位 keeps its place beside the name. Below ~360px the
@@ -784,13 +634,14 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
   .bt-badge.nomob{display:none}
   .bt-badge .lw{display:none} .bt-badge .lc{display:inline}
   #lamps{display:none} /* the season moves into the panel; this row becomes the year strip */
-  #bd-hint,#tl-strip{display:none}
+  #bd-hint{display:flex;justify-content:center;padding-top:8px;color:var(--dim);opacity:.55}
   /* same affordance as #act-toggle:hover at the other end of the screen: wherever the bar
      itself is the tap target, hovering lights the chevron. The live controls inside the bar
      (menu, panel, year strip, salary cell) are not bar taps — same exclusion list as the
      click handler in dom.js — so hovering them keeps the hint quiet. */
-  #board:hover:not(:has(#btn-menu:hover,#bd-detail:hover,#tl-strip:hover,#bd-sal-cell:hover)) #bd-hint{color:var(--accent);opacity:1}
+  #board:hover:not(:has(#btn-menu:hover,#bd-detail:hover,#tl-strip:hover,#bd-sal-cell:hover,#bd-cash-cell:hover)) #bd-hint{color:var(--accent);opacity:1}
   #board.detail-open #bd-hint .chev{transform:rotate(180deg)}
+  #tl-strip{margin-top:8px;padding-bottom:0} /* the strip joins the same 8px rhythm as the rows */
   /* Under ~360px even the 守位 chip has nowhere to go: 320px leaves the identity block 41px
      against the chip's 79. Drop the chips from the bar there; the panel's first row has both. */
   @container (max-width:359px){ #bd-role{display:none} }
@@ -813,73 +664,31 @@ body.big-text #alloc-full .af-title{font-size:17.4px}
   #bd-detail .bd-mark .sub{color:var(--dim);font-size:9px;letter-spacing:.2em;line-height:1;
     border-left:1px solid var(--edge);padding-left:7px;white-space:nowrap}
   #bd-detail .bd-mark .ver{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.05em}
+  /* the compact layout has no brand anywhere on the main screen (the timeline column is
+     hidden, the top bar has no room), so the log signs off the same way the panel does:
+     in flow at the very bottom, right above the action strip — the auto-scroll keeps the
+     log's tail on screen, so it reads as a quiet fixture without ever covering a card */
+  #log-mark{display:flex;align-items:center;justify-content:center;gap:7px;opacity:.45;
+    padding:0 14px 10px}
+  #log-mark .wm-img{height:14px}
+  #log-mark .sub{color:var(--dim);font-size:9px;letter-spacing:.2em;line-height:1;
+    border-left:1px solid var(--edge);padding-left:7px;white-space:nowrap}
+  #log-mark .ver{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.05em}
 }
 
-/* ==========================================================================
-   捲軸一律不顯示（v1.5.9 UI）
-   使用者要求：任何介面都不要在旁邊出現捲軸。仍然可以捲動，只是不畫那條軌道。
-   直向與橫向都蓋掉——#tl-strip、.sec-y 這類橫向捲動區同樣適用。
-   ========================================================================== */
-html{scrollbar-width:none;-ms-overflow-style:none}
-*,*::before,*::after{scrollbar-width:none;-ms-overflow-style:none}
-*::-webkit-scrollbar{width:0;height:0;background:transparent}
-*::-webkit-scrollbar-thumb,*::-webkit-scrollbar-track{background:transparent}
-
-/* ==========================================================================
-   開場畫面：矮視窗也要一屏放得下
-   問題：#start .wrap 的垂直節奏是固定的 24px，加上桌機版額外的 64px 上留白，
-   在 720p 桌機視窗與 667px 高的手機都會溢出（實測 +39px 與 +86px），
-   於是開場就出現內部捲動。這裡不改版面結構，只在視窗變矮時等比收斂節奏。
-   仍然使用既有的 --space-* token，不用魔術數字。
-   ========================================================================== */
-@media (max-height:820px){
-  body:not(.mobile-ui) #start .wrap{padding-top:var(--space-24)}
-  #start h1.lockup{margin-top:var(--space-8)}
-  .lockup .wm-img{height:72px}
-  #start .sub{margin-top:var(--space-12)}
-  .start-form{margin-top:var(--space-16)}
-  .start-form{gap:var(--space-8)}
-}
-@media (max-height:700px){
-  body:not(.mobile-ui) #start .wrap{padding-top:var(--space-12)}
-  #start h1.lockup{margin-top:0;gap:var(--space-8)}
-  .lockup .wm-img{height:60px}
-  #start .sub{margin-top:var(--space-8);font-size:13px;line-height:20px}
-  .start-form{margin-top:var(--space-12)}
-  .field input,.player-id-input input{padding-top:var(--space-8);padding-bottom:var(--space-8)}
-  .seg button{padding-top:var(--space-8);padding-bottom:var(--space-8)}
-}
-@media (max-height:660px){
-  body:not(.mobile-ui) #start .wrap{padding-top:var(--space-8)}
-  #start .wrap{padding-bottom:var(--space-12)}
-  .lockup .wm-img{height:52px}
-  #start h1.lockup{gap:var(--space-4)}
-  .lockup-sub em{font-size:13px;letter-spacing:.3em;text-indent:.3em}
-  #start .sub{margin-top:var(--space-4)}
-  .start-form{margin-top:var(--space-8);gap:var(--space-8)}
-  .field label{margin-bottom:var(--space-2)}
-}
-/* 空的顯示設定面板不該還占著 24px 的上留白（極矮視窗差這一格就溢出） */
-#disp-body:empty{margin-top:0}
-/* 320×568 這種極端尺寸：標語讓位，優先保證表單與按鈕完整可見 */
-@media (max-height:600px){
-  #start .sub{display:none}
-  #start h1.lockup{margin-top:0}
-}
-/* 分配面板的操作提示（SCREEN_09 的說明列）：標題只留區塊名，提示獨立一行 */
-.al-hint{font-size:13px;line-height:20px;color:var(--text-secondary);text-align:center;
-  padding:0 0 var(--space-8)}
-
-/* ---------- 特別感謝 ---------- */
-.md-thanks .cr-h{font-family:var(--head);font-size:13px;letter-spacing:.28em;text-indent:.28em;
-  color:var(--accent);text-align:center;margin:var(--space-16) 0 var(--space-12);font-weight:700}
-.md-thanks .cr-list{list-style:none;margin:0;padding:0;
-  display:flex;flex-direction:column;gap:var(--space-12)}
-.md-thanks .cr-list li{display:flex;flex-direction:column;gap:var(--space-2);
-  background:var(--surface-raised);border:1px solid var(--border-default);
-  border-radius:var(--radius-component);padding:var(--space-12) var(--space-16)}
-.md-thanks .cr-list b{color:var(--accent);font-size:15px;line-height:22px;font-weight:700}
-.md-thanks .cr-roster{color:var(--text-primary);font-size:13px;line-height:20px}
-.md-thanks .cr-what{color:var(--text-secondary);font-size:13px;line-height:20px}
-.md-thanks .cr-you{text-align:center;color:var(--text-primary);font-size:14px;line-height:22px;
-  margin:var(--space-16) 0 0}
+/* ================= 離線版 F10 修改器 ================= */
+#trainer-hint{position:fixed;left:12px;bottom:12px;z-index:40;border:1px solid var(--edge);border-radius:999px;background:var(--panel);color:var(--text);padding:7px 12px;box-shadow:0 5px 18px var(--shadow);font:700 12px var(--sans);cursor:pointer;opacity:.72}
+#trainer-hint:hover{opacity:1;border-color:var(--accent)}
+#f10-trainer[hidden]{display:none!important}
+#f10-trainer{position:fixed;inset:0;z-index:1000;background:#000a;display:flex;align-items:center;justify-content:center;padding:18px}
+#f10-trainer .tr-panel{width:min(880px,100%);max-height:min(850px,95vh);display:grid;grid-template-rows:auto auto 1fr auto;background:var(--panel);color:var(--text);border:1px solid var(--edge);border-radius:14px;box-shadow:0 20px 70px #000b;overflow:hidden}
+#f10-trainer header,#f10-trainer footer{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--panel2);border-bottom:1px solid var(--edge)}
+#f10-trainer header>div{display:flex;flex-direction:column;gap:2px;flex:1}#f10-trainer header b{font-size:20px}#f10-trainer header small{color:var(--dim)}
+#f10-trainer header button{font-size:25px;background:none;border:0;color:var(--text);cursor:pointer}
+#f10-trainer .tr-tabs{display:flex;gap:7px;padding:9px 16px;background:var(--panel2);border-bottom:1px solid var(--edge)}
+#f10-trainer .tr-tabs button.on{border-color:var(--accent);color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+#f10-trainer footer{border-top:1px solid var(--edge);border-bottom:0;justify-content:flex-end}#f10-trainer footer span{flex:1;color:var(--dim);font-size:12px}#f10-trainer footer span.bad{color:#ff7474}
+#tr-body{overflow:auto;padding:16px;display:grid;gap:14px}#tr-body section{padding:14px;border:1px solid var(--edge);border-radius:10px;background:var(--bg)}#tr-body h3{margin:0 0 12px;color:var(--accent)}#tr-body p{margin:0 0 10px;color:var(--dim);font-size:13px}
+.tr-grid{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:10px}.tr-grid label{display:grid;gap:5px;color:var(--dim);font-size:12px}.tr-grid input,.tr-grid select{width:100%;box-sizing:border-box;border:1px solid var(--edge);border-radius:7px;background:var(--panel);color:var(--text);padding:8px;font:inherit}.tr-grid .tr-read output{min-height:18px;border:1px solid var(--edge);border-radius:7px;background:var(--panel2);color:var(--accent);padding:8px;font-weight:800}.tr-grid .tr-check{display:flex;align-items:center;gap:8px;min-height:58px;border:1px solid var(--edge);border-radius:7px;padding:8px;background:var(--panel2)}.tr-grid .tr-check input{width:auto;flex:0 0 auto}.tr-grid .tr-check span{color:var(--text)}
+.tr-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}#f10-trainer button{border:1px solid var(--edge);border-radius:7px;background:var(--panel2);color:var(--text);padding:8px 12px;cursor:pointer}#f10-trainer button.primary{background:var(--accent);color:#07110d;font-weight:800}
+@media(max-width:650px){.tr-grid{grid-template-columns:repeat(2,minmax(110px,1fr))}#trainer-hint{bottom:76px}#f10-trainer footer{flex-wrap:wrap}#f10-trainer footer span{flex-basis:100%}}

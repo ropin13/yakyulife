@@ -1,0 +1,32 @@
+YaKyoLife Offline Career Expansion v0.11.0
+感情系統重構版
+
+本版基於 v0.10.1 重構，重點：
+1. 每個人物只保留一種目前關係值：朋友=好感、戀人=戀愛、配偶=婚姻。
+2. 三種數值皆為 0~100；30 僅作為戀愛／婚姻危機門檻。
+3. 每年感情流程固定：三次主動互動 → 機率觸發 → 必然觸發 → 隨機事件。
+4. 主動互動固定六種正向選項：免費、低消×2、中消×2、高消；另有冷漠、絕交／分手／離婚、告白／求婚、生小孩等關係型選項。
+5. 正向互動數值：+5~10、+10~15、+15~20、+20~25、+25~30、+30~35，均為隨機值。
+6. 金錢改為依人生階段的隨機範圍扣款，設定集中於 relationship/interaction_actions.js。
+7. 告白／求婚：40~59 為 10%，60~100 為數值-20；失敗 -10。
+8. 戀愛／婚姻低於 30 連續兩年後進入必然危機；挽回各一生一次，成功恢復到 30。
+9. 分手／離婚回到朋友，好感度 50。
+10. 多重關係懲罰於三次主動互動後結算：2人 -5、3人 -10、4人以上 -15；配偶不計入人數但同樣受罰。
+11. 機率觸發事件採「先從符合條件事件池抽一項，再依符合數量決定真正出現率」：1~3項30%，4項40%，5項50%，6項60%，7項70%，8項以上80%。
+12. 必然事件支援 priority 與 allowTogether。
+13. 已懷孕隔年進入必然生產事件，可選男／女／隨機。
+14. 每年隨機事件從符合條件的事件資料庫抽 8 個供玩家選擇，選後可有第二層選項與固定／機率結果。
+15. 學生人物池10人、職業人物池10人，兩池不重複；另支援自訂姓名與職業。
+
+資料檔：
+src/data/relationship/interaction_actions.js
+src/data/relationship/probability_events.js
+src/data/relationship/mandatory_events.js
+src/data/relationship/random_events.js
+src/data/relationship/people_student.js
+src/data/relationship/people_professional.js
+src/data/relationship/pregnancy_rules.js
+
+測試：
+- 已完成所有 JavaScript 檔案 node --check 語法檢查。
+- 尚未完成完整瀏覽器互動回歸測試；建議先測試新遊戲、三次互動、告白、求婚、多人懲罰、危機兩年、懷孕／生產及隨機事件八選一流程。

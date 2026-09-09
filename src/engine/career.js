@@ -1,10 +1,9 @@
-import {S} from '../core/state.js?v=1.5.12';
-import {clamp} from '../core/rng.js?v=1.5.12';
-import {DPN, POSN, POS_ADJ_RUNS, POS_TIER_K, POS_TIER_STR} from '../data/abilities.js?v=1.5.12';
-import {LG_N} from '../data/teams.js?v=1.5.12';
-import {TIER_TH, LEAGUE_K, MILESTONE_DEF, HOF_TH_K} from '../data/economy.js?v=1.5.12';
-import {fmtIP, slgOf, roleName3, baseballERA, baseballWHIP} from './season.js?v=1.5.12';
-import {isCareerScoringAward} from './award-rules.js?v=1.5.12';
+import {S} from '../core/state.js?v=offline-0.30.0';
+import {clamp} from '../core/rng.js?v=offline-0.30.0';
+import {DPN, POSN, POS_ADJ_RUNS, POS_TIER_K, POS_TIER_STR} from '../data/abilities.js?v=offline-0.30.0';
+import {LG_N} from '../data/teams.js?v=offline-0.30.0';
+import {TIER_TH, LEAGUE_K, MILESTONE_DEF, HOF_TH_K} from '../data/economy.js?v=offline-0.30.0';
+import {fmtIP, slgOf, roleName3, baseballERA, baseballWHIP} from './season.js?v=offline-0.30.0';
 /* ================= 生涯終章 ================= */
 const BUCKET_G={CPBL:120,NPB:143,MLB:162};
 /* 守位分：守位難度(POS_ADJ_RUNS 以「每 162 場」計)換算成該聯盟的實際球季長度。
@@ -65,9 +64,14 @@ export function hitterCareerScore(st,bucket){
 }
 export function careerScore(st,bucket){
   if(S.pos==='P')return pitcherCareerScore(st,bucket);
+  if(S.pos==='TW'){
+    const pit={...st,G:st.pitchG||0,H:st.pitchH||0,BB:st.pitchBB||0};
+    return hitterCareerScore(st,bucket)+pitcherCareerScore(pit,bucket)*0.5;
+  }
   return hitterCareerScore(st,bucket);
 }
 export function primaryPos(){ /* 生涯主守位:過半→該位;無過半→工具人/搖擺人(年數降序) */
+  if(S.pos==='TW')return `二刀流（${roleName3(S.role)}／${DPN[S.dpos||S.twoWayBatPos]||'指定打擊'}）`;
   if(S.pos==='P'){
     const ry=S.roleYears||{}; const tot=Object.values(ry).reduce((a,b)=>a+b,0);
     if(!tot)return roleName3(S.role);
@@ -90,13 +94,6 @@ export function capTeam(bucket){ /* 該聯盟效力最久的球隊,作為名人�
   for(const k in tb)if(tb[k]>bn){bn=tb[k];best=k;}
   return best;
 }
-export function primaryDposByGames(st){ /* 依該聯盟生涯守備出賽數決定代表守位 */
-  if(!st||!st.DPG)return null;
-  const entries=Object.entries(st.DPG)
-    .filter(([dp,g])=>dp&&dp!=='—'&&Number(g)>0)
-    .sort((a,b)=>b[1]-a[1]);
-  return entries.length?entries[0][0]:null;
-}
 export function defShare(bucket){ /* 守備貢獻占生涯總價值比重 0~1 */
   const st=S.stats[bucket]; if(!st||S.pos==='P')return 0;
   const off=st.H+st.HR*3+st.SB*0.8+st.RBI*0.5+st.BB*0.3;
@@ -105,7 +102,7 @@ export function defShare(bucket){ /* 守備貢獻占生涯總價值比重 0~1 */
 }
 export function posLegendPhrase(bucket){ /* 依守備占比與獎項決定守位敘述 */
   const share=defShare(bucket), st=S.stats[bucket];
-  const dp=primaryDposByGames(st)||(S.pos==='C'?'C':null);
+  const dp=S.dpos||(S.pos==='C'?'C':null);
   const hasGlove=S.honors.some(h=>h.includes('金手套')||h.includes('守備聖經'));
   if(S.pos==='P'||!dp||dp==='DH')return '';
   const posN=DPN[dp]||'';
@@ -115,33 +112,25 @@ export function posLegendPhrase(bucket){ /* 依守備占比與獎項決定守位
 }
 export function honorScore(bucket){
   const lg={CPBL:'中職',NPB:'日職',MLB:'大聯盟'}[bucket];
-  const years=new Map();
+  const champ={CPBL:/中職(?:年度)?總冠軍/,NPB:/日本一/,MLB:/世界大賽冠軍/}[bucket];
+  const isAce=h=>h.includes('最佳投手')||h.includes('最佳打者')||h.includes('賽揚')||h.includes('澤村');
+  let sc=0,mvp=0,aceN=0,king=0;
   S.honors.forEach(h=>{
-    if(!h.includes(lg))return;
-    const m=String(h).match(/^(\d{4})\s+(.+)$/); if(!m)return;
-    const award=m[2];
-    /* 仍完整顯示於履歷，但不納入生涯評價。浴火重生也共用這把尺，
-       避免新人王／明星賽／球隊冠軍等零分獎項誤觸發。 */
-    if(!isCareerScoringAward(award))return;
-    if(!years.has(m[1]))years.set(m[1],[]);
-    years.get(m[1]).push(award);
-  });
-  let sc=0;
-  years.forEach(awards=>{
-    /* 同年度的大獎只取最高層級；三冠王已包含其構成獎項，不重複加總。 */
-    const major=awards.some(a=>/投手三冠王|打擊三冠王/.test(a))?700
-      :awards.some(a=>/年度MVP/.test(a))?520
-      :awards.some(a=>/最佳投手|最佳打者|賽揚/.test(a))?460:0;
-    const titleN=awards.filter(a=>/(勝投王|防禦率王|三振王|救援王|中繼王|打擊王|全壘打王|盜壘王|打點王|上壘王)$/.test(a)).length;
-    const titles=Math.min(200,titleN*100);
-    /* 守備獎獨立於打擊獎計分；同年兩者皆有時只取層級較高的守備聖經。 */
-    const fielding=awards.some(a=>/守備聖經/.test(a))?250
-      :awards.some(a=>/金手套/.test(a))?100:0;
-    /* 大獎與打擊單項王取較高者，再加上獨立的守備價值；不同年度仍完整累積。 */
-    sc+=Math.max(major,titles)+fielding;
+    if(champ.test(h)){sc+=90;return;}
+    const belongs=h.includes(lg)||(bucket==='NPB'&&h.includes('澤村賞'))||(bucket==='MLB'&&/國聯賽揚獎|美聯賽揚獎/.test(h));
+    if(!belongs)return;
+    if(isAce(h)){sc+=460;aceN++;return;}
+    if(h.includes('年度MVP')){sc+=420;mvp++;}
+    else if(h.includes('新人王'))sc+=140;
+    else if(h.includes('金手套')){sc+=300;king++;}
+    else if(h.includes('守備聖經')){sc+=220;king++;}
+    else if(h.includes('救援王')){sc+=280;king++;}
+    else if(h.includes('中繼王')){sc+=210;king++;}
+    else if(h.includes('王')){sc+=160;king++;}
+    else if(h.includes('明星賽'))sc+=(S.pos==='P'?70:40);
   });
   if(S.traits.franchise)sc+=200; /* 神主牌:忠誠加成 */
-  return {sc};
+  return {sc,mvp,aceN,king};
 }
 /* 生涯守位加權：以各守位的實際出賽數加權平均（詳見 abilities.js 的 POS_TIER_K）。
    用 DPG 而非「主守位」，所以捕手蹲十年再轉一壘的球員會拿到兩者的混合標準，
@@ -158,26 +147,6 @@ export function posTierK(st,bucket){
   const s=(POS_TIER_STR[bucket]!=null?POS_TIER_STR[bucket]:1);
   return 1+(acc/g-1)*s;
 }
-/* ⚠ 刻意的設計，不是 bug：生涯評價「一個聯盟一份履歷」，分開算、取最好的那份
-   （呼叫端 ui/retire.js 取 i 最小者）。所以中職打 16 年是一份完整履歷，
-   中職 8 年＋日職 8 年是兩份各半的履歷，兩份都不夠看。
-
-   實測代價（完整流程模擬，N=2500／路線）：
-     只待過一個頂級舞台 → 橫跨兩個
-     先發投手 20.8% → 14.5%　捕手 22.2% → 11.4%　游擊 19.1% → 8.9%
-     最佳聯盟年資 15~16 → 11~12 年，最佳聯盟累積分 1566 → 1268
-   而且付這個代價的人數依守位差很多：先發投手 44~48% 會橫跨兩個舞台，
-   捕手與游擊只有 21~25%——這就是先發投手「名人堂率不隨天賦上升」(18/17/17)
-   的成因：一半的人生涯被拆散，而拆散率不隨運氣變動，於是對每一層均勻扣分。
-
-   為什麼不改（2026-08-21 決定）：現實中日本野球殿堂與古柏鎮本來就是分開的兩座，
-   旅外把生涯切成兩半、兩邊都不夠格，是真實存在的球員命運，該有代價。
-   評估過的替代方案：跨聯盟累積分打折互相折抵（×0.25~0.35）、另設合併全生涯的
-   總評價——兩者都會讓「橫跨兩個舞台」不再有代價，等於取消這個設計，故不採用。
-
-   若日後有人看到「橫跨兩聯盟名人堂率腰斬」想當成 bug 修，請先讀完這段。
-   要驗證請用完整流程模擬（高中→引退、玩家行為母體驅動），不要用固定能力的靜態測試
-   ——靜態測試沒有聯盟流動，量不到這個效應。 */
 export function tierOf(bucket){
   const st=S.stats[bucket]; if(!st)return null;
   const hs=honorScore(bucket);
@@ -190,17 +159,21 @@ export function tierOf(bucket){
   /* 五級門檻整條依守位加權平移(不只名人堂)：同一個守位就該從頭到尾用同一把尺。 */
   const pk=posTierK(st,bucket);
   const hk=((HOF_TH_K[bucket]||{})[posKey])||1; /* 名人堂線獨立微調,明星以下不受影響(詳見 economy.js) */
-  const hofTh=th[0]*pk*hk;                 /* 這段生涯實際適用的名人堂線 */
-  let i=sc>=hofTh?0:sc>=th[1]*pk?1:sc>=th[2]*pk?2:sc>=th[3]*pk?3:4;
-  /* 不設單季獎項的階級保底；明星與名人堂必須靠整段生涯累積。 */
-  /* hofTh 一併回傳:票選畫面的「首輪入選」與「得票率」必須跟這裡用同一把尺，
-     不能各自去讀 TIER_TH[bucket][0] 的裸值(詳見 ui/retire.js 的說明)。 */
-  return {i,sc:Math.round(sc),hofTh,name:LG_N[bucket]+['名人堂','明星球員','每日球員','邊緣球員','一頁過客'][i]};
+  let i=sc>=th[0]*pk*hk?0:sc>=th[1]*pk?1:sc>=th[2]*pk?2:sc>=th[3]*pk?3:4;
+  /* 獎項保底:MVP/最高投手獎至少明星球員;單項王至少每日球員 */
+  if(hs.mvp||hs.aceN)i=Math.min(i,1);
+  else if(hs.king)i=Math.min(i,2);
+  return {i,sc:Math.round(sc),name:LG_N[bucket]+['名人堂','明星球員','每日球員','邊緣球員','一頁過客'][i]};
 }
 export function statTable(bucket){
   const st=S.stats[bucket]; if(!st)return '';
   let rows;
-  if(S.pos==='P'){
+  if(S.pos==='TW'){
+    const pit={...st,G:st.pitchG||0,H:st.pitchH||0,BB:st.pitchBB||0};
+    const era=st.IP>0?baseballERA(pit).toFixed(2):'-',whip=st.IP>0?baseballWHIP(pit).toFixed(2):'-';
+    const obpN=st.PA>0?(st.H+st.BB)/st.PA:0,slgN=slgOf(st),avg=st.AB>0?(st.H/st.AB).toFixed(3).replace(/^0/,''):'-',obp=st.PA>0?obpN.toFixed(3).replace(/^0/,''):'-',slg=st.AB>0?slgN.toFixed(3).replace(/^0/,''):'-',ops=st.AB>0?(obpN+slgN).toFixed(3).replace(/^0/,''):'-';
+    rows=`<tr><th colspan="11">投手生涯</th></tr><tr><th>Yrs</th><th>G</th><th>IP</th><th>W</th><th>L</th><th>SV</th><th>HLD</th><th>SO</th><th>BB</th><th>ERA</th><th>WHIP</th></tr><tr><td>${st.yr}</td><td>${st.pitchG||st.G}</td><td>${fmtIP(st.IP)}</td><td>${st.W}</td><td>${st.L}</td><td>${st.SV||0}</td><td>${st.HLD||0}</td><td>${st.SO}</td><td>${st.pitchBB||0}</td><td>${era}</td><td>${whip}</td></tr><tr><th colspan="11">打者生涯</th></tr><tr><th>Yrs</th><th>G</th><th>PA</th><th>AVG</th><th>OBP</th><th>SLG</th><th>OPS</th><th>H</th><th>HR</th><th>RBI</th><th>SB</th></tr><tr><td>${st.yr}</td><td>${st.batG||st.G}</td><td>${st.PA}</td><td>${avg}</td><td>${obp}</td><td>${slg}</td><td>${ops}</td><td>${st.H}</td><td>${st.HR}</td><td>${st.RBI}</td><td>${st.SB}</td></tr>`;
+  }else if(S.pos==='P'){
     const era=st.IP>0?baseballERA(st).toFixed(2):'-';
     const whip=st.IP>0?baseballWHIP(st).toFixed(2):'-';
     rows=`<tr><th>Yrs</th><th>G</th><th>IP</th><th>W</th><th>L</th><th>SV</th><th>HLD</th><th>SO</th><th>BB</th><th>ERA</th><th>WHIP</th></tr>
@@ -212,8 +185,8 @@ export function statTable(bucket){
     const obp = st.PA>0 ? obpN.toFixed(3).replace(/^0/,'') : '-';
     const slg = st.AB>0 ? slgN.toFixed(3).replace(/^0/,'') : '-';
     const ops = st.AB>0 ? (obpN+slgN).toFixed(3).replace(/^0/,'') : '-';
-    rows=`<tr><th>Yrs</th><th>G</th><th>PA</th><th>AVG</th><th>OBP</th><th>SLG</th><th>OPS</th><th>H</th><th>HR</th><th>RBI</th><th>BB</th><th>SB</th><th>DEF</th></tr>
-    <tr><td>${st.yr}</td><td>${st.G}</td><td>${st.PA}</td><td>${avg}</td><td>${obp}</td><td>${slg}</td><td>${ops}</td><td>${st.H}</td><td>${st.HR}</td><td>${st.RBI}</td><td>${st.BB||0}</td><td>${st.SB}</td><td>${st.DEF>0?'+':''}${st.DEF||0}</td></tr>`;
+    rows=`<tr><th>Yrs</th><th>G</th><th>PA</th><th>AVG</th><th>OBP</th><th>SLG</th><th>OPS</th><th>H</th><th>HR</th><th>RBI</th><th>SB</th><th>DEF</th></tr>
+    <tr><td>${st.yr}</td><td>${st.G}</td><td>${st.PA}</td><td>${avg}</td><td>${obp}</td><td>${slg}</td><td>${ops}</td><td>${st.H}</td><td>${st.HR}</td><td>${st.RBI}</td><td>${st.SB}</td><td>${st.DEF>0?'+':''}${st.DEF||0}</td></tr>`;
   }
   const asN=st.AS||0;
   return `<p style="margin-top:8px"><b>${LG_N[bucket]}</b>${asN?` · 明星賽 ${asN} 度入選`:''}</p><table class="fin">${rows}</table>`;
@@ -232,7 +205,8 @@ export function careerMilestones(){
   const out=[];
   (S.hofInfo||[]).forEach(h=>out.push(`${h.lg}名人堂｜第 ${h.yr} 年入選｜得票率 ${h.pct}%`));
   const leagues=['MLB','NPB','CPBL'];
-  const defs=S.pos==='P'?MILESTONE_DEF.pit:MILESTONE_DEF.bat;
+  const defs=(S.pos==='P'?MILESTONE_DEF.pit:S.pos==='TW'?[...MILESTONE_DEF.pit,...MILESTONE_DEF.bat]:MILESTONE_DEF.bat)
+    .filter((d,i,a)=>a.findIndex(x=>x[0]===d[0])===i);
   const played=leagues.filter(b=>{const st=S.stats[b];return st&&((st.yr||0)>0||(st.G||0)>0||(st.PA||0)>0||(st.IP||0)>0);});
   const sum={}; defs.forEach(([key])=>sum[key]=0);
   played.forEach(b=>defs.forEach(([key])=>sum[key]+=S.stats[b][key]||0));
@@ -253,7 +227,7 @@ export function honorRank(awd){
   const intl=/經典賽|12強|奧運|亞運|國家隊/.test(awd);
   const league=intl?0:(/大聯盟|世界大賽/.test(awd)?1:(/日職|日本一/.test(awd)?2:(/中職/.test(awd)?3:4)));
   const kind=/總冠軍|世界大賽冠軍|日本一$/.test(awd)?0:/年度MVP/.test(awd)?1:/三冠王/.test(awd)?2:/MVP/.test(awd)?3:
-    /最佳投手|最佳打者|賽揚/.test(awd)?4:/金手套/.test(awd)?5:/守備聖經/.test(awd)?6:/王/.test(awd)?7:/明星賽/.test(awd)?9:8;
+    /最佳投手|最佳打者|賽揚|澤村/.test(awd)?4:/金手套/.test(awd)?5:/守備聖經/.test(awd)?6:/王/.test(awd)?7:/明星賽/.test(awd)?9:8;
   return league*10+kind;
 }
 export function honorGroups(){

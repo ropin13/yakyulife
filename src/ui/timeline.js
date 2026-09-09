@@ -1,11 +1,19 @@
-import {S, stageLabel} from '../core/state.js?v=1.5.12';
-import {$, card, _curYearBody} from './dom.js?v=1.5.12';
+import {S, stageLabel} from '../core/state.js?v=offline-0.30.0';
+import {$, card, _curYearBody} from './dom.js?v=offline-0.30.0';
 
 /* ================= 生涯時間軸(純呈現層,不觸碰 RNG) ================= */
 export let TL=[];
 export function resetTL(){ TL=[]; }
+export function timelineSnapshot(){return TL.map(({year,stage,lab,note,pri,notes})=>({year,stage,lab,note,pri,notes}));}
+export function restoreTimeline(rows){
+  const blocks=[...($('log')?.querySelectorAll('.yr-block')||[])];
+  TL=(Array.isArray(rows)?rows:[]).map((e,i)=>({...e,notes:Array.isArray(e.notes)?e.notes:[],el:blocks[i]||null}));
+  renderTimeline();
+}
 export function tlStage(){
   if(!S)return '';
+  if(S.stage==='ES')return (S.schoolCountry==='JP'?'日本小學':'國小')+' · '+S.team;
+  if(S.stage==='MS')return (S.schoolCountry==='JP'?'日本國中':'國中')+' · '+S.team;
   if(S.stage==='HS')return '高中 · '+S.team;
   if(S.stage==='U')return '大學 · '+S.team;
   if(S.stage==='AMA')return '業餘 · '+S.team;
@@ -36,14 +44,14 @@ export function renderTimeline(){
     TL.forEach((e,i)=>{
       if(e.stage!==cur){ if(cur!==null)html+='</div>'; html+=`<div class="tlg"><div class="tlg-h">${e.stage}</div>`; cur=e.stage; }
       const now=i===TL.length-1, gone=!(e.el&&e.el.isConnected);
-      html+=`<div class="tl-item${now?' now':''}${(gone&&!now)?' gone':''}" data-i="${i}" role="button" tabindex="0"><span class="dot"></span><span class="t">${e.year} ${e.lab}${e.note?' <b>'+e.note+'</b>':''}</span></div>`;
+      html+=`<div class="tl-item${now?' now':''}${(gone&&!now)?' gone':''}" data-i="${i}"><span class="dot"></span><span class="t">${e.year} ${e.lab}${e.note?' <b>'+e.note+'</b>':''}</span></div>`;
     });
     if(cur!==null)html+='</div>';
     list.innerHTML='<div id="tl-wrap">'+html+'</div>';
     list.scrollTop=list.scrollHeight; /* keep the newest year in view */
   }
   if(strip){
-    strip.innerHTML=TL.map((e,i)=>`<span class="tl-chip${i===TL.length-1?' now':''}" data-i="${i}" role="button" tabindex="0">${e.year}${e.note?'★':''}</span>`).join('');
+    strip.innerHTML=TL.map((e,i)=>`<span class="tl-chip${i===TL.length-1?' now':''}" data-i="${i}">${e.year}${e.note?'★':''}</span>`).join('');
     strip.scrollLeft=strip.scrollWidth;
   }
 }
