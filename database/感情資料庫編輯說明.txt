@@ -1,14 +1,19 @@
-YaKyoLife 感情系統資料庫（v0.30.0）
+YaKyoLife 感情系統資料庫（v0.31.0）
 
-主檔：感情系統資料庫.xlsx
+主檔：relationship-db.json
+（感情系統資料庫.xlsx 僅保留作為人工編輯／對照用途，遊戲不再讀取 Excel 檔。
+ 若要修改資料庫，請直接編輯 relationship-db.json；若習慣用 Excel 編輯，
+ 修改完 xlsx 後仍需手動轉成同樣格式的 JSON 才會生效。）
 
 一、讀取時機
 1. 每次開始新人生時重新讀取。
 2. 每次由本機存檔或 JSON 載入時重新讀取。
-3. 修改 Excel 後請先儲存並關閉 Excel，再開始新人生或重新載入存檔。
-4. Excel 有格式錯誤時，遊戲會改用內建備援資料，不會破壞存檔。
+3. 修改 relationship-db.json 後直接存檔即可，重新整理頁面或開始新人生就會套用。
+4. JSON 有格式錯誤或讀取失敗時，遊戲會改用內建備援資料，不會破壞存檔。
 
-二、工作表
+二、資料結構
+檔案最外層為 `{"source": "...", "sheets": {...}}`，`sheets` 底下有四張表（陣列），
+每個陣列元素是一列資料（物件），欄位名稱與下列工作表意義相同：
 ・固定互動：固定六種年度互動，調整名稱、文字、好感範圍與各階段費用。
 ・機率觸發：符合條件的事件先進入候選池，再依 weight 抽選。
 ・必然觸發：符合條件就依 priority 由高到低處理。
@@ -23,8 +28,9 @@ highExCount、exCount、marriageValue、hasDatingCrisis、hasMarriageCrisis、ha
 {"any":[{"married":true},{"min_datingCount":1}]}
 
 四、注意事項
-・enabled 填 TRUE/FALSE；id 與 action_id 不可重複。
+・enabled 填 true/false（布林值）；id 與 action_id 不可重複。
 ・固定互動請保留 free、low1、low2、mid1、mid2、high 六個 action_id。
-・JSON 欄位必須是合法 JSON，字串與欄位名稱使用半形雙引號。
+・condition_json、choices_json 這類欄位在 JSON 檔裡本身就是巢狀物件／陣列，不需要再包成字串。
 ・機率／必然事件的 resolve 是既有程式處理器；新增全新劇情邏輯仍需同步擴充程式。
 ・隨機事件 choices_json 是資料驅動，可直接沿用既有格式增加內容。
+・編輯後請確認整份檔案仍是合法 JSON（例如用編輯器的 JSON 格式驗證），否則會整份退回內建備援資料。

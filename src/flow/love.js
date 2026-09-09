@@ -1,11 +1,11 @@
-import {S} from '../core/state.js?v=offline-0.30.0';
-import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.30.0';
-import {card, choose, board} from '../ui/dom.js?v=offline-0.30.0';
-import {REL_DB} from '../data/relationship/database.js?v=offline-0.30.0';
-import {STUDENT_PEOPLE} from '../data/relationship/people_student.js?v=offline-0.30.0';
-import {PROFESSIONAL_PEOPLE} from '../data/relationship/people_professional.js?v=offline-0.30.0';
-import {pregnancyChance, PREGNANCY_RULES} from '../data/relationship/pregnancy_rules.js?v=offline-0.30.0';
-import {tlNote} from '../ui/timeline.js?v=offline-0.30.0';
+import {S} from '../core/state.js?v=offline-0.31.0';
+import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
+import {card, choose, board} from '../ui/dom.js?v=offline-0.31.0';
+import {REL_DB} from '../data/relationship/database.js?v=offline-0.31.0';
+import {STUDENT_PEOPLE} from '../data/relationship/people_student.js?v=offline-0.31.0';
+import {PROFESSIONAL_PEOPLE} from '../data/relationship/people_professional.js?v=offline-0.31.0';
+import {pregnancyChance, PREGNANCY_RULES} from '../data/relationship/pregnancy_rules.js?v=offline-0.31.0';
+import {tlNote} from '../ui/timeline.js?v=offline-0.31.0';
 
 /*
  * v0.11.0 relationship engine

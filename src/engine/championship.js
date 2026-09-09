@@ -1,5 +1,5 @@
-import {clamp, SEED} from '../core/rng.js?v=offline-0.30.0';
-import {CPBL_TEAMS,NPB_CENTRAL_TEAMS,NPB_PACIFIC_TEAMS,MLB_NL_TEAMS,MLB_AL_TEAMS,MLB_DIVISIONS,mlbDivision} from '../data/teams.js?v=offline-0.30.0';
+import {clamp, SEED} from '../core/rng.js?v=offline-0.31.0';
+import {CPBL_TEAMS,NPB_CENTRAL_TEAMS,NPB_PACIFIC_TEAMS,MLB_NL_TEAMS,MLB_AL_TEAMS,MLB_DIVISIONS,mlbDivision} from '../data/teams.js?v=offline-0.31.0';
 
 /* 只計國家隊與三個職業頂級聯盟的最終冠軍；半季、央洋聯及國美聯冠軍另列榮譽。 */
 const MAJOR_CHAMPIONSHIP=/(世界棒球經典賽冠軍|世界12強賽冠軍|中職年度總冠軍|中職總冠軍|日本一|世界大賽冠軍)$/;

@@ -1,10 +1,10 @@
-import {$, actClear, actToggleSync, board, scrollBottom} from './dom.js?v=offline-0.30.0';
-import {S} from '../core/state.js?v=offline-0.30.0';
-import {ABL, POS_AB, ABILITY_MAX, POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.30.0';
-import {abCost, normalizeAbCarry, addAb} from '../engine/ability.js?v=offline-0.30.0';
-import {allocDone} from '../flow/events.js?v=offline-0.30.0';
-import {isMobileLayout} from './prefs.js?v=offline-0.30.0';
-import {recordFlowAction,replayFlowActions} from '../core/session.js?v=offline-0.30.0';
+import {$, actClear, actToggleSync, board, scrollBottom} from './dom.js?v=offline-0.31.0';
+import {S} from '../core/state.js?v=offline-0.31.0';
+import {ABL, POS_AB, ABILITY_MAX, POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.0';
+import {abCost, normalizeAbCarry, addAb} from '../engine/ability.js?v=offline-0.31.0';
+import {allocDone} from '../flow/events.js?v=offline-0.31.0';
+import {isMobileLayout} from './prefs.js?v=offline-0.31.0';
+import {recordFlowAction,replayFlowActions} from '../core/session.js?v=offline-0.31.0';
 
 export function allocFullOpen(){ const f=$('alloc-full'); if(f)f.classList.add('show'); }
 export function allocFullClose(){ const f=$('alloc-full'); if(f)f.classList.remove('show'); }

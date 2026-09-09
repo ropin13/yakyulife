@@ -1,3 +1,10 @@
+## v0.31.0
+
+* 移除本機 Python 伺服器與兩支 API（`/api/relationship-db`、`/api/international-db`），感情與國際賽資料庫改以靜態 `database/relationship-db.json`、`database/international-db.json` 直接 fetch 讀取。
+* `server.py`、`launcher.ps1`、`START_GAME.cmd`、`DIAGNOSE_START.cmd`、`啟動_YaKyoLife_離線版.bat` 全數移除；原本的 xlsx 資料庫僅保留作為人工編輯對照，遊戲不再讀取。
+* 新增 GitHub Actions workflow，`main` 分支推送後自動部署到 GitHub Pages。
+* 讀取失敗時的備援訊息與行為維持不變，仍會自動改用內建預設資料。
+
 ## v0.30.0
 
 * F10「球員／能力」新增「每年度數據字體大小」設定，可在 9～15 px 間以 0.5 px 調整。

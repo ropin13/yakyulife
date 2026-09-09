@@ -17,7 +17,7 @@ function applyData(data){
       if(!(key in thresholds)||!Number.isFinite(direct)||!Number.isFinite(fight)||fight>direct)continue;
       thresholds[key]={direct,fight};
     }
-    DB.schedule=schedule;DB.thresholds=thresholds;DB.source=data.source||'國際賽事資料庫.xlsx';DB.loaded=true;DB.rawSheets=clone(data.sheets);
+    DB.schedule=schedule;DB.thresholds=thresholds;DB.source=data.source||'international-db.json';DB.loaded=true;DB.rawSheets=clone(data.sheets);
     return {ok:true,source:DB.source,years:schedule.size};
 }
 export function internationalDatabaseSnapshot(){return DB.rawSheets?{sheets:clone(DB.rawSheets),source:DB.source}:null;}
@@ -25,7 +25,7 @@ export function applyInternationalDatabaseSnapshot(snapshot){if(!snapshot?.sheet
 
 export async function loadInternationalDatabase(){
   try{
-    const res=await fetch(`/api/international-db?t=${Date.now()}`,{cache:'no-store'});
+    const res=await fetch(`database/international-db.json?t=${Date.now()}`,{cache:'no-store'});
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const data=await res.json();if(data.error)throw new Error(data.error);
     return applyData(data);

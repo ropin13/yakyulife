@@ -1,7 +1,7 @@
-import {S} from '../core/state.js?v=offline-0.30.0';
-import {R,ri,chance,clamp} from '../core/rng.js?v=offline-0.30.0';
-import {ABL,POS_AB,ABILITY_MAX,POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.30.0';
-import {choose,card,board} from '../ui/dom.js?v=offline-0.30.0';
+import {S} from '../core/state.js?v=offline-0.31.0';
+import {R,ri,chance,clamp} from '../core/rng.js?v=offline-0.31.0';
+import {ABL,POS_AB,ABILITY_MAX,POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.0';
+import {choose,card,board} from '../ui/dom.js?v=offline-0.31.0';
 
 const money=v=>Math.round(v).toLocaleString('zh-TW')+' 元';
 const JOBS={

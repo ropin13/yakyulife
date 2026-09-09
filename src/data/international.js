@@ -1,4 +1,4 @@
-import {loadInternationalDatabase,internationalDbRow,internationalThreshold} from './international_database.js?v=offline-0.30.0';
+import {loadInternationalDatabase,internationalDbRow,internationalThreshold} from './international_database.js?v=offline-0.31.0';
 export {loadInternationalDatabase};
 
 /* 1990～2026：每年只採用討論表中的第一項成人國際賽。

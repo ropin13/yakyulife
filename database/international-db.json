@@ -1,0 +1,1150 @@
+{
+  "source": "international-db.json",
+  "sheets": {
+    "年度賽程": [
+      {
+        "enabled": true,
+        "year": 1980,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1981,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1982,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1983,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1984,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1985,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1986,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1987,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1988,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒國際邀請賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1989,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1990,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1991,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1992,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "巴塞隆納奧運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1993,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1994,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1995,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1996,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "亞特蘭大奧運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1997,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1998,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 1999,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2000,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "雪梨奧運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2001,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2002,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "釜山亞運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2003,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2004,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "雅典奧運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2005,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2006,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2007,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2008,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "北京奧運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2009,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2010,
+        "elementary": "世界少棒錦標賽（威廉波特）",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "廣州亞運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2011,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "世界青棒錦標賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2012,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2013,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2014,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "仁川亞運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2015,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2016,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "U-23世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2017,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2018,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "雅加達亞運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2019,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2020,
+        "elementary": "全球疫情",
+        "junior": "全球疫情",
+        "high": "全球疫情",
+        "university": "全球疫情",
+        "adult": "全球疫情",
+        "note": "疫情年：本年度無國際賽事"
+      },
+      {
+        "enabled": true,
+        "year": 2021,
+        "elementary": "世界少棒錦標賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "東京奧運棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2022,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "",
+        "adult": "U-23世界盃棒球賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2023,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2024,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2025,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "亞洲棒球錦標賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2026,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒國際邀請賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2027,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2028,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2029,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2030,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2031,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2032,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2033,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2034,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2035,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2036,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2037,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2038,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2039,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2040,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2041,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2042,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2043,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2044,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2045,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2046,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2047,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2048,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2049,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2050,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2051,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2052,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2053,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2054,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2055,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2056,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2057,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2058,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2059,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2060,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2061,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2062,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2063,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2064,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2065,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2066,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2067,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2068,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2069,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2070,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2071,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2072,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2073,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2074,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2075,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2076,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界12強賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2077,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2078,
+        "elementary": "世界少棒錦標賽",
+        "junior": "U-15世界盃青少棒賽",
+        "high": "世界青棒錦標賽",
+        "university": "",
+        "adult": "世界棒球經典賽",
+        "note": ""
+      },
+      {
+        "enabled": true,
+        "year": 2079,
+        "elementary": "U-12世界盃少棒賽",
+        "junior": "世界青少棒錦標賽",
+        "high": "U-18世界盃青棒賽",
+        "university": "世界大學棒球錦標賽",
+        "adult": "",
+        "note": ""
+      }
+    ],
+    "門檻設定": [
+      {
+        "enabled": true,
+        "category": "ES",
+        "label": "國小賽事",
+        "direct": 32,
+        "fight": 24,
+        "eligible": "小五、小六"
+      },
+      {
+        "enabled": true,
+        "category": "MS",
+        "label": "國中賽事",
+        "direct": 42,
+        "fight": 34,
+        "eligible": "國二、國三"
+      },
+      {
+        "enabled": true,
+        "category": "HS",
+        "label": "高中賽事",
+        "direct": 48,
+        "fight": 40,
+        "eligible": "高二、高三"
+      },
+      {
+        "enabled": true,
+        "category": "UNI",
+        "label": "大學賽事",
+        "direct": 52,
+        "fight": 44,
+        "eligible": "大一至大四"
+      },
+      {
+        "enabled": true,
+        "category": "ADULT",
+        "label": "一般成人賽事",
+        "direct": 56,
+        "fight": 48,
+        "eligible": "大三、大四、業餘成棒、職業"
+      },
+      {
+        "enabled": true,
+        "category": "WBC",
+        "label": "世界棒球經典賽",
+        "direct": 62,
+        "fight": 54,
+        "eligible": "大三、大四、業餘成棒、職業"
+      }
+    ],
+    "循環規則": [
+      {
+        "enabled": true,
+        "category": "ES",
+        "event": "U-12世界盃少棒賽",
+        "start_year": 2027,
+        "interval": 2,
+        "remainder": 1,
+        "priority": 1,
+        "note": "奇數年"
+      },
+      {
+        "enabled": true,
+        "category": "ES",
+        "event": "世界少棒錦標賽",
+        "start_year": 2028,
+        "interval": 2,
+        "remainder": 0,
+        "priority": 2,
+        "note": "偶數年"
+      },
+      {
+        "enabled": true,
+        "category": "MS",
+        "event": "U-15世界盃青少棒賽",
+        "start_year": 2028,
+        "interval": 2,
+        "remainder": 0,
+        "priority": 1,
+        "note": "偶數年"
+      },
+      {
+        "enabled": true,
+        "category": "MS",
+        "event": "世界青少棒錦標賽",
+        "start_year": 2027,
+        "interval": 2,
+        "remainder": 1,
+        "priority": 2,
+        "note": "奇數年"
+      },
+      {
+        "enabled": true,
+        "category": "HS",
+        "event": "U-18世界盃青棒賽",
+        "start_year": 2027,
+        "interval": 2,
+        "remainder": 1,
+        "priority": 1,
+        "note": "奇數年"
+      },
+      {
+        "enabled": true,
+        "category": "HS",
+        "event": "世界青棒錦標賽",
+        "start_year": 2028,
+        "interval": 2,
+        "remainder": 0,
+        "priority": 2,
+        "note": "偶數年"
+      },
+      {
+        "enabled": true,
+        "category": "UNI",
+        "event": "世界大學棒球錦標賽",
+        "start_year": 2027,
+        "interval": 2,
+        "remainder": 1,
+        "priority": 1,
+        "note": "奇數年"
+      },
+      {
+        "enabled": true,
+        "category": "ADULT",
+        "event": "世界棒球經典賽",
+        "start_year": 2026,
+        "interval": 4,
+        "remainder": 2,
+        "priority": 1,
+        "note": "2026起每四年"
+      },
+      {
+        "enabled": true,
+        "category": "ADULT",
+        "event": "世界12強賽",
+        "start_year": 2028,
+        "interval": 4,
+        "remainder": 0,
+        "priority": 2,
+        "note": "2028起每四年"
+      }
+    ],
+    "使用說明": []
+  }
+}

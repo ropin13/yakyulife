@@ -1,0 +1,292 @@
+{
+  "source": "relationship-db.json",
+  "sheets": {
+    "固定互動": [
+      {
+        "enabled": true,
+        "action_id": "free",
+        "name": "免費互動",
+        "friend_text": "免費陪伴／聊天",
+        "dating_text": "免費約會／散步聊天",
+        "marriage_text": "免費陪伴／聊天",
+        "gain_min": 5,
+        "gain_max": 10,
+        "ms_cost_min": 0,
+        "ms_cost_max": 0,
+        "hs_cost_min": 0,
+        "hs_cost_max": 0,
+        "u_cost_min": 0,
+        "u_cost_max": 0,
+        "pro_cost_min": 0,
+        "pro_cost_max": 0
+      },
+      {
+        "enabled": true,
+        "action_id": "low1",
+        "name": "低消費互動①",
+        "friend_text": "一起吃飯／喝飲料",
+        "dating_text": "一起吃飯／看電影",
+        "marriage_text": "一起吃飯／看電影",
+        "gain_min": 10,
+        "gain_max": 15,
+        "ms_cost_min": 300,
+        "ms_cost_max": 800,
+        "hs_cost_min": 500,
+        "hs_cost_max": 1200,
+        "u_cost_min": 1000,
+        "u_cost_max": 2500,
+        "pro_cost_min": 20000,
+        "pro_cost_max": 40000
+      },
+      {
+        "enabled": true,
+        "action_id": "low2",
+        "name": "低消費互動②",
+        "friend_text": "看電影／逛街",
+        "dating_text": "準備貼心禮物",
+        "marriage_text": "準備家庭小禮物",
+        "gain_min": 15,
+        "gain_max": 20,
+        "ms_cost_min": 800,
+        "ms_cost_max": 1800,
+        "hs_cost_min": 1200,
+        "hs_cost_max": 3000,
+        "u_cost_min": 2500,
+        "u_cost_max": 6000,
+        "pro_cost_min": 40000,
+        "pro_cost_max": 80000
+      },
+      {
+        "enabled": true,
+        "action_id": "mid1",
+        "name": "中度消費互動①",
+        "friend_text": "一起運動／看球",
+        "dating_text": "安排約會／看球",
+        "marriage_text": "夫妻約會／看球",
+        "gain_min": 20,
+        "gain_max": 25,
+        "ms_cost_min": 1500,
+        "ms_cost_max": 3500,
+        "hs_cost_min": 3000,
+        "hs_cost_max": 7000,
+        "u_cost_min": 6000,
+        "u_cost_max": 15000,
+        "pro_cost_min": 80000,
+        "pro_cost_max": 150000
+      },
+      {
+        "enabled": true,
+        "action_id": "mid2",
+        "name": "中度消費互動②",
+        "friend_text": "準備貼心禮物",
+        "dating_text": "週末小旅行",
+        "marriage_text": "週末家庭旅行",
+        "gain_min": 25,
+        "gain_max": 30,
+        "ms_cost_min": 3000,
+        "ms_cost_max": 7000,
+        "hs_cost_min": 7000,
+        "hs_cost_max": 14000,
+        "u_cost_min": 15000,
+        "u_cost_max": 30000,
+        "pro_cost_min": 150000,
+        "pro_cost_max": 280000
+      },
+      {
+        "enabled": true,
+        "action_id": "high",
+        "name": "高度消費互動",
+        "friend_text": "安排旅行／特別活動",
+        "dating_text": "豪華旅行／高級約會",
+        "marriage_text": "豪華家庭旅行／紀念日",
+        "gain_min": 30,
+        "gain_max": 35,
+        "ms_cost_min": 7000,
+        "ms_cost_max": 15000,
+        "hs_cost_min": 14000,
+        "hs_cost_max": 30000,
+        "u_cost_min": 30000,
+        "u_cost_max": 60000,
+        "pro_cost_min": 280000,
+        "pro_cost_max": 500000
+      }
+    ],
+    "機率觸發": [
+      {
+        "enabled": true,
+        "id": "affair",
+        "name": "外遇誘惑",
+        "weight": 1,
+        "condition_json": "{\"any\":[{\"min_datingCount\":2},{\"all\":[{\"married\":true},{\"min_datingCount\":1}]}]}",
+        "resolve": "affair"
+      },
+      {
+        "enabled": true,
+        "id": "rumor",
+        "name": "媒體緋聞",
+        "weight": 1,
+        "condition_json": "{\"all\":[{\"any\":[{\"married\":true},{\"min_datingCount\":1}]},{\"min_highFriendCount\":1}]}",
+        "resolve": "rumor"
+      },
+      {
+        "enabled": true,
+        "id": "ex_contact",
+        "name": "前任重新聯絡",
+        "weight": 1,
+        "condition_json": "{\"min_exCount\":1}",
+        "resolve": "ex_contact"
+      },
+      {
+        "enabled": true,
+        "id": "old_flame",
+        "name": "舊情復燃",
+        "weight": 1,
+        "condition_json": "{\"min_exCount\":1,\"min_highExCount\":1}",
+        "resolve": "old_flame"
+      },
+      {
+        "enabled": true,
+        "id": "friend_confess",
+        "name": "朋友主動告白",
+        "weight": 1,
+        "condition_json": "{\"min_highFriendCount\":1}",
+        "resolve": "friend_confess"
+      },
+      {
+        "enabled": true,
+        "id": "jealous",
+        "name": "伴侶吃醋",
+        "weight": 1,
+        "condition_json": "{\"all\":[{\"any\":[{\"married\":true},{\"min_datingCount\":1}]},{\"any\":[{\"min_highFriendCount\":2},{\"min_datingCount\":2},{\"all\":[{\"min_highFriendCount\":1},{\"min_datingCount\":1}]}]}]}",
+        "resolve": "jealous"
+      },
+      {
+        "enabled": true,
+        "id": "family_surprise",
+        "name": "家庭／伴侶驚喜",
+        "weight": 1,
+        "condition_json": "{\"any\":[{\"married\":true},{\"min_datingCount\":1}]}",
+        "resolve": "family_surprise"
+      },
+      {
+        "enabled": true,
+        "id": "chance_date",
+        "name": "意外約會",
+        "weight": 1,
+        "condition_json": "{\"min_friendCount\":1}",
+        "resolve": "chance_date"
+      }
+    ],
+    "必然觸發": [
+      {
+        "enabled": true,
+        "id": "marriage_crisis",
+        "name": "婚姻危機",
+        "priority": 100,
+        "allow_together": false,
+        "condition_json": "{\"hasMarriageCrisis\":true}",
+        "resolve": "marriage_crisis"
+      },
+      {
+        "enabled": true,
+        "id": "dating_crisis",
+        "name": "戀愛危機",
+        "priority": 90,
+        "allow_together": false,
+        "condition_json": "{\"hasDatingCrisis\":true}",
+        "resolve": "dating_crisis"
+      },
+      {
+        "enabled": true,
+        "id": "birth",
+        "name": "生小孩",
+        "priority": 50,
+        "allow_together": true,
+        "condition_json": "{\"hasPregnancy\":true}",
+        "resolve": "birth"
+      }
+    ],
+    "隨機事件": [
+      {
+        "enabled": true,
+        "id": "friend_msg",
+        "title": "朋友突然傳來訊息",
+        "weight": 5,
+        "scope": "friend",
+        "choices_json": "[{\"text\":\"熱情回覆\",\"outcomes\":[{\"chance\":70,\"effects\":{\"relation\":[3,8]}},{\"chance\":30,\"effects\":{\"relation\":[-2,3]}}]},{\"text\":\"簡單回覆\",\"outcomes\":[{\"chance\":80,\"effects\":{\"relation\":[0,4]}},{\"chance\":20,\"effects\":{\"relation\":[-3,0]}}]},{\"text\":\"暫時不回\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[-5,-2]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "baseball_friend",
+        "title": "隊友邀你參加聚會",
+        "weight": 5,
+        "scope": "any",
+        "choices_json": "[{\"text\":\"參加\",\"next\":[{\"text\":\"低調聊天\",\"effects\":{\"stamina\":1,\"relation\":[2,6]}},{\"text\":\"成為焦點\",\"effects\":{\"fame\":[1,3],\"relation\":[1,5]}}]},{\"text\":\"婉拒\",\"outcomes\":[{\"chance\":100,\"effects\":{\"stamina\":[-1,0]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "date_invite",
+        "title": "有人邀你週末見面",
+        "weight": 4,
+        "scope": "dating_or_friend",
+        "choices_json": "[{\"text\":\"答應\",\"outcomes\":[{\"chance\":70,\"effects\":{\"relation\":[4,9]}},{\"chance\":30,\"effects\":{\"relation\":[-3,2]}}]},{\"text\":\"改天再說\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[-2,1]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "media_event",
+        "title": "媒體想採訪你的私生活",
+        "weight": 3,
+        "scope": "any",
+        "choices_json": "[{\"text\":\"大方回答\",\"outcomes\":[{\"chance\":70,\"effects\":{\"fame\":[1,4],\"relation\":[1,4]}},{\"chance\":30,\"effects\":{\"fame\":[-2,1],\"relation\":[-3,0]}}]},{\"text\":\"保持低調\",\"outcomes\":[{\"chance\":100,\"effects\":{\"fame\":[0,1]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "family_dinner",
+        "title": "家人邀請你吃飯",
+        "weight": 5,
+        "scope": "married_or_family",
+        "choices_json": "[{\"text\":\"回家吃飯\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[3,8],\"cash\":[-500,0]}}]},{\"text\":\"工作優先\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[-4,0]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "gift_shop",
+        "title": "路過商店看到適合對方的禮物",
+        "weight": 4,
+        "scope": "relationship",
+        "choices_json": "[{\"text\":\"買下來\",\"next\":[{\"text\":\"實用的\",\"effects\":{\"cash\":[-1000,-500],\"relation\":[4,8]}},{\"text\":\"浪漫的\",\"effects\":{\"cash\":[-2500,-1000],\"relation\":[6,12]}}]},{\"text\":\"不買\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[-1,1]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "training_conflict",
+        "title": "重要的約會碰上訓練安排",
+        "weight": 4,
+        "scope": "relationship",
+        "choices_json": "[{\"text\":\"赴約\",\"outcomes\":[{\"chance\":100,\"effects\":{\"stamina\":[-2,0],\"relation\":[5,10]}}]},{\"text\":\"留下訓練\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[-5,-1],\"ability\":[1,2]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "fan_encounter",
+        "title": "球迷認出你與身邊的人",
+        "weight": 4,
+        "scope": "any",
+        "choices_json": "[{\"text\":\"大方合照\",\"outcomes\":[{\"chance\":100,\"effects\":{\"fame\":[1,3],\"relation\":[1,5]}}]},{\"text\":\"低調離開\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[0,2]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "quiet_year",
+        "title": "平凡的一天",
+        "weight": 2,
+        "scope": "any",
+        "choices_json": "[{\"text\":\"享受平靜\",\"outcomes\":[{\"chance\":100,\"effects\":{\"relation\":[1,5]}}]},{\"text\":\"把時間留給自己\",\"outcomes\":[{\"chance\":100,\"effects\":{\"stamina\":[1,3]}}]}]"
+      },
+      {
+        "enabled": true,
+        "id": "money_pressure",
+        "title": "突發生活支出",
+        "weight": 3,
+        "scope": "any",
+        "choices_json": "[{\"text\":\"直接支付\",\"outcomes\":[{\"chance\":100,\"effects\":{\"cash\":[-5000,-1500]}}]},{\"text\":\"想辦法省下來\",\"outcomes\":[{\"chance\":70,\"effects\":{\"cash\":[-1000,0]}},{\"chance\":30,\"effects\":{\"relation\":[-2,0]}}]}]"
+      }
+    ]
+  }
+}

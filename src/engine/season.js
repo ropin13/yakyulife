@@ -1,17 +1,17 @@
-import {S, blankStat, bucketOf, nextStep, stageLabel} from '../core/state.js?v=offline-0.30.0';
-import {R, ri, chance, clamp, N0} from '../core/rng.js?v=offline-0.30.0';
-import {POS_ADJ_RUNS, POS_PT_BAR} from '../data/abilities.js?v=offline-0.30.0';
-import {LV,HS_CUPS,U_CUPS,AMA_CUPS,JP_HS_CUPS,JP_U_CUPS,ES_CUPS,MS_CUPS,JP_ES_CUPS,JP_MS_CUPS,spLoad} from '../data/teams.js?v=offline-0.30.0';
-import {card, board} from '../ui/dom.js?v=offline-0.30.0';
-import {ovr, careerAllStars, toolGap} from './ability.js?v=offline-0.30.0';
-import {tjAccrue, tjGamble} from './injury.js?v=offline-0.30.0';
+import {S, blankStat, bucketOf, nextStep, stageLabel} from '../core/state.js?v=offline-0.31.0';
+import {R, ri, chance, clamp, N0} from '../core/rng.js?v=offline-0.31.0';
+import {POS_ADJ_RUNS, POS_PT_BAR} from '../data/abilities.js?v=offline-0.31.0';
+import {LV,HS_CUPS,U_CUPS,AMA_CUPS,JP_HS_CUPS,JP_U_CUPS,ES_CUPS,MS_CUPS,JP_ES_CUPS,JP_MS_CUPS,spLoad} from '../data/teams.js?v=offline-0.31.0';
+import {card, board} from '../ui/dom.js?v=offline-0.31.0';
+import {ovr, careerAllStars, toolGap} from './ability.js?v=offline-0.31.0';
+import {tjAccrue, tjGamble} from './injury.js?v=offline-0.31.0';
 /* temporary scaffold until awards/intl/contract/flow are extracted */
-import {demotionAudit} from './contract.js?v=offline-0.30.0';
-import {awards} from './awards.js?v=offline-0.30.0';
-import {maybeIntl} from './intl.js?v=offline-0.30.0';
-import {traitCard, removeTrait} from '../flow/events.js?v=offline-0.30.0';
-import {proPersonalAwards} from './pro-awards.js?v=offline-0.30.0';
-import {amateurRankIndex} from './amateur-result.js?v=offline-0.30.0';
+import {demotionAudit} from './contract.js?v=offline-0.31.0';
+import {awards} from './awards.js?v=offline-0.31.0';
+import {maybeIntl} from './intl.js?v=offline-0.31.0';
+import {traitCard, removeTrait} from '../flow/events.js?v=offline-0.31.0';
+import {proPersonalAwards} from './pro-awards.js?v=offline-0.31.0';
+import {amateurRankIndex} from './amateur-result.js?v=offline-0.31.0';
 export function pitcherRole(){ /* 體力 >=52 先發;否則牛棚,牛棚內看表現升終結者 */
   if(S.ab.sta>=52)return 'SP';
   /* 牛棚:讀「上一季」的 d(prevD,因為 lastD 已被 phasePre 清空);頂尖 → 終結者 */

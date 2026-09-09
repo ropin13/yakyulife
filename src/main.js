@@ -1,16 +1,16 @@
-import {SEED, setSeed, seedInit} from './core/rng.js?v=offline-0.30.0';
-import {S, setS, newState} from './core/state.js?v=offline-0.30.0';
-import {APP_VER} from './config.js?v=offline-0.30.0';
-import {POSN} from './data/abilities.js?v=offline-0.30.0';
-import {LV,canonicalTeamName,schoolList} from './data/teams.js?v=offline-0.30.0';
-import {$, card, modalClose, actToggleSync} from './ui/dom.js?v=offline-0.30.0';
-import {THEME_KEY, BIG_KEY, applyTheme, applyMobileUI, applyBigText, updDispSum} from './ui/prefs.js?v=offline-0.30.0';
-import {allocFullClose} from './ui/alloc.js?v=offline-0.30.0';
-import {TL, resetTL, renderTimeline, tlScrollTo} from './ui/timeline.js?v=offline-0.30.0';
-import {startYear} from './flow/phases.js?v=offline-0.30.0';
-import {installTrainer} from './trainer.js?v=offline-0.30.0';
-import {loadRelationshipDatabase} from './data/relationship/database.js?v=offline-0.30.0';
-import {loadInternationalDatabase} from './data/international.js?v=offline-0.30.0';
+import {SEED, setSeed, seedInit} from './core/rng.js?v=offline-0.31.0';
+import {S, setS, newState} from './core/state.js?v=offline-0.31.0';
+import {APP_VER} from './config.js?v=offline-0.31.0';
+import {POSN} from './data/abilities.js?v=offline-0.31.0';
+import {LV,canonicalTeamName,schoolList} from './data/teams.js?v=offline-0.31.0';
+import {$, card, modalClose, actToggleSync} from './ui/dom.js?v=offline-0.31.0';
+import {THEME_KEY, BIG_KEY, applyTheme, applyMobileUI, applyBigText, updDispSum} from './ui/prefs.js?v=offline-0.31.0';
+import {allocFullClose} from './ui/alloc.js?v=offline-0.31.0';
+import {TL, resetTL, renderTimeline, tlScrollTo} from './ui/timeline.js?v=offline-0.31.0';
+import {startYear} from './flow/phases.js?v=offline-0.31.0';
+import {installTrainer} from './trainer.js?v=offline-0.31.0';
+import {loadRelationshipDatabase} from './data/relationship/database.js?v=offline-0.31.0';
+import {loadInternationalDatabase} from './data/international.js?v=offline-0.31.0';
 
 /* ================= 開場設定 ================= */
 /* iOS Safari zoom guards. Pinch: Safari ignores maximum-scale/user-scalable, so the
@@ -274,8 +274,8 @@ $('btn-start').onclick=async()=>{
   resetTL(); renderTimeline();
   const ts=$('tl-seed'); if(ts)ts.textContent=SEED;
   card('info','球員誕生',`${S.name} 出生於 <b class="hl">${S.birthYear}</b> 年。${S.year} 年春天，${POSN[S.pos]} <b class="hl">${S.name}</b> 加入 <b class="hl">${S.team}</b> 棒球隊，從${S.schoolCountry==='JP'?'日本':''}${{ES:'小學',MS:'國中',HS:'高中',U:'大學'}[S.stage]}展開棒球人生。起始潛力倍率為 <b class="hl">${S.startPotentialMult.toFixed(2)}</b>。<br><span style="color:var(--dim);font-size:12px">提示：22 歲前累積擲出 5 次「6」可覺醒隱藏素質。</span>`);
-  if(!dbLoad.ok)card('bad','感情資料庫使用備援版本',`無法讀取感情系統資料庫.xlsx：${dbLoad.error}。遊戲已使用內建資料繼續執行，不會卡住。`);
-  if(!intlDbLoad.ok)card('bad','國際賽資料庫使用備援版本',`無法讀取國際賽事資料庫.xlsx：${intlDbLoad.error}。遊戲已使用內建賽程與門檻繼續執行，不會卡住。`);
+  if(!dbLoad.ok)card('bad','感情資料庫使用備援版本',`無法讀取 relationship-db.json：${dbLoad.error}。遊戲已使用內建資料繼續執行，不會卡住。`);
+  if(!intlDbLoad.ok)card('bad','國際賽資料庫使用備援版本',`無法讀取 international-db.json：${intlDbLoad.error}。遊戲已使用內建賽程與門檻繼續執行，不會卡住。`);
   startYear();
 };
 installTrainer({attachTeamName});

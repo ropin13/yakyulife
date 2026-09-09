@@ -1,4 +1,4 @@
-import {rngState,setRngState} from './rng.js?v=offline-0.30.0';
+import {rngState,setRngState} from './rng.js?v=offline-0.31.0';
 
 const clone=v=>v==null?v:JSON.parse(JSON.stringify(v,(k,x)=>typeof x==='function'?undefined:x));
 export const FLOW_SESSION={yearStartState:null,yearStartRng:0,actions:[],replay:null,ready:null};
