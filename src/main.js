@@ -1,16 +1,18 @@
-import {SEED, setSeed, seedInit} from './core/rng.js?v=offline-0.31.0';
-import {S, setS, newState} from './core/state.js?v=offline-0.31.0';
-import {APP_VER} from './config.js?v=offline-0.31.0';
-import {POSN} from './data/abilities.js?v=offline-0.31.0';
-import {LV,canonicalTeamName,schoolList} from './data/teams.js?v=offline-0.31.0';
-import {$, card, modalClose, actToggleSync} from './ui/dom.js?v=offline-0.31.0';
-import {THEME_KEY, BIG_KEY, applyTheme, applyMobileUI, applyBigText, updDispSum} from './ui/prefs.js?v=offline-0.31.0';
-import {allocFullClose} from './ui/alloc.js?v=offline-0.31.0';
-import {TL, resetTL, renderTimeline, tlScrollTo} from './ui/timeline.js?v=offline-0.31.0';
-import {startYear} from './flow/phases.js?v=offline-0.31.0';
-import {installTrainer} from './trainer.js?v=offline-0.31.0';
-import {loadRelationshipDatabase} from './data/relationship/database.js?v=offline-0.31.0';
-import {loadInternationalDatabase} from './data/international.js?v=offline-0.31.0';
+import {SEED, setSeed, seedInit} from './core/rng.js?v=offline-0.31.1';
+import {S, setS, newState} from './core/state.js?v=offline-0.31.1';
+import {APP_VER} from './config.js?v=offline-0.31.1';
+import {POSN} from './data/abilities.js?v=offline-0.31.1';
+import {LV,canonicalTeamName,schoolList,loadTeamsDatabase,validateTeamsDataset} from './data/teams.js?v=offline-0.31.1';
+import {$, card, modalClose, actToggleSync} from './ui/dom.js?v=offline-0.31.1';
+import {THEME_KEY, BIG_KEY, applyTheme, applyMobileUI, applyBigText, updDispSum} from './ui/prefs.js?v=offline-0.31.1';
+import {allocFullClose} from './ui/alloc.js?v=offline-0.31.1';
+import {TL, resetTL, renderTimeline, tlScrollTo} from './ui/timeline.js?v=offline-0.31.1';
+import {startYear} from './flow/phases.js?v=offline-0.31.1';
+import {installTrainer} from './trainer.js?v=offline-0.31.1';
+import {loadRelationshipDatabase,validateRelationshipDatabase} from './data/relationship/database.js?v=offline-0.31.1';
+import {loadInternationalDatabase} from './data/international.js?v=offline-0.31.1';
+import {validateInternationalDatabase} from './data/international_database.js?v=offline-0.31.1';
+import {DATASETS,datasetStatus,saveCustomDataset,clearCustomDataset,downloadDefaultDataset} from './data/datasets.js?v=offline-0.31.1';
 
 /* ================= 開場設定 ================= */
 /* iOS Safari zoom guards. Pinch: Safari ignores maximum-scale/user-scalable, so the
@@ -104,6 +106,27 @@ function renderSchools(){
 $('in-school').onchange=()=>{$('in-school-custom').style.display=$('in-school').value==='__custom'?'':'none';};
 $('in-birth-year').addEventListener('input',updateBirthYearHint);
 renderSchools();
+const DATASET_VALIDATORS={teams:validateTeamsDataset,international:validateInternationalDatabase,relationship:validateRelationshipDatabase};
+function renderDatasetManager(){
+  const list=$('dataset-list');if(!list)return;
+  list.innerHTML=Object.entries(DATASETS).map(([id,meta])=>{const status=datasetStatus(id,DATASET_VALIDATORS[id]),when=status.savedAt?new Date(status.savedAt).toLocaleString('zh-TW'):'',source=status.valid?`使用者自訂資料（${when}）`:status.stored?'自訂資料無效，已使用預設資料':'預設資料';
+    return `<div class="dataset-row"><b>${meta.label}</b><small>目前：${source}・${meta.file}</small><div class="dataset-actions"><button class="btn compact" data-dataset-download="${id}">下載預設</button><button class="btn compact" data-dataset-upload="${id}">上傳自訂</button>${status.stored?`<button class="btn compact warn" data-dataset-reset="${id}">還原預設</button>`:''}</div></div>`;
+  }).join('');
+}
+async function handleDatasetAction(button){
+  const downloadId=button.dataset.datasetDownload,uploadId=button.dataset.datasetUpload,resetId=button.dataset.datasetReset;
+  try{
+    if(downloadId){await downloadDefaultDataset(downloadId);return;}
+    if(resetId){clearCustomDataset(resetId);if(resetId==='teams')loadTeamsDatabase();renderDatasetManager();alert(`${DATASETS[resetId].label}已還原為預設資料。`);return;}
+    if(!uploadId)return;
+    const input=document.createElement('input');input.type='file';input.accept='.json,application/json';
+    input.onchange=async()=>{const file=input.files?.[0];if(!file)return;try{saveCustomDataset(uploadId,JSON.parse(await file.text()),DATASET_VALIDATORS[uploadId]);if(uploadId==='teams')loadTeamsDatabase();renderDatasetManager();alert(`${DATASETS[uploadId].label}已儲存在此瀏覽器，開始新的生涯時會套用。`);}catch(err){alert(`上傳失敗：${err.message||err}`);}};
+    input.click();
+  }catch(err){alert(`資料集操作失敗：${err.message||err}`);}
+}
+const datasetList=$('dataset-list');
+if(datasetList)datasetList.onclick=e=>{const target=e.target instanceof Element?e.target:null;const button=target?.closest('button[data-dataset-download],button[data-dataset-upload],button[data-dataset-reset]');if(button)handleDatasetAction(button);};
+loadTeamsDatabase();renderDatasetManager();
 const DEFAULT_PLAYERS={P:{name:'有有子',jersey:11},IF:{name:'抹茶多',jersey:13}};
 const DEFAULT_PLAYER_PAIRS=[
   DEFAULT_PLAYERS.P,DEFAULT_PLAYERS.IF,{name:'藥帝士',jersey:23},{name:'黃鎖頭',jersey:22}

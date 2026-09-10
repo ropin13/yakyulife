@@ -1,17 +1,31 @@
 /* ---------- 球隊與聯盟資料 ---------- */
 import TEAM_DATA from '../../database/teams.json' with {type:'json'};
+import {customDataset} from './datasets.js?v=offline-0.31.1';
 
-export const TEAM_COLOR=TEAM_DATA.teamColors;
-export const CPBL_TEAMS=TEAM_DATA.leagues.CPBL;
-export const NPB_TEAMS=TEAM_DATA.leagues.NPB;
-export const MLB_TEAMS=TEAM_DATA.leagues.MLB;
+let activeData=TEAM_DATA;
+export let TEAM_COLOR=activeData.teamColors;
+export let CPBL_TEAMS=activeData.leagues.CPBL;
+export let NPB_TEAMS=activeData.leagues.NPB;
+export let MLB_TEAMS=activeData.leagues.MLB;
 /* 職業聯盟分區採明確名單，不依陣列位置推測，避免同隊取得互斥聯盟冠軍。 */
-export const NPB_CENTRAL_TEAMS=TEAM_DATA.subleagues.NPB_CENTRAL;
-export const NPB_PACIFIC_TEAMS=TEAM_DATA.subleagues.NPB_PACIFIC;
-export const MLB_NL_TEAMS=TEAM_DATA.subleagues.MLB_NL;
-export const MLB_AL_TEAMS=TEAM_DATA.subleagues.MLB_AL;
-export const MLB_DIVISIONS=TEAM_DATA.mlbDivisions;
-export const TEAM_NAME_MIGRATION=TEAM_DATA.nameMigrations;
+export let NPB_CENTRAL_TEAMS=activeData.subleagues.NPB_CENTRAL;
+export let NPB_PACIFIC_TEAMS=activeData.subleagues.NPB_PACIFIC;
+export let MLB_NL_TEAMS=activeData.subleagues.MLB_NL;
+export let MLB_AL_TEAMS=activeData.subleagues.MLB_AL;
+export let MLB_DIVISIONS=activeData.mlbDivisions;
+export let TEAM_NAME_MIGRATION=activeData.nameMigrations;
+export function validateTeamsDataset(data){
+  const arrays=['CPBL','NPB','MLB'];
+  if(!data||typeof data!=='object'||!data.teamColors||!data.leagues||!data.subleagues||!data.mlbDivisions||!data.nameMigrations||!data.nicknames)throw new Error('缺少球隊資料欄位');
+  if(!arrays.every(k=>Array.isArray(data.leagues[k])&&data.leagues[k].length>1))throw new Error('聯盟球隊清單格式不完整');
+  if(!['NPB_CENTRAL','NPB_PACIFIC','MLB_NL','MLB_AL'].every(k=>Array.isArray(data.subleagues[k])))throw new Error('分區球隊清單格式不完整');
+}
+export function loadTeamsDatabase(){
+  const data=customDataset('teams',validateTeamsDataset)||TEAM_DATA;
+  activeData=data;TEAM_COLOR=data.teamColors;CPBL_TEAMS=data.leagues.CPBL;NPB_TEAMS=data.leagues.NPB;MLB_TEAMS=data.leagues.MLB;
+  NPB_CENTRAL_TEAMS=data.subleagues.NPB_CENTRAL;NPB_PACIFIC_TEAMS=data.subleagues.NPB_PACIFIC;MLB_NL_TEAMS=data.subleagues.MLB_NL;MLB_AL_TEAMS=data.subleagues.MLB_AL;MLB_DIVISIONS=data.mlbDivisions;TEAM_NAME_MIGRATION=data.nameMigrations;
+  return {ok:true,custom:data!==TEAM_DATA};
+}
 export const canonicalTeamName=team=>TEAM_NAME_MIGRATION[team]||team;
 export function mlbDivision(team){return Object.keys(MLB_DIVISIONS).find(k=>MLB_DIVISIONS[k].includes(canonicalTeamName(team)))||'';}
 export function teamSubleague(team){
@@ -73,5 +87,5 @@ export const LG_N={CPBL:'中職',NPB:'日職',MLB:'大聯盟',MINOR:'小聯盟�
   R:'美職新人聯盟',A1:'美職1A',A2:'美職2A',A3:'美職3A',AMA:'業餘成棒'};
 export function teamNick(team){ /* ◯◯先生的◯◯:取隊名代表詞 */
   const name=canonicalTeamName(team);
-  return TEAM_DATA.nicknames[name]||(name||'').slice(-2);
+  return activeData.nicknames[name]||(name||'').slice(-2);
 }

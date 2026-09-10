@@ -1,14 +1,14 @@
-import {S} from '../core/state.js?v=offline-0.31.0';
-import {proPersonalAwardCount,intlAwardTier} from './pro-awards.js?v=offline-0.31.0';
-import {R, ri, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
-import {LV} from '../data/teams.js?v=offline-0.31.0';
-import {card, choose, board} from '../ui/dom.js?v=offline-0.31.0';
-import {tlNote} from '../ui/timeline.js?v=offline-0.31.0';
-import {isSP, fmtIP, outsFromIP, ipFromOuts, normalizeIP, baseballERA, intlStatTableHTML} from './season.js?v=offline-0.31.0';
-import {ovr} from './ability.js?v=offline-0.31.0';
-import {intlFinishIndex} from './championship.js?v=offline-0.31.0';
-import {checkChampionTrait} from '../flow/events.js?v=offline-0.31.0';
-import {internationalEventsFor} from '../data/international.js?v=offline-0.31.0';
+import {S} from '../core/state.js?v=offline-0.31.1';
+import {proPersonalAwardCount,intlAwardTier} from './pro-awards.js?v=offline-0.31.1';
+import {R, ri, chance, clamp} from '../core/rng.js?v=offline-0.31.1';
+import {LV} from '../data/teams.js?v=offline-0.31.1';
+import {card, choose, board} from '../ui/dom.js?v=offline-0.31.1';
+import {tlNote} from '../ui/timeline.js?v=offline-0.31.1';
+import {isSP, fmtIP, outsFromIP, ipFromOuts, normalizeIP, baseballERA, intlStatTableHTML} from './season.js?v=offline-0.31.1';
+import {ovr} from './ability.js?v=offline-0.31.1';
+import {intlFinishIndex} from './championship.js?v=offline-0.31.1';
+import {checkChampionTrait} from '../flow/events.js?v=offline-0.31.1';
+import {internationalEventsFor} from '../data/international.js?v=offline-0.31.1';
 function intlUF(key){
   const pct=clamp(Number(S[key])||0,0,100)/100;
   if(pct===0)return 1;

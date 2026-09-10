@@ -1,11 +1,11 @@
-import {S} from '../core/state.js?v=offline-0.31.0';
-import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
-import {ABL, POS_AB, ABILITY_MAX} from '../data/abilities.js?v=offline-0.31.0';
-import {LV} from '../data/teams.js?v=offline-0.31.0';
-import {card, choose, board} from '../ui/dom.js?v=offline-0.31.0';
-import {addAb} from './ability.js?v=offline-0.31.0';
-import {isSP} from './season.js?v=offline-0.31.0';
-import {removeTrait} from '../flow/events.js?v=offline-0.31.0';
+import {S} from '../core/state.js?v=offline-0.31.1';
+import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.31.1';
+import {ABL, POS_AB, ABILITY_MAX} from '../data/abilities.js?v=offline-0.31.1';
+import {LV} from '../data/teams.js?v=offline-0.31.1';
+import {card, choose, board} from '../ui/dom.js?v=offline-0.31.1';
+import {addAb} from './ability.js?v=offline-0.31.1';
+import {isSP} from './season.js?v=offline-0.31.1';
+import {removeTrait} from '../flow/events.js?v=offline-0.31.1';
 export function tjAccrue(st,lv){ /* 球威風險 × 投法 × 角色標準化工作量；體力不參與。 */
   if(S.stage==='ES'||S.stage==='MS'){S.tj=0;return;}
   if(S.tjLockZero){S.tj=0;return;}

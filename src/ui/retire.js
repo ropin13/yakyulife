@@ -1,18 +1,18 @@
-import {S, blankStat, bucketOf} from '../core/state.js?v=offline-0.31.0';
-import {R, ri, SEED} from '../core/rng.js?v=offline-0.31.0';
-import {OFFICIAL_URL} from '../config.js?v=offline-0.31.0';
-import {LV, LG_N, CPBL_TEAMS, NPB_TEAMS, MLB_TEAMS, teamNick} from '../data/teams.js?v=offline-0.31.0';
-import {TIER_TH, FAN, RP_LV_SUF} from '../data/economy.js?v=offline-0.31.0';
-import {TRAIT_KEYS} from '../data/traits.js?v=offline-0.31.0';
-import {$, card, choose, divider, board, actClear, logTarget} from './dom.js?v=offline-0.31.0';
-import {careerTimelineCard, tlNote} from './timeline.js?v=offline-0.31.0';
-import {traitNames, traitTagStyle, traitColorRank} from './traits.js?v=offline-0.31.0';
-import {roleN, fmtIP, slgOf, baseballERA, baseballWHIP, outsFromIP, ipFromOuts} from '../engine/season.js?v=offline-0.31.0';
-import {playerType} from '../engine/ability.js?v=offline-0.31.0';
-import {fmtMoney} from '../engine/contract.js?v=offline-0.31.0';
-import {capTeam, careerMilestones, honorGroups, posLegendPhrase, primaryPos, statTable, tierOf, yearRanges, honorText} from '../engine/career.js?v=offline-0.31.0';
-import {shareImage} from './share-image.js?v=offline-0.31.0';
-import {awardFlags,awardStatHighlighted} from './award-highlights.js?v=offline-0.31.0';
+import {S, blankStat, bucketOf} from '../core/state.js?v=offline-0.31.1';
+import {R, ri, SEED} from '../core/rng.js?v=offline-0.31.1';
+import {OFFICIAL_URL} from '../config.js?v=offline-0.31.1';
+import {LV, LG_N, CPBL_TEAMS, NPB_TEAMS, MLB_TEAMS, teamNick} from '../data/teams.js?v=offline-0.31.1';
+import {TIER_TH, FAN, RP_LV_SUF} from '../data/economy.js?v=offline-0.31.1';
+import {TRAIT_KEYS} from '../data/traits.js?v=offline-0.31.1';
+import {$, card, choose, divider, board, actClear, logTarget} from './dom.js?v=offline-0.31.1';
+import {careerTimelineCard, tlNote} from './timeline.js?v=offline-0.31.1';
+import {traitNames, traitTagStyle, traitColorRank} from './traits.js?v=offline-0.31.1';
+import {roleN, fmtIP, slgOf, baseballERA, baseballWHIP, outsFromIP, ipFromOuts} from '../engine/season.js?v=offline-0.31.1';
+import {playerType} from '../engine/ability.js?v=offline-0.31.1';
+import {fmtMoney} from '../engine/contract.js?v=offline-0.31.1';
+import {capTeam, careerMilestones, honorGroups, posLegendPhrase, primaryPos, statTable, tierOf, yearRanges, honorText} from '../engine/career.js?v=offline-0.31.1';
+import {shareImage} from './share-image.js?v=offline-0.31.1';
+import {awardFlags,awardStatHighlighted} from './award-highlights.js?v=offline-0.31.1';
 /* ================= 結算圖資料建構 =================
    Data builders for shareImage()'s canvas layout (design handoff 2026-08-14).
    All values come from S.*; the in-game settlement cards are untouched. */
