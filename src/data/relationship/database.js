@@ -57,7 +57,11 @@ function applyRows(db){
 }
 
 const clone=v=>v==null?v:JSON.parse(JSON.stringify(v));
-export function validateRelationshipDatabase(payload){if(!payload||!payload.sheets||typeof payload.sheets!=='object')throw new Error('資料格式不完整');}
+export function validateRelationshipDatabase(payload){
+  if(!payload||!payload.sheets||typeof payload.sheets!=='object')throw new Error('資料格式不完整');
+  const required=['固定互動','機率觸發','必然觸發','隨機事件'];
+  if(!required.every(name=>Array.isArray(payload.sheets[name])))throw new Error('感情資料表格式不完整');
+}
 export function relationshipDatabaseSnapshot(){return REL_DB.rawSheets?{sheets:clone(REL_DB.rawSheets),source:REL_DB.source}:null;}
 export function applyRelationshipDatabaseSnapshot(snapshot){
   if(!snapshot?.sheets)return false;

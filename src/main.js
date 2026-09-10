@@ -109,8 +109,8 @@ renderSchools();
 const DATASET_VALIDATORS={teams:validateTeamsDataset,international:validateInternationalDatabase,relationship:validateRelationshipDatabase};
 function renderDatasetManager(){
   const list=$('dataset-list');if(!list)return;
-  list.innerHTML=Object.entries(DATASETS).map(([id,meta])=>{const status=datasetStatus(id),when=status.savedAt?new Date(status.savedAt).toLocaleString('zh-TW'):'',source=status.custom?`使用者自訂資料（${when}）`:'預設資料';
-    return `<div class="dataset-row"><b>${meta.label}</b><small>目前：${source}・${meta.file}</small><div class="dataset-actions"><button class="btn compact" data-dataset-download="${id}">下載預設</button><button class="btn compact" data-dataset-upload="${id}">上傳自訂</button>${status.custom?`<button class="btn compact warn" data-dataset-reset="${id}">還原預設</button>`:''}</div></div>`;
+  list.innerHTML=Object.entries(DATASETS).map(([id,meta])=>{const status=datasetStatus(id,DATASET_VALIDATORS[id]),when=status.savedAt?new Date(status.savedAt).toLocaleString('zh-TW'):'',source=status.valid?`使用者自訂資料（${when}）`:status.stored?'自訂資料無效，已使用預設資料':'預設資料';
+    return `<div class="dataset-row"><b>${meta.label}</b><small>目前：${source}・${meta.file}</small><div class="dataset-actions"><button class="btn compact" data-dataset-download="${id}">下載預設</button><button class="btn compact" data-dataset-upload="${id}">上傳自訂</button>${status.stored?`<button class="btn compact warn" data-dataset-reset="${id}">還原預設</button>`:''}</div></div>`;
   }).join('');
 }
 async function handleDatasetAction(button){

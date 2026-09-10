@@ -8,15 +8,19 @@ export const DATASETS={
 const clone=v=>JSON.parse(JSON.stringify(v));
 const key=id=>PREFIX+id;
 
-function customRecord(id){
+function storedRecord(id){
   try{
-    const record=JSON.parse(localStorage.getItem(key(id))||'null');
-    return record&&record.version===1&&record.data?record:null;
-  }catch(_){return null;}
+    const raw=localStorage.getItem(key(id));if(raw===null)return {stored:false,record:null};
+    const record=JSON.parse(raw);
+    return record&&record.version===1?{stored:true,record}:{stored:true,record:null};
+  }catch(_){return {stored:true,record:null};}
 }
-export function datasetStatus(id){
-  const record=customRecord(id);
-  return record?{custom:true,savedAt:record.savedAt||''}:{custom:false,savedAt:''};
+function customRecord(id){return storedRecord(id).record;}
+export function datasetStatus(id,validate){
+  const stored=storedRecord(id),record=stored.record;
+  if(!record)return {custom:false,valid:false,stored:stored.stored,savedAt:''};
+  try{if(typeof validate==='function')validate(record.data);return {custom:true,valid:true,stored:true,savedAt:record.savedAt||''};}
+  catch(_){return {custom:false,valid:false,stored:true,savedAt:record.savedAt||''};}
 }
 export function saveCustomDataset(id,data,validate){
   if(!DATASETS[id])throw new Error('未知的資料集');
