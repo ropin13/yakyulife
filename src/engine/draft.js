@@ -1,6 +1,6 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, pick, chance} from '../core/rng.js?v=offline-0.31.0';
-import {CPBL_TEAMS,NPB_TEAMS,MLB_TEAMS,AMA_TEAMS,LV,schoolList,schoolTier} from '../data/teams.js?v=offline-0.31.0';
+import {CPBL_TEAMS,NPB_TEAMS,MLB_TEAMS,AMA_TEAMS,LV,schoolList,schoolTier} from '../data/teams.js?v=offline-0.31.1';
 import {card, choose, board, menuModal} from '../ui/dom.js?v=offline-0.31.0';
 import {tlNote,tlRestage} from '../ui/timeline.js?v=offline-0.31.0';
 import {ovr, playerType} from './ability.js?v=offline-0.31.0';

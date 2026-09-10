@@ -1,6 +1,6 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, pick, chance, clamp, SEED} from '../core/rng.js?v=offline-0.31.0';
-import {LV, PATHS, CPBL_TEAMS, NPB_TEAMS, MLB_TEAMS} from '../data/teams.js?v=offline-0.31.0';
+import {LV, PATHS, CPBL_TEAMS, NPB_TEAMS, MLB_TEAMS} from '../data/teams.js?v=offline-0.31.1';
 import {AMA_ANNUAL, LEVEL_MIN_ANNUAL, MLB_SERVICE_MINOR_MIN} from '../data/economy.js?v=offline-0.31.0';
 import {card, choose, board} from '../ui/dom.js?v=offline-0.31.0';
 import {tlNote} from '../ui/timeline.js?v=offline-0.31.0';

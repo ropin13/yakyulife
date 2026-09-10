@@ -1,7 +1,7 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
 import {card, choose, board} from '../ui/dom.js?v=offline-0.31.0';
-import {REL_DB} from '../data/relationship/database.js?v=offline-0.31.0';
+import {REL_DB} from '../data/relationship/database.js?v=offline-0.31.1';
 import {STUDENT_PEOPLE} from '../data/relationship/people_student.js?v=offline-0.31.0';
 import {PROFESSIONAL_PEOPLE} from '../data/relationship/people_professional.js?v=offline-0.31.0';
 import {pregnancyChance, PREGNANCY_RULES} from '../data/relationship/pregnancy_rules.js?v=offline-0.31.0';

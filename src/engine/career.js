@@ -1,7 +1,7 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {clamp} from '../core/rng.js?v=offline-0.31.0';
 import {DPN, POSN, POS_ADJ_RUNS, POS_TIER_K, POS_TIER_STR} from '../data/abilities.js?v=offline-0.31.0';
-import {LG_N} from '../data/teams.js?v=offline-0.31.0';
+import {LG_N} from '../data/teams.js?v=offline-0.31.1';
 import {TIER_TH, LEAGUE_K, MILESTONE_DEF, HOF_TH_K} from '../data/economy.js?v=offline-0.31.0';
 import {fmtIP, slgOf, roleName3, baseballERA, baseballWHIP} from './season.js?v=offline-0.31.0';
 /* ================= 生涯終章 ================= */

@@ -1,7 +1,7 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, pick, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
 import {ABL, POS_AB, ABILITY_MAX} from '../data/abilities.js?v=offline-0.31.0';
-import {LV} from '../data/teams.js?v=offline-0.31.0';
+import {LV} from '../data/teams.js?v=offline-0.31.1';
 import {card, choose, board} from '../ui/dom.js?v=offline-0.31.0';
 import {addAb} from './ability.js?v=offline-0.31.0';
 import {isSP} from './season.js?v=offline-0.31.0';

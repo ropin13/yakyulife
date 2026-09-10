@@ -1,7 +1,7 @@
 import {S, blankStat, bucketOf, nextStep, stageLabel} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, chance, clamp, N0} from '../core/rng.js?v=offline-0.31.0';
 import {POS_ADJ_RUNS, POS_PT_BAR} from '../data/abilities.js?v=offline-0.31.0';
-import {LV,HS_CUPS,U_CUPS,AMA_CUPS,JP_HS_CUPS,JP_U_CUPS,ES_CUPS,MS_CUPS,JP_ES_CUPS,JP_MS_CUPS,spLoad} from '../data/teams.js?v=offline-0.31.0';
+import {LV,HS_CUPS,U_CUPS,AMA_CUPS,JP_HS_CUPS,JP_U_CUPS,ES_CUPS,MS_CUPS,JP_ES_CUPS,JP_MS_CUPS,spLoad} from '../data/teams.js?v=offline-0.31.1';
 import {card, board} from '../ui/dom.js?v=offline-0.31.0';
 import {ovr, careerAllStars, toolGap} from './ability.js?v=offline-0.31.0';
 import {tjAccrue, tjGamble} from './injury.js?v=offline-0.31.0';

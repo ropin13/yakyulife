@@ -1,7 +1,7 @@
 import {S, blankStat, bucketOf} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, SEED} from '../core/rng.js?v=offline-0.31.0';
 import {OFFICIAL_URL} from '../config.js?v=offline-0.31.0';
-import {LV, LG_N, CPBL_TEAMS, NPB_TEAMS, MLB_TEAMS, teamNick} from '../data/teams.js?v=offline-0.31.0';
+import {LV, LG_N, CPBL_TEAMS, NPB_TEAMS, MLB_TEAMS, teamNick} from '../data/teams.js?v=offline-0.31.1';
 import {TIER_TH, FAN, RP_LV_SUF} from '../data/economy.js?v=offline-0.31.0';
 import {TRAIT_KEYS} from '../data/traits.js?v=offline-0.31.0';
 import {$, card, choose, divider, board, actClear, logTarget} from './dom.js?v=offline-0.31.0';

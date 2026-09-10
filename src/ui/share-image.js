@@ -1,7 +1,7 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {SEED} from '../core/rng.js?v=offline-0.31.0';
 import {APP_VER, OFFICIAL_HOST} from '../config.js?v=offline-0.31.0';
-import {TEAM_COLOR, LG_N} from '../data/teams.js?v=offline-0.31.0';
+import {TEAM_COLOR, LG_N} from '../data/teams.js?v=offline-0.31.1';
 import {RP_TICKS} from '../data/economy.js?v=offline-0.31.0';
 import {TRAIT_KEYS} from '../data/traits.js?v=offline-0.31.0';
 import {teamChip} from './dom.js?v=offline-0.31.0';

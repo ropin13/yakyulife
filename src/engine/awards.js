@@ -1,7 +1,7 @@
 import {S} from '../core/state.js?v=offline-0.31.0';
 import {chance, clamp} from '../core/rng.js?v=offline-0.31.0';
 import {DPN, GLOVE_TH, GLOVE_K} from '../data/abilities.js?v=offline-0.31.0';
-import {LV,teamSubleague} from '../data/teams.js?v=offline-0.31.0';
+import {LV,teamSubleague} from '../data/teams.js?v=offline-0.31.1';
 import {card} from '../ui/dom.js?v=offline-0.31.0';
 import {tlNote} from '../ui/timeline.js?v=offline-0.31.0';
 import {isSP, slgOf, baseballERA} from './season.js?v=offline-0.31.0';

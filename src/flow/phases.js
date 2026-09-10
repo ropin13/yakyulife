@@ -1,7 +1,7 @@
 import {S, stepQ, nextStep, stageLabel} from '../core/state.js?v=offline-0.31.0';
 import {R, ri, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
 import {ABL, POS_AB, ABILITY_MAX, POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.0';
-import {LV, PATHS, teamNick} from '../data/teams.js?v=offline-0.31.0';
+import {LV, PATHS, teamNick} from '../data/teams.js?v=offline-0.31.1';
 import {AMA_ANNUAL} from '../data/economy.js?v=offline-0.31.0';
 import {card, choose, board, divider} from '../ui/dom.js?v=offline-0.31.0';
 import {tlNote, tlPush, tlRestage} from '../ui/timeline.js?v=offline-0.31.0';
