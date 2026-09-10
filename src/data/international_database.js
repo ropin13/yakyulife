@@ -1,9 +1,14 @@
+import {loadDataset} from './datasets.js?v=offline-0.31.1';
 const DEFAULT_THRESHOLDS={ES:{direct:32,fight:24},MS:{direct:42,fight:34},HS:{direct:48,fight:40},UNI:{direct:52,fight:44},ADULT:{direct:56,fight:48},WBC:{direct:62,fight:54}};
 const DB={schedule:new Map(),thresholds:{...DEFAULT_THRESHOLDS},source:'內建備援',loaded:false,rawSheets:null};
 const enabled=v=>v!==false&&v!==0&&String(v).toLowerCase()!=='false'&&String(v).trim()!=='0';
 const clean=v=>String(v??'').trim();
 
 const clone=v=>v==null?v:JSON.parse(JSON.stringify(v));
+export function validateInternationalDatabase(data){
+  if(!data||!data.sheets||typeof data.sheets!=='object'||data.error)throw new Error(data?.error||'資料格式不完整');
+  if(!Array.isArray(data.sheets['年度賽程'])||!Array.isArray(data.sheets['門檻設定']))throw new Error('缺少年度賽程或門檻設定');
+}
 function applyData(data){
     const schedule=new Map();
     for(const row of data.sheets?.['年度賽程']||[]){
@@ -25,9 +30,9 @@ export function applyInternationalDatabaseSnapshot(snapshot){if(!snapshot?.sheet
 
 export async function loadInternationalDatabase(){
   try{
-    const res=await fetch(`database/international-db.json?t=${Date.now()}`,{cache:'no-store'});
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
-    const data=await res.json();if(data.error)throw new Error(data.error);
+    const loaded=await loadDataset('international',validateInternationalDatabase);
+    let data=loaded.data;
+    if(loaded.custom)data={...data,source:'使用者自訂資料'};
     return applyData(data);
   }catch(error){DB.schedule=new Map();DB.thresholds={...DEFAULT_THRESHOLDS};DB.source='內建備援';DB.loaded=false;return {ok:false,error:error?.message||String(error)};}
 }

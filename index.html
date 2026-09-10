@@ -32,7 +32,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=IBM+Plex+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=offline-0.31.0">
+<link rel="stylesheet" href="css/style.css?v=offline-0.31.1">
 </head>
 <body>
 <div id="start">
@@ -95,13 +95,20 @@
           </div></div>
       </div>
     </details>
+    <details id="fld-datasets">
+      <summary>資料集管理<span class="sum">下載預設資料或上傳自訂 JSON</span></summary>
+      <div id="dataset-body">
+        <p>自訂資料只會儲存在此瀏覽器；下次進入遊戲會自動續用。上傳後請開始新的生涯套用資料。</p>
+        <div id="dataset-list"></div>
+      </div>
+    </details>
     <p class="seedline">世界種子
       <input id="seed-show" maxlength="24">
       · <a href="#" id="seed-re">換一個</a><br>相同種子＋相同選擇＝相同人生（可直接輸入朋友的種子碼）</p>
     <div id="community"><a href="https://discord.gg/UnDYxFtz4U" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span>加入 Discord 社群</a></div>
     <footer style="text-align:center;margin-top:22px;color:var(--dim);font-size:12px">Produced by <a href="https://www.threads.com/@mr.themost" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">最先生 Mr.TheMost</a></footer>
     <!-- version lives in the quiet bottom info band, mirroring the in-game sidebar's SEED+version group -->
-    <div id="ver-badge" style="text-align:center;margin-top:6px;font-size:10px;letter-spacing:1px;color:var(--dim);opacity:.55;font-family:monospace">v1.5.6</div>
+    <div id="ver-badge" style="text-align:center;margin-top:6px;font-size:10px;letter-spacing:1px;color:var(--dim);opacity:.55;font-family:monospace">v1.5.7</div>
   </div>
 </div>
 
@@ -157,6 +164,6 @@
 <div id="alloc-full"><div id="af-inner"><div class="af-head"><span class="af-title" id="af-title"></span><button class="btn" id="af-close">收起</button></div><div id="af-body"></div></div></div>
 <!-- GitHub Pages sits behind a long-lived CDN cache. The entry point and every
      relative import carry this release token so browsers cannot mix versions. -->
-<script type="module" src="src/main.js?v=offline-0.31.0"></script>
+<script type="module" src="src/main.js?v=offline-0.31.1"></script>
 </body>
 </html>

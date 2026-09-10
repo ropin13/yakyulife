@@ -400,6 +400,19 @@ body[data-theme='c'] .lockup-sub em,body[data-theme='d'] .lockup-sub em{text-sha
 #disp-body{padding-top:2px}
 
 #disp-body .field:first-child{margin-top:10px}
+#fld-datasets{margin-top:14px}
+#fld-datasets>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:7px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim);padding:2px 0}
+#fld-datasets>summary::-webkit-details-marker{display:none}
+#fld-datasets>summary::before{content:'▸';font-size:10px;display:inline-block;transition:transform .15s;flex:none}
+#fld-datasets[open]>summary::before{transform:rotate(90deg)}
+#fld-datasets>summary:hover{color:var(--accent)}
+#fld-datasets>summary .sum{opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#dataset-body{padding-top:8px}
+#dataset-body>p{font-size:12px;line-height:1.55;color:var(--dim);margin:0 0 8px}
+.dataset-row{border-top:1px solid var(--edge);padding:10px 0}
+.dataset-row:first-child{border-top:0}
+.dataset-row b{display:block;font-size:14px}.dataset-row small{display:block;color:var(--dim);font-size:11px;margin-top:2px}
+.dataset-actions{display:flex;gap:6px;margin-top:7px}.dataset-actions .btn{flex:1;margin-top:0;padding:7px 8px;font-size:12px;text-align:center}
 .seedline{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:22px}
 /* community link: a pill in the quiet bottom band, deliberately lighter than 開始生涯 so it
    does not compete with the primary action, but with a real outline so it reads as tappable */

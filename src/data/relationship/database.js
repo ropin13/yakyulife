@@ -2,6 +2,7 @@ import {INTERACTION_ACTIONS as FALLBACK_ACTIONS,RELATION_TEXT as FALLBACK_TEXT} 
 import {PROBABILITY_EVENTS as FALLBACK_PROBABILITY} from './probability_events.js?v=offline-0.31.0';
 import {MANDATORY_EVENTS as FALLBACK_MANDATORY} from './mandatory_events.js?v=offline-0.31.0';
 import {RANDOM_EVENTS as FALLBACK_RANDOM} from './random_events.js?v=offline-0.31.0';
+import {loadDataset} from '../datasets.js?v=offline-0.31.1';
 
 export const REL_DB={
   actions:{...FALLBACK_ACTIONS},texts:{...FALLBACK_TEXT},
@@ -56,6 +57,7 @@ function applyRows(db){
 }
 
 const clone=v=>v==null?v:JSON.parse(JSON.stringify(v));
+export function validateRelationshipDatabase(payload){if(!payload||!payload.sheets||typeof payload.sheets!=='object')throw new Error('資料格式不完整');}
 export function relationshipDatabaseSnapshot(){return REL_DB.rawSheets?{sheets:clone(REL_DB.rawSheets),source:REL_DB.source}:null;}
 export function applyRelationshipDatabaseSnapshot(snapshot){
   if(!snapshot?.sheets)return false;
@@ -64,10 +66,9 @@ export function applyRelationshipDatabaseSnapshot(snapshot){
 
 export async function loadRelationshipDatabase(){
   try{
-    const res=await fetch(`database/relationship-db.json?t=${Date.now()}`,{cache:'no-store'});
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
-    const payload=await res.json();if(!payload||!payload.sheets)throw new Error('資料格式不完整');
-    applyRows(payload.sheets);REL_DB.rawSheets=clone(payload.sheets);REL_DB.source=payload.source||'relationship-db.json';REL_DB.loadedAt=Date.now();REL_DB.error='';
+    const loaded=await loadDataset('relationship',validateRelationshipDatabase);
+    const payload=loaded.data;
+    applyRows(payload.sheets);REL_DB.rawSheets=clone(payload.sheets);REL_DB.source=loaded.custom?'使用者自訂資料':(payload.source||'relationship-db.json');REL_DB.loadedAt=Date.now();REL_DB.error='';
     return {ok:true,source:REL_DB.source};
   }catch(err){REL_DB.error=String(err&&err.message||err);return {ok:false,error:REL_DB.error,source:REL_DB.source};}
 }
