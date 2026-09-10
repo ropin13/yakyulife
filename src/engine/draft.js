@@ -1,13 +1,13 @@
-import {S} from '../core/state.js?v=offline-0.31.0';
-import {R, ri, pick, chance} from '../core/rng.js?v=offline-0.31.0';
+import {S} from '../core/state.js?v=offline-0.31.1';
+import {R, ri, pick, chance} from '../core/rng.js?v=offline-0.31.1';
 import {CPBL_TEAMS,NPB_TEAMS,MLB_TEAMS,AMA_TEAMS,LV,schoolList,schoolTier} from '../data/teams.js?v=offline-0.31.1';
-import {card, choose, board, menuModal} from '../ui/dom.js?v=offline-0.31.0';
-import {tlNote,tlRestage} from '../ui/timeline.js?v=offline-0.31.0';
-import {ovr, playerType} from './ability.js?v=offline-0.31.0';
-import {primaryPos} from './career.js?v=offline-0.31.0';
-import {fmtMoney, makeOffers, pickOfferUI, signTo, mlbEntryStatus} from './contract.js?v=offline-0.31.0';
-import {startYear} from '../flow/phases.js?v=offline-0.31.0';
-import {endGame} from '../ui/retire.js?v=offline-0.31.0';
+import {card, choose, board, menuModal} from '../ui/dom.js?v=offline-0.31.1';
+import {tlNote,tlRestage} from '../ui/timeline.js?v=offline-0.31.1';
+import {ovr, playerType} from './ability.js?v=offline-0.31.1';
+import {primaryPos} from './career.js?v=offline-0.31.1';
+import {fmtMoney, makeOffers, pickOfferUI, signTo, mlbEntryStatus} from './contract.js?v=offline-0.31.1';
+import {startYear} from '../flow/phases.js?v=offline-0.31.1';
+import {endGame} from '../ui/retire.js?v=offline-0.31.1';
 /* ---------- 選秀與生涯路口 ---------- */
 const STAGE_N={MS:'國中',HS:'高中',U:'大學'};
 function chooseRookieUsage(lv,title,onChoose,onBack){

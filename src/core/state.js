@@ -1,5 +1,5 @@
-import {R, ri} from './rng.js?v=offline-0.31.0';
-import {POS_AB,POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.0';
+import {R, ri} from './rng.js?v=offline-0.31.1';
+import {POS_AB,POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.1';
 import {LV,TW_HS_SCHOOLS,schoolList,schoolTier} from '../data/teams.js?v=offline-0.31.1';
 
 /* ================= 遊戲狀態 ================= */

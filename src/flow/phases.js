@@ -1,24 +1,24 @@
-import {S, stepQ, nextStep, stageLabel} from '../core/state.js?v=offline-0.31.0';
-import {R, ri, chance, clamp} from '../core/rng.js?v=offline-0.31.0';
-import {ABL, POS_AB, ABILITY_MAX, POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.0';
+import {S, stepQ, nextStep, stageLabel} from '../core/state.js?v=offline-0.31.1';
+import {R, ri, chance, clamp} from '../core/rng.js?v=offline-0.31.1';
+import {ABL, POS_AB, ABILITY_MAX, POTENTIAL_MAX} from '../data/abilities.js?v=offline-0.31.1';
 import {LV, PATHS, teamNick} from '../data/teams.js?v=offline-0.31.1';
-import {AMA_ANNUAL} from '../data/economy.js?v=offline-0.31.0';
-import {card, choose, board, divider} from '../ui/dom.js?v=offline-0.31.0';
-import {tlNote, tlPush, tlRestage} from '../ui/timeline.js?v=offline-0.31.0';
-import {allocUI} from '../ui/alloc.js?v=offline-0.31.0';
-import {addAb, ovr, dposReview, statBonusTxt} from '../engine/ability.js?v=offline-0.31.0';
-import {rollInjury, healthCheck, tjCap} from '../engine/injury.js?v=offline-0.31.0';
-import {isMrTeamEligible} from '../engine/tenure.js?v=offline-0.31.0';
-import {amateurSeason, proSeason, slgOf, currentSalaryRating, baseballERA, baseballWHIP, seasonGrade} from '../engine/season.js?v=offline-0.31.0';
-import {seasonChampionshipResult,professionalSeasonPoints,minorSeasonResult} from '../engine/championship.js?v=offline-0.31.0';
-import {buyoutRemaining, contractAnnual, contractMarketProfile, controlledAnnual, crossOffers, daibaFarewell, extensionOffer, faFlow, fmtMoney, handleDemotion, levelMinAnnual, makeContract, makeOffers, offseasonTradeCheck, pickOfferUI, signTo, teamChampRate, teamChampRates, mlbEntryStatus} from '../engine/contract.js?v=offline-0.31.0';
-import {drawEvents, removeTrait, checkChampionTrait} from './events.js?v=offline-0.31.0';
-import {loveEvent} from './love.js?v=offline-0.31.0';
-import {runDraft, draftChoice, npbTest, amateurTeamChoice, usaTestFlow, pathChoiceHS, pathChoiceU4, pathChoiceUYear, schoolTransition, advance} from '../engine/draft.js?v=offline-0.31.0';
-import {endGame} from '../ui/retire.js?v=offline-0.31.0';
-import {yearWorkChoice,paidTrainingFlow} from './life-economy.js?v=offline-0.31.0';
-import {maybeIntl} from '../engine/intl.js?v=offline-0.31.0';
-import {beginYearCheckpoint,isReplaying} from '../core/session.js?v=offline-0.31.0';
+import {AMA_ANNUAL} from '../data/economy.js?v=offline-0.31.1';
+import {card, choose, board, divider} from '../ui/dom.js?v=offline-0.31.1';
+import {tlNote, tlPush, tlRestage} from '../ui/timeline.js?v=offline-0.31.1';
+import {allocUI} from '../ui/alloc.js?v=offline-0.31.1';
+import {addAb, ovr, dposReview, statBonusTxt} from '../engine/ability.js?v=offline-0.31.1';
+import {rollInjury, healthCheck, tjCap} from '../engine/injury.js?v=offline-0.31.1';
+import {isMrTeamEligible} from '../engine/tenure.js?v=offline-0.31.1';
+import {amateurSeason, proSeason, slgOf, currentSalaryRating, baseballERA, baseballWHIP, seasonGrade} from '../engine/season.js?v=offline-0.31.1';
+import {seasonChampionshipResult,professionalSeasonPoints,minorSeasonResult} from '../engine/championship.js?v=offline-0.31.1';
+import {buyoutRemaining, contractAnnual, contractMarketProfile, controlledAnnual, crossOffers, daibaFarewell, extensionOffer, faFlow, fmtMoney, handleDemotion, levelMinAnnual, makeContract, makeOffers, offseasonTradeCheck, pickOfferUI, signTo, teamChampRate, teamChampRates, mlbEntryStatus} from '../engine/contract.js?v=offline-0.31.1';
+import {drawEvents, removeTrait, checkChampionTrait} from './events.js?v=offline-0.31.1';
+import {loveEvent} from './love.js?v=offline-0.31.1';
+import {runDraft, draftChoice, npbTest, amateurTeamChoice, usaTestFlow, pathChoiceHS, pathChoiceU4, pathChoiceUYear, schoolTransition, advance} from '../engine/draft.js?v=offline-0.31.1';
+import {endGame} from '../ui/retire.js?v=offline-0.31.1';
+import {yearWorkChoice,paidTrainingFlow} from './life-economy.js?v=offline-0.31.1';
+import {maybeIntl} from '../engine/intl.js?v=offline-0.31.1';
+import {beginYearCheckpoint,isReplaying} from '../core/session.js?v=offline-0.31.1';
 /* ================= 年度流程 ================= */
 function backupDue(){
   /* 舊版年度檢查點沒有此欄位；視為關閉，避免重播時多插入一個不存在的選項。 */

@@ -1,7 +1,7 @@
-import {INTERACTION_ACTIONS as FALLBACK_ACTIONS,RELATION_TEXT as FALLBACK_TEXT} from './interaction_actions.js?v=offline-0.31.0';
-import {PROBABILITY_EVENTS as FALLBACK_PROBABILITY} from './probability_events.js?v=offline-0.31.0';
-import {MANDATORY_EVENTS as FALLBACK_MANDATORY} from './mandatory_events.js?v=offline-0.31.0';
-import {RANDOM_EVENTS as FALLBACK_RANDOM} from './random_events.js?v=offline-0.31.0';
+import {INTERACTION_ACTIONS as FALLBACK_ACTIONS,RELATION_TEXT as FALLBACK_TEXT} from './interaction_actions.js?v=offline-0.31.1';
+import {PROBABILITY_EVENTS as FALLBACK_PROBABILITY} from './probability_events.js?v=offline-0.31.1';
+import {MANDATORY_EVENTS as FALLBACK_MANDATORY} from './mandatory_events.js?v=offline-0.31.1';
+import {RANDOM_EVENTS as FALLBACK_RANDOM} from './random_events.js?v=offline-0.31.1';
 import {loadDataset} from '../datasets.js?v=offline-0.31.1';
 
 export const REL_DB={

@@ -1,13 +1,13 @@
-import {SEED, setSeed, seedInit} from './core/rng.js?v=offline-0.31.0';
-import {S, setS, newState} from './core/state.js?v=offline-0.31.0';
+import {SEED, setSeed, seedInit} from './core/rng.js?v=offline-0.31.1';
+import {S, setS, newState} from './core/state.js?v=offline-0.31.1';
 import {APP_VER} from './config.js?v=offline-0.31.1';
-import {POSN} from './data/abilities.js?v=offline-0.31.0';
+import {POSN} from './data/abilities.js?v=offline-0.31.1';
 import {LV,canonicalTeamName,schoolList,loadTeamsDatabase,validateTeamsDataset} from './data/teams.js?v=offline-0.31.1';
-import {$, card, modalClose, actToggleSync} from './ui/dom.js?v=offline-0.31.0';
-import {THEME_KEY, BIG_KEY, applyTheme, applyMobileUI, applyBigText, updDispSum} from './ui/prefs.js?v=offline-0.31.0';
-import {allocFullClose} from './ui/alloc.js?v=offline-0.31.0';
-import {TL, resetTL, renderTimeline, tlScrollTo} from './ui/timeline.js?v=offline-0.31.0';
-import {startYear} from './flow/phases.js?v=offline-0.31.0';
+import {$, card, modalClose, actToggleSync} from './ui/dom.js?v=offline-0.31.1';
+import {THEME_KEY, BIG_KEY, applyTheme, applyMobileUI, applyBigText, updDispSum} from './ui/prefs.js?v=offline-0.31.1';
+import {allocFullClose} from './ui/alloc.js?v=offline-0.31.1';
+import {TL, resetTL, renderTimeline, tlScrollTo} from './ui/timeline.js?v=offline-0.31.1';
+import {startYear} from './flow/phases.js?v=offline-0.31.1';
 import {installTrainer} from './trainer.js?v=offline-0.31.1';
 import {loadRelationshipDatabase,validateRelationshipDatabase} from './data/relationship/database.js?v=offline-0.31.1';
 import {loadInternationalDatabase} from './data/international.js?v=offline-0.31.1';
@@ -124,7 +124,8 @@ async function handleDatasetAction(button){
     input.click();
   }catch(err){alert(`資料集操作失敗：${err.message||err}`);}
 }
-$('dataset-list').onclick=e=>{const button=e.target.closest('button[data-dataset-download],button[data-dataset-upload],button[data-dataset-reset]');if(button)handleDatasetAction(button);};
+const datasetList=$('dataset-list');
+if(datasetList)datasetList.onclick=e=>{const target=e.target instanceof Element?e.target:null;const button=target?.closest('button[data-dataset-download],button[data-dataset-upload],button[data-dataset-reset]');if(button)handleDatasetAction(button);};
 loadTeamsDatabase();renderDatasetManager();
 const DEFAULT_PLAYERS={P:{name:'有有子',jersey:11},IF:{name:'抹茶多',jersey:13}};
 const DEFAULT_PLAYER_PAIRS=[
